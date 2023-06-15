@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./Signup.module.css";
 import HeaderImg from "../HeaderImg/HeaderImg";
-
+import { Link } from "react-router-dom";
 export default function Signup() {
   return (
     <div className={style.signUpContent}>
@@ -42,7 +42,7 @@ export default function Signup() {
           </button>
 
           <p>
-            Already have an account !! <a href="#">Log in</a>
+            Already have an account !! <Link to="/#">Log in</Link>
           </p>
         </form>
       </div>

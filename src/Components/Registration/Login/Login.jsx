@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./Login.module.css";
 import HeaderImg from "../HeaderImg/HeaderImg";
+import { Link } from "react-router-dom";
 export default function Login() {
   return (
     <div className={style.loginContent}>
@@ -27,16 +28,19 @@ export default function Login() {
             className="form-control my-3"
           />
 
-          <button
-            type="submit"
-            className="btn btn-info mt-3 mb-3"
-            style={{ width: "50%" }}
-          >
-            Login
-          </button>
+          {/* for test */}
+          <Link to="/pos">
+            <button
+              type="submit"
+              className="btn btn-info mt-3 mb-3"
+              style={{ width: "50%" }}
+            >
+              Login
+            </button>
+          </Link>
 
           <p>
-            Don't have an account !! <a href="#">Rigester Now</a>
+            Don't have an account !! <Link to="/signup">Rigester Now</Link>
           </p>
         </form>
       </div>
