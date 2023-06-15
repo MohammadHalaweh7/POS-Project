@@ -7,6 +7,7 @@ import Login from "./Components/Registration/Login/Login";
 import Signup from "./Components/Registration/Signup/Signup";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import jwt from "jwt-decode";
+import ProtectedRouter from "./Components/ProtectedRouter/ProtectedRouter";
 function App() {
   const [user, setUser] = useState(null);
 
@@ -29,7 +30,14 @@ function App() {
       children: [
         { index: true, element: <Login saveCurrentUser={saveCurrentUser} /> },
         { path: "signup", element: <Signup /> },
-        { path: "pos", element: <Pos user={user} setUser={setUser}/> },
+        {
+          path: "pos",
+          element: (
+            <ProtectedRouter>
+              <Pos user={user} setUser={setUser} />
+            </ProtectedRouter>
+          ),
+        },
         { path: "*", element: <NotFound /> },
       ],
     },
