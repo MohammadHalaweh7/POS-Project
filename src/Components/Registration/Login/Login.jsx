@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-export default function Login() {
+export default function Login({ saveCurrentUser }) {
   const [errors, setErrors] = useState([]);
   const [statusError, setStatusError] = useState("");
 
@@ -39,6 +39,7 @@ export default function Login() {
       setErrors([]);
       setStatusError("");
       localStorage.setItem("userToken", data.access_token);
+      saveCurrentUser();
       navigate(`/pos`);
       console.log("welcome");
     } else {
