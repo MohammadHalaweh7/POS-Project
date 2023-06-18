@@ -1,7 +1,8 @@
 import React from 'react'
+import Navbar from '../Navbar/Navbar'
 
 export default function Categories() {
   return (
-    <div>Categories</div>
+    <Navbar title="Categories" />
   )
 }

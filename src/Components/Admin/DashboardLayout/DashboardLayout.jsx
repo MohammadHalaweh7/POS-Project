@@ -6,7 +6,7 @@ import Sidebar from "../Sidebar/Sidebar";
 export default function DashboardLayout() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <Sidebar>
         <Outlet />
       </Sidebar>

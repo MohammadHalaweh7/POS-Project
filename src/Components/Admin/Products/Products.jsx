@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../Navbar/Navbar";
 
 export default function Products() {
-  return (
-<div>product</div>
-  )
+  return <Navbar title="Products" />;
 }

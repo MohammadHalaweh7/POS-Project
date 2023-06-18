@@ -1,5 +1,8 @@
 import React from "react";
+import Navbar from "../Navbar/Navbar";
 
 export default function UnitOfMeasure() {
-  return <div>UnitOfMeasure</div>;
+  return (
+    <Navbar title="Unit Of Measure" />
+  )
 }

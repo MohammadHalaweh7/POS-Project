@@ -43,7 +43,7 @@ export default function Sidebar({ children }) {
 
   return (
     <>
-      <div className="container">
+      <div className={style.sid}>
         <div
           style={{ width: isOpen ? "200px" : "50px" }}
           className={style.sidebar}
@@ -79,7 +79,7 @@ export default function Sidebar({ children }) {
             </NavLink>
           ))}
         </div>
-        <main>{children}</main>
+        <div className={style.children}>{children}</div>
       </div>
     </>
   );

@@ -1,22 +1,11 @@
 * {
     margin: 0;
     padding: 0;
-    text-decoration: none;
-}
-
-.container {
-    display: flex;
-}
-
-main {
-    width: 100%;
-    padding: 20px;
-
 }
 
 .sidebar {
     position: fixed;
-    top: 72px;
+    top: 0px;
     left: 0;
     background: #212529;
     color: #fff;
@@ -24,7 +13,8 @@ main {
     width: 200px;
     transition: all 0.5s;
     margin-right: auto;
-
+    z-index: 999;
+    padding-top: 3.5px;
 }
 
 .topSection {
@@ -54,7 +44,7 @@ main {
 }
 
 .link:hover {
-    background: lightskyblue;
+    background: rgb(131, 175, 202);
     color: #000;
     transition: all 0.5s;
 }

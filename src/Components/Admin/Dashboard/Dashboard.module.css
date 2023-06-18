@@ -1,0 +1,19 @@
+.Cards {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: auto;
+    row-gap: 25px;
+}
+
+.Icons {
+    font-size: 55px;
+}
+
+
+.Card
+{
+    width: 260px;
+}
