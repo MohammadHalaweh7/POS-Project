@@ -8,12 +8,11 @@ import Signup from "./Components/Registration/Signup/Signup";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import jwt from "jwt-decode";
 import ProtectedRouter from "./Components/ProtectedRouter/ProtectedRouter";
-import Products from "./Components/Admin/Products/Products";
-import Categories from "./Components/Admin/Categories/Categories";
-import UnitOfMeasure from "./Components/Admin/UnitOfMeasure/UnitOfMeasure";
-import Navbar from "./Components/Admin/Navbar/Navbar";
-import Dashboard from "./Components/Admin/Dashboard/Dashboard.jsx";
-import DashboardLayout from "./Components/Admin/DashboardLayout/DashboardLayout";
+import Products from "./Components/Admin/Admin Components/Products/Products";
+import Categories from "./Components/Admin/Admin Components/Categories/Categories";
+import UnitOfMeasure from "./Components/Admin/Admin Components/UnitOfMeasure/UnitOfMeasure";
+import Dashboard from "./Components/Admin/Admin Components/Dashboard/Dashboard.jsx";
+import AdminLayout from "./Components/Admin/AdminLayout";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -37,6 +36,7 @@ function App() {
       children: [
         { index: true, element: <Login saveCurrentUser={saveCurrentUser} /> },
         { path: "signup", element: <Signup /> },
+        { path: "*", element: <NotFound /> },
         {
           path: "pos",
           element: (
@@ -47,7 +47,7 @@ function App() {
         },
         {
           path: "dashboard",
-          element: <DashboardLayout />,
+          element: <AdminLayout />,
           children: [
             { path: "", element: <Dashboard /> },
             { path: "products", element: <Products /> },

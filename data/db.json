@@ -1,0 +1,255 @@
+{
+  "products": [
+    {
+      "id": "5",
+      "productName": "Mango",
+      "productCode": "3434",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.5",
+      "productQuantity": "10",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "6",
+      "productName": "Pineapple",
+      "productCode": "P832",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "5.75",
+      "productQuantity": "18",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "7",
+      "productName": "Strawberry",
+      "productCode": "S274",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "3.25",
+      "productQuantity": "22",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "8",
+      "productName": "Peach",
+      "productCode": "P691",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.75",
+      "productQuantity": "30",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "10",
+      "productName": "Pear",
+      "productCode": "P495",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2",
+      "productQuantity": "28",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "11",
+      "productName": "Lemon",
+      "productCode": "L723",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "1.75",
+      "productQuantity": "35",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "12",
+      "productName": "Blueberry",
+      "productCode": "B169",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "4.25",
+      "productQuantity": "12",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "13",
+      "productName": "Cherry",
+      "productCode": "C557",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "3",
+      "productQuantity": "20",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "14",
+      "productName": "Raspberry",
+      "productCode": "R976",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "4.5",
+      "productQuantity": "15",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "15",
+      "productName": "Apricot",
+      "productCode": "A182",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.5",
+      "productQuantity": "24",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "16",
+      "productName": "Cantaloupe",
+      "productCode": "C498",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "3.75",
+      "productQuantity": "16",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "17",
+      "productName": "Blackberry",
+      "productCode": "B731",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "4",
+      "productQuantity": "18",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "18",
+      "productName": "Plum",
+      "productCode": "P517",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.25",
+      "productQuantity": "25",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "19",
+      "productName": "Mandarin",
+      "productCode": "M926",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "1.5",
+      "productQuantity": "32",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "20",
+      "productName": "Coconut",
+      "productCode": "C629",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "6",
+      "productQuantity": "8",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "21",
+      "productName": "Fig",
+      "productCode": "F289",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "3.5",
+      "productQuantity": "14",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "22",
+      "productName": "Guava",
+      "productCode": "G971",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.75",
+      "productQuantity": "18",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "23",
+      "productName": "Passion Fruit",
+      "productCode": "P745",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "5.5",
+      "productQuantity": "10",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "24",
+      "productName": "Kiwi",
+      "productCode": "K417",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "3",
+      "productQuantity": "22",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "25",
+      "productName": "Cranberry",
+      "productCode": "C632",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "4.25",
+      "productQuantity": "12",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "26",
+      "productName": "Lime",
+      "productCode": "L839",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "1.75",
+      "productQuantity": "30",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "27",
+      "productName": "Grapefruit",
+      "productCode": "G537",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.25",
+      "productQuantity": "28",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "28",
+      "productName": "Mango",
+      "productCode": "M214",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "2.5",
+      "productQuantity": "20",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "29",
+      "productName": "Dragonfruit",
+      "productCode": "D654",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "6.75",
+      "productQuantity": "8",
+      "productDescription": "sometext"
+    },
+    {
+      "id": "30",
+      "productName": "Clementine",
+      "productCode": "C429",
+      "productCategory": "Fruits",
+      "imagePreview": "img",
+      "productPrice": "1.5",
+      "productQuantity": "35",
+      "productDescription": "sometext"
+    }
+  ],
+  "users": []
+}
