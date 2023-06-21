@@ -18,11 +18,11 @@ function App() {
   const [user, setUser] = useState(null);
 
   function saveCurrentUser() {
-    const token = localStorage.getItem("userToken");
-    const decoded = jwt(token);
-    console.log(decoded);
-    setUser(decoded);
-    console.log(user);
+    const token = localStorage.getItem("user");
+    const localStorageUser = JSON.parse(token)
+    console.log(localStorageUser);
+    setUser(localStorageUser);
+    console.log(localStorageUser);
   }
   useEffect(() => {
     if (localStorage.getItem("userToken")) {

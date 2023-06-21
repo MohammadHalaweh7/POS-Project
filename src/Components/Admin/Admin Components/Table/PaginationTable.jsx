@@ -1,174 +1,306 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-export default function PaginationTable() {
-  const [myData, setMyData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+import { useState } from "react";
+import axios from "axios";
 
-  const [recordsPerPage, setRecordsPerPage] = useState(5);
+import { useEffect } from "react";
+import TableControl from "./TableControl";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+  Input,
+} from "@mui/material";
+
+export default function PaginationTable({
+  searchToken,
+  getProductsData,
+  myData,
+  setMyData,
+}) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const [editableRow, setEditableRow] = useState(null);
+  const [editableProductData, setEditableProductData] = useState({});
+
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const numberOfPages = Math.ceil(myData.length / recordsPerPage);
-  const numbers = Array.from(Array(numberOfPages + 1).keys()).slice(1);
-  const recordsData = myData.slice(firstIndex, lastIndex);
-
   const firstItemOfPage = recordsPerPage * currentPage - recordsPerPage + 1;
   const lastItemOfPage = recordsPerPage * currentPage;
+
+  const recordsData = myData.slice(firstIndex, lastIndex);
+
+  const [productName, setProductName] = useState();
+  const [productCode, setProductCode] = useState();
+  const [productCategory, setProductCategory] = useState();
+  const [productCost, setProductCost] = useState();
+  const [productPrice, setProductPrice] = useState();
+  const [productQuantity, setProductQuantity] = useState();
+  const [productDescription, setProductDescription] = useState();
+  const [imageFile, setImageFile] = useState();
+
+  const filteredData = myData.filter((item) =>
+    searchToken
+      ? item.productName?.toLowerCase().includes(searchToken.toLowerCase())
+      : true
+  );
+
+  const numberOfPages = Math.ceil(myData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
 
-  function prevPage() {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }
-
-  function nextPage() {
-    if (currentPage !== numberOfPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
-
-  function changeCurrentPage(id) {
-    setCurrentPage(id);
-  }
-
-  function handleChangePageNumber(e) {
-    if (e.target.value > numberOfPages || e.target.value < 1) return;
-    setCurrentPage(+e.target.value);
-  }
-
-  function handleNumberOfItemsPerPage(e) {
-    setRecordsPerPage(e.target.value);
-    console.log(e.target.value);
-  }
-  function deleteProduct(id) {
-    fetch(`http://localhost:3100/products/${id}`, {
-      method: "DELETE",
-    });
-    const newArray = myData.filter((ele) => {
-      return ele.id !== id;
-    });
-    setMyData(newArray);
-  }
-
-  function getData() {
-    fetch("http://localhost:3100/products")
-      .then((response) => response.json())
-      .then((data) => {
-        setMyData(data);
+  const deleteProduct = (id) => {
+    axios
+      .delete(`http://localhost:3100/products/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          const newArray = myData.filter((ele) => ele.id !== id);
+          setMyData(newArray);
+        } else {
+          throw new Error("Failed to delete product");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
       });
-  }
+  };
+
+  const handleSaveProduct = async (event, id) => {
+    const updatedProduct = {
+      productName,
+      productCode,
+      productCategory,
+      productImage: `/public/products/${imageFile}`,
+      productCost,
+      productPrice,
+      productQuantity,
+      productDescription,
+    };
+    const updateProductData = await fetch(
+      `http://localhost:3100/products/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      }
+    );
+    console.log(updatedProduct);
+    setEditableRow(null); // Disable editing mode after saving
+  };
 
   useEffect(() => {
-    getData();
+    getProductsData();
   }, []);
+
+  useEffect(() => {}, [searchToken]);
+
   return (
     <>
-      <div className="container mt-5">
-        <div className=" d-flex justify-content-end mb-5">
-          <input
-            style={{ width: "20px", textAlign: "center" }}
-            type="text"
-            value={currentPage}
-            onChange={handleChangePageNumber}
-          />
-          <span>/ {numberOfPages}</span>
-        </div>
-
+      <div className="container">
         <table className="table">
           <thead>
-            <th>#</th>
-            <th>Name</th>
-            <th>Code</th>
-            <th>Category</th>
-            <th>Image</th>
-            <th>Cost</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Description</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Category</th>
+              <th>Image</th>
+              <th>Cost</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Description</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
           </thead>
-
           <tbody>
-            {recordsData.map((ele, index) => (
-              <tr key={index}>
-                <td>{ele.id}</td>
-                <td>{ele.productName}</td>
-                <td>{ele.productCode}</td>
-                <td>{ele.productCategory}</td>
-                <td>
-                  {
-                    <img
-                      style={{
-                        width: "100px",
-                        height: "120px",
-                        borderRadius: "10%",
-                      }}
-                      src={ele.imagePreview}
-                      alt={ele.productName}
-                    />
-                  }
-                </td>
-                <td>{ele.productCost}</td>
-                <td>{ele.productPrice}$</td>
-                <td>{ele.productQuantity}</td>
-                <td>{ele.productDescription}</td>
-                <td>
-                  <a href="#">
-                    <i className="fas fa-edit"></i>
-                  </a>
-                </td>
-                <td>
-                  <a href="#" onClick={() => deleteProduct(ele.id)}>
-                    <i className="fas fa-trash-alt"></i>
-                  </a>
-                </td>
-              </tr>
-            ))}
+            {searchToken
+              ? filteredData.map((ele, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{ele.productName}</td>
+                    <td>{ele.productCode}</td>
+                    <td>{ele.productCategory}</td>
+                    <td>
+                      <img
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "10%",
+                        }}
+                        src={ele.imagePreview}
+                        alt={ele.productName}
+                      />
+                    </td>
+                    <td>{ele.productCost}</td>
+                    <td>{ele.productPrice}$</td>
+                    <td>{ele.productQuantity}</td>
+                    <td>{ele.productDescription}</td>
+                    <td>
+                      {editableRow === index ? (
+                        <>
+                          <a
+                            className="mx-2"
+                            href="#"
+                            onClick={(event) => {
+                              setEditableProductData(ele);
+                              handleSaveProduct(event, ele.id);
+                            }}
+                          >
+                            <i className="fas fa-save"></i>
+                          </a>
+                          <a href="#" onClick={() => setEditableRow(null)}>
+                            <i className="fas fa-times"></i>
+                          </a>
+                        </>
+                      ) : (
+                        <a href="#" onClick={() => setEditableRow(index)}>
+                          <i className="fas fa-edit"></i>
+                        </a>
+                      )}
+                    </td>
+                    <td>
+                      <a href="#" onClick={() => deleteProduct(ele.id)}>
+                        <i className="fas fa-trash-alt text-danger"></i>
+                      </a>
+                    </td>
+                  </tr>
+                ))
+              : recordsData.map((ele, index) =>
+                  editableRow === index ? (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <Input
+                          type="text"
+                          value={ele.productName}
+                          onChange={(e) => {
+                            setEditableProductData((prev) =>
+                              console.log(editableProductData)
+                            );
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="text"
+                          value={ele.productCode}
+                          onChange={(e) => setProductCode(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="text"
+                          value={ele.productCategory}
+                          onChange={(e) => setProductCategory(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="file"
+                          onChange={(e) => setImageFile(e.target.files[0])}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="number"
+                          value={ele.productCost}
+                          onChange={(e) => setProductCost(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="number"
+                          value={ele.productPrice}
+                          onChange={(e) => setProductPrice(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="number"
+                          value={ele.productQuantity}
+                          onChange={(e) => setProductQuantity(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <Input
+                          type="text"
+                          value={ele.productDescription}
+                          onChange={(e) =>
+                            setProductDescription(e.target.value)
+                          }
+                        />
+                      </td>
+                      <td>
+                        <a
+                          className="mx-2 "
+                          href="#"
+                          onClick={(event) => handleSaveProduct(event, ele.id)}
+                        >
+                          <i className="fas fa-save"></i>
+                        </a>
+                        <a href="#" onClick={() => setEditableRow(null)}>
+                          <i className="fas fa-times"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#" onClick={() => deleteProduct(ele.id)}>
+                          <i className="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{ele.productName}</td>
+                      <td>{ele.productCode}</td>
+                      <td>{ele.productCategory}</td>
+                      <td>
+                        <img
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "10%",
+                          }}
+                          src={ele.imagePreview}
+                          alt={ele.productName}
+                        />
+                      </td>
+                      <td>{ele.productCost}</td>
+                      <td>{ele.productPrice}$</td>
+                      <td>{ele.productQuantity}</td>
+                      <td>{ele.productDescription}</td>
+                      <td>
+                        <a
+                          href="#"
+                          onClick={() => setEditableRow(index)} // Set current row as editable
+                        >
+                          <i className="fas fa-edit"></i>
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#" onClick={() => deleteProduct(ele.id)}>
+                          <i className="fas fa-trash-alt text-danger"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  )
+                )}
           </tbody>
         </table>
-        <nav>
-          <ul className="pagination">
-            <li className="page-item">
-              <a href="#" className="page-link" onClick={prevPage}>
-                Prev
-              </a>
-            </li>
-            {numbers.map((num, index) => (
-              <li
-                className={`page-item ${currentPage === num ? "active" : ""}`}
-                key={index}
-              >
-                <a
-                  href="#"
-                  className="page-link"
-                  onClick={() => changeCurrentPage(num)}
-                >
-                  {num}
-                </a>
-              </li>
-            ))}
-            <li className="page-item">
-              <a href="#" className="page-link" onClick={nextPage}>
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <div>{`${firstItemOfPage}-${lastItemOfPage}of${numOfAllPage}`}</div>
-        <div>
-          <select
-            name="pagesNumbers"
-            id="pagesNumbers"
-            onChange={handleNumberOfItemsPerPage}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
-        </div>
       </div>
+      <TableControl
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        numberOfPages={numberOfPages}
+        setRecordsPerPage={setRecordsPerPage}
+        firstItemOfPage={firstItemOfPage}
+        lastItemOfPage={lastItemOfPage}
+        numOfAllPage={numOfAllPage}
+        currentPage={currentPage}
+        numberOfPages={numberOfPages}
+      />
     </>
   );
 }

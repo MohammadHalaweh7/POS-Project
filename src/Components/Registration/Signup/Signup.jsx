@@ -37,23 +37,20 @@ export default function Signup() {
   });
 
   async function sendRegisterData(values) {
-    const { data } = await axios
-      .post(
-        "https://king-prawn-app-3mgea.ondigitalocean.app/auth/signup",
-        values
-      )
-      .catch((err) => {
-        setStatusError(err.response.data.message);
-      });
+    if (values.password !== values.cPassword) return;
+    // const hash = argon.hash(values.password)
+    const { data } = await axios.post("http://localhost:3100/users", {
+      userName: values.userName,
+      email: values.email,
+      password: values.password,
+      isAdmin: false,
+    });
+    localStorage.setItem("user", JSON.stringify(data));
     console.log(data);
-    if (data.message === "Done") {
-      setErrors([]);
-      setStatusError("");
-      navigate(`/#`);
-      console.log("welcome");
-    } else {
-      setErrors(data.err[0]);
-    }
+    setErrors([]);
+    setStatusError("");
+    navigate(`/pos`);
+    console.log("welcome");
   }
   return (
     <div className={style.signUpContent}>

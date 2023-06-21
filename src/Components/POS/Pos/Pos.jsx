@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Pos({ setUser }) {
   const navigate = useNavigate();
   function logout() {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("user");
     setUser(null);
     navigate(`/#`);
   }
