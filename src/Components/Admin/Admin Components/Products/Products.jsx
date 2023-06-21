@@ -1,19 +1,13 @@
 import { useState } from "react";
-import { Input } from "@mui/material";
 import Navbar from "../Navbar/Navbar";
 import PaginationTable from "../Table/PaginationTable";
 import AddProductModal from "./AddProductModal";
 import axios from "axios";
+import SearchControl from "../Table/SearchControl";
 
 export default function Products() {
-  const [searchToken, setSearchToken] = useState("");
   const [myData, setMyData] = useState([]);
-  console.log(searchToken);
-
-  const onChangeSearch = (e) => {
-    e.preventDefault();
-    setSearchToken(e.target.value);
-  };
+  
   const getProductsData = () => {
     axios
       .get("http://localhost:3100/products")
@@ -29,19 +23,11 @@ export default function Products() {
     <>
       <Navbar title="Products" />
       <div className="container d-flex align-items-center flex-wrap flex-row">
-        <Input
-          placeholder="Search Product"
-          type="text"
-          value={searchToken}
-          onChange={onChangeSearch}
-          variant="outlined"
-          size="small"
-          style={{ width: "300px" ,height:"40px"}}
-        />
+        <SearchControl />
         <AddProductModal />
       </div>
       <PaginationTable
-        searchToken={searchToken}
+        // searchToken={searchToken}
         getProductsData={getProductsData}
         setMyData={setMyData}
         myData={myData}

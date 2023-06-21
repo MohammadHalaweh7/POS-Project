@@ -1,12 +1,11 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Layout from "./Components/Layout/Layout";
 import NotFound from "./Components/NotFound/NotFound";
 import Pos from "./Components/POS/Pos/Pos";
 import Login from "./Components/Registration/Login/Login";
 import Signup from "./Components/Registration/Signup/Signup";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import jwt from "jwt-decode";
 import ProtectedRouter from "./Components/ProtectedRouter/ProtectedRouter";
 import Products from "./Components/Admin/Admin Components/Products/Products";
 import Categories from "./Components/Admin/Admin Components/Categories/Categories";
@@ -14,12 +13,14 @@ import UnitOfMeasure from "./Components/Admin/Admin Components/UnitOfMeasure/Uni
 import Dashboard from "./Components/Admin/Admin Components/Dashboard/Dashboard.jsx";
 import AdminLayout from "./Components/Admin/AdminLayout";
 
+export const searchControlContext = createContext();
+
 function App() {
   const [user, setUser] = useState(null);
-
+  const [searchToken, setSearchToken] = useState("");
   function saveCurrentUser() {
     const token = localStorage.getItem("user");
-    const localStorageUser = JSON.parse(token)
+    const localStorageUser = JSON.parse(token);
     console.log(localStorageUser);
     setUser(localStorageUser);
     console.log(localStorageUser);
@@ -59,7 +60,13 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={routers}></RouterProvider>;
+  return (
+    <>
+      <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
+        <RouterProvider router={routers}></RouterProvider>
+      </searchControlContext.Provider>
+    </>
+  );
 }
 
 export default App;

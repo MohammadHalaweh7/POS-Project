@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 
 import { useEffect } from "react";
 import TableControl from "./TableControl";
+import { searchControlContext } from "./../../../../App.js"
 
 export default function PaginationTable({
-  searchToken,
+  // searchToken,
   getProductsData,
   myData,
   setMyData,
@@ -23,7 +24,7 @@ export default function PaginationTable({
 
   const recordsData = myData.slice(firstIndex, lastIndex);
 
-  const [productName, setProductName] = useState();
+  const [productName, setProductName] = useState(myData.productName);
   const [productCode, setProductCode] = useState();
   const [productCategory, setProductCategory] = useState();
   const [productCost, setProductCost] = useState();
@@ -34,11 +35,11 @@ export default function PaginationTable({
   const numberOfPages = Math.ceil(myData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
 
-  const [test, setTest] = useState("ali");
+  const {searchToken} = useContext(searchControlContext);
 
   const filteredData = myData.filter((item) =>
     searchToken
-      ? item.productName?.toLowerCase().includes(searchToken.toLowerCase())
+      ? item.productName?.toLowerCase().includes(searchToken?.toLowerCase())
       : true
   );
 
@@ -164,7 +165,7 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="text"
-                          // value={ele.productName}
+                          value={productName}
                           onChange={(e) => {
                             setProductName(e.target.value);
                           }}
@@ -175,7 +176,7 @@ export default function PaginationTable({
                         <input
                           style={{ width: "75px" }}
                           type="text"
-                          // value={ele.productCode}
+                          value={productCode}
                           onChange={(e) => setProductCode(e.target.value)}
                         />
                       </td>
@@ -183,7 +184,7 @@ export default function PaginationTable({
                         <input
                           style={{ width: "75px" }}
                           type="text"
-                          // value={ele.productCategory}
+                          value={productCategory}
                           onChange={(e) => setProductCategory(e.target.value)}
                         />
                       </td>
@@ -197,7 +198,7 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="number"
-                          // value={ele.productCost}
+                          value={productCost}
                           onChange={(e) => setProductCost(e.target.value)}
                           style={{ width: "75px" }}
                         />
@@ -205,7 +206,7 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="number"
-                          // value={ele.productPrice}
+                          value={productPrice}
                           onChange={(e) => setProductPrice(e.target.value)}
                           style={{ width: "75px" }}
                         />
@@ -213,7 +214,7 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="number"
-                          // value={ele.productQuantity}
+                          value={productQuantity}
                           onChange={(e) => setProductQuantity(e.target.value)}
                           style={{ width: "75px" }}
                         />
