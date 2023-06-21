@@ -168,7 +168,7 @@ export default function AddProductModal() {
                   />
                 </div>
 
-                <div className="m-auto">
+                <div className="ms-auto mt-2">
                   <Button type="submit">Add</Button>
                   <Button onClick={handleClose}>Cancel</Button>
                 </div>

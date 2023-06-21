@@ -28,7 +28,7 @@ export default function Products() {
   return (
     <>
       <Navbar title="Products" />
-      <div className="container">
+      <div className="container d-flex align-items-center flex-wrap flex-row">
         <Input
           placeholder="Search Product"
           type="text"
@@ -36,7 +36,7 @@ export default function Products() {
           onChange={onChangeSearch}
           variant="outlined"
           size="small"
-          style={{ width: "700px", marginRight: "1rem" }}
+          style={{ width: "300px" ,height:"40px"}}
         />
         <AddProductModal />
       </div>

@@ -3,14 +3,6 @@ import axios from "axios";
 
 import { useEffect } from "react";
 import TableControl from "./TableControl";
-import {
-  Table,
-  TableHead,
-  TableRow,
-  TableBody,
-  TableCell,
-  Input,
-} from "@mui/material";
 
 export default function PaginationTable({
   searchToken,
@@ -20,6 +12,7 @@ export default function PaginationTable({
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+
   const [editableRow, setEditableRow] = useState(null);
   const [editableProductData, setEditableProductData] = useState({});
 
@@ -38,15 +31,16 @@ export default function PaginationTable({
   const [productQuantity, setProductQuantity] = useState();
   const [productDescription, setProductDescription] = useState();
   const [imageFile, setImageFile] = useState();
+  const numberOfPages = Math.ceil(myData.length / recordsPerPage);
+  const numOfAllPage = numberOfPages * recordsPerPage;
+
+  const [test, setTest] = useState("ali");
 
   const filteredData = myData.filter((item) =>
     searchToken
       ? item.productName?.toLowerCase().includes(searchToken.toLowerCase())
       : true
   );
-
-  const numberOfPages = Math.ceil(myData.length / recordsPerPage);
-  const numOfAllPage = numberOfPages * recordsPerPage;
 
   const deleteProduct = (id) => {
     axios
@@ -65,28 +59,24 @@ export default function PaginationTable({
   };
 
   const handleSaveProduct = async (event, id) => {
-    const updatedProduct = {
-      productName,
-      productCode,
-      productCategory,
-      productImage: `/public/products/${imageFile}`,
-      productCost,
-      productPrice,
-      productQuantity,
-      productDescription,
-    };
-    const updateProductData = await fetch(
-      `http://localhost:3100/products/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProduct),
-      }
-    );
-    console.log(updatedProduct);
-    setEditableRow(null); // Disable editing mode after saving
+    try {
+      const updatedProduct = {
+        productName: productName,
+        productCode: productCode,
+        productCategory: productCategory,
+        productImage: `/public/products/${imageFile}`,
+        productCost: productCost,
+        productPrice: productPrice,
+        productQuantity: productQuantity,
+        productDescription: productDescription,
+      };
+
+      await axios.put(`http://localhost:3100/products/${id}`, updatedProduct);
+      console.log(updatedProduct);
+      setEditableRow(null); // Disable editing mode after saving
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   useEffect(() => {
@@ -172,71 +162,79 @@ export default function PaginationTable({
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        <Input
+                        <input
                           type="text"
-                          value={ele.productName}
+                          // value={ele.productName}
                           onChange={(e) => {
-                            setEditableProductData((prev) =>
-                              console.log(editableProductData)
-                            );
+                            setProductName(e.target.value);
                           }}
+                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
+                          style={{ width: "75px" }}
                           type="text"
-                          value={ele.productCode}
+                          // value={ele.productCode}
                           onChange={(e) => setProductCode(e.target.value)}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
+                          style={{ width: "75px" }}
                           type="text"
-                          value={ele.productCategory}
+                          // value={ele.productCategory}
                           onChange={(e) => setProductCategory(e.target.value)}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
                           type="file"
                           onChange={(e) => setImageFile(e.target.files[0])}
+                          style={{ width: "100px" }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
                           type="number"
-                          value={ele.productCost}
+                          // value={ele.productCost}
                           onChange={(e) => setProductCost(e.target.value)}
+                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
                           type="number"
-                          value={ele.productPrice}
+                          // value={ele.productPrice}
                           onChange={(e) => setProductPrice(e.target.value)}
+                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
                           type="number"
-                          value={ele.productQuantity}
+                          // value={ele.productQuantity}
                           onChange={(e) => setProductQuantity(e.target.value)}
+                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
-                        <Input
+                        <input
                           type="text"
-                          value={ele.productDescription}
                           onChange={(e) =>
                             setProductDescription(e.target.value)
                           }
+                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
                         <a
                           className="mx-2 "
                           href="#"
-                          onClick={(event) => handleSaveProduct(event, ele.id)}
+                          onClick={(event) => {
+                            setEditableProductData(ele);
+                            handleSaveProduct(event, ele.id);
+                          }}
                         >
                           <i className="fas fa-save"></i>
                         </a>

@@ -1,25 +1,64 @@
 {
-  "products": [
-    {
-      "productImage": "/public/products/[object File]",
-      "productPrice": "",
-      "productQuantity": "12",
-      "productDescription": "l,",
-      "id": 1
-    },
-    {
-      "productName": "Laptop",
-      "productCategory": "Fruite",
-      "productCode": "333",
-      "productCost": 3,
-      "productPrice": 33,
-      "productQuantity": 3,
-      "productDescription": "lm",
-      "imagePreview": "",
-      "productImage": "/public/products/ddd456f7-7eef-4de3-bd67-071b7fb49cb1.jpg",
-      "id": 3
-    }
-  ],
+  "products": [  {
+    "productName": "Banana",
+    "productCategory": "Fruit",
+    "productCode": "9911",
+    "productCost": 20,
+    "productPrice": 50,
+    "productQuantity": 100,
+    "productDescription": "Red",
+    "imagePreview": "",
+    "productImage": "/public/products/ddd456f7-7eef-4de3-bd67-071b7fb49cb1.jpg",
+    "id": 1
+  },
+  {
+    "productName": "Apple",
+    "productCategory": "Fruit",
+    "productCode": "9922",
+    "productCost": 25,
+    "productPrice": 60,
+    "productQuantity": 80,
+    "productDescription": "Green",
+    "imagePreview": "",
+    "productImage": "/public/products/abc12345-abcd-efgh-ijkl-mnopqrstuvwx.jpg",
+    "id": 2
+  },
+  {
+    "productName": "Orange",
+    "productCategory": "Fruit",
+    "productCode": "9933",
+    "productCost": 15,
+    "productPrice": 40,
+    "productQuantity": 120,
+    "productDescription": "Orange",
+    "imagePreview": "",
+    "productImage": "/public/products/xyz98765-wxyz-vuts-rqpo-nmlkjihgfedc.jpg",
+    "id": 3
+  },
+  {
+    "productName": "Mango",
+    "productCategory": "Fruit",
+    "productCode": "9944",
+    "productCost": 30,
+    "productPrice": 70,
+    "productQuantity": 60,
+    "productDescription": "Yellow",
+    "imagePreview": "",
+    "productImage": "/public/products/def67890-defg-hijk-lmno-pqrstuvwxyza.jpg",
+    "id": 4
+  },
+  {
+    "productName": "Grapes",
+    "productCategory": "Fruit",
+    "productCode": "9955",
+    "productCost": 10,
+    "productPrice": 25,
+    "productQuantity": 150,
+    "productDescription": "Purple",
+    "imagePreview": "",
+    "productImage": "/public/products/uvw23456-uvwx-yzab-cdef-ghijklmnopqr.jpg",
+    "id": 5
+  }],
   "users": [
     {
       "userName": "Mohammad",
