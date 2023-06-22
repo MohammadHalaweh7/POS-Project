@@ -1,39 +1,15 @@
 {
   "products": [
     {
-      "productName": "Orange",
-      "productCategory": "Fruit",
-      "productCode": "9933",
-      "productCost": 15,
-      "productPrice": 40,
-      "productQuantity": 120,
-      "productDescription": "Orange",
-      "imagePreview": "",
-      "productImage": "/public/products/xyz98765-wxyz-vuts-rqpo-nmlkjihgfedc.jpg",
-      "id": 3
-    },
-    {
-      "productName": "Mango",
-      "productCategory": "Fruit",
-      "productCode": "9944",
-      "productCost": 30,
-      "productPrice": 70,
-      "productQuantity": 60,
-      "productDescription": "Yellow",
-      "imagePreview": "",
-      "productImage": "/public/products/def67890-defg-hijk-lmno-pqrstuvwxyza.jpg",
-      "id": 4
-    },
-    {
-      "productName": "Grapes",
+      "productName": "Grapesxxx9",
       "productCategory": "Fruit",
       "productCode": "9955",
-      "productCost": 10,
+      "productCost": "99",
       "productPrice": 25,
       "productQuantity": 150,
       "productDescription": "Purple",
       "imagePreview": "",
-      "productImage": "/public/products/uvw23456-uvwx-yzab-cdef-ghijklmnopqr.jpg",
+      "productImage": "/public/products/undefined",
       "id": 5
     }
   ],

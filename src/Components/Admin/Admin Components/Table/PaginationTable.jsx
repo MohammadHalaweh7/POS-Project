@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { useEffect } from "react";
 import TableControl from "./TableControl";
-import { searchControlContext } from "./../../../../App.js"
+import { searchControlContext } from "./../../../../App.js";
 
 export default function PaginationTable({
   // searchToken,
@@ -24,18 +24,11 @@ export default function PaginationTable({
 
   const recordsData = myData.slice(firstIndex, lastIndex);
 
-  const [productName, setProductName] = useState(myData.productName);
-  const [productCode, setProductCode] = useState();
-  const [productCategory, setProductCategory] = useState();
-  const [productCost, setProductCost] = useState();
-  const [productPrice, setProductPrice] = useState();
-  const [productQuantity, setProductQuantity] = useState();
-  const [productDescription, setProductDescription] = useState();
   const [imageFile, setImageFile] = useState();
   const numberOfPages = Math.ceil(myData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
 
-  const {searchToken} = useContext(searchControlContext);
+  const { searchToken } = useContext(searchControlContext);
 
   const filteredData = myData.filter((item) =>
     searchToken
@@ -59,17 +52,19 @@ export default function PaginationTable({
       });
   };
 
+  const handleChange = (event) => {
+    setEditableProductData({
+      ...editableProductData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleSaveProduct = async (event, id) => {
+    event.preventDefault();
     try {
       const updatedProduct = {
-        productName: productName,
-        productCode: productCode,
-        productCategory: productCategory,
-        productImage: `/public/products/${imageFile}`,
-        productCost: productCost,
-        productPrice: productPrice,
-        productQuantity: productQuantity,
-        productDescription: productDescription,
+        ...editableProductData,
+        productImage: `/public/products/${editableProductData.imageFile}`,
       };
 
       await axios.put(`http://localhost:3100/products/${id}`, updatedProduct);
@@ -80,11 +75,13 @@ export default function PaginationTable({
     }
   };
 
+  useEffect(() => {}, [searchToken]);
   useEffect(() => {
     getProductsData();
-  }, []);
-
-  useEffect(() => {}, [searchToken]);
+  }, [editableRow]);
+  // mmm
+  // mmm
+  // mmm
 
   return (
     <>
@@ -165,10 +162,9 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="text"
-                          value={productName}
-                          onChange={(e) => {
-                            setProductName(e.target.value);
-                          }}
+                          name="productName"
+                          value={editableProductData.productName}
+                          onChange={handleChange}
                           style={{ width: "75px" }}
                         />
                       </td>
@@ -176,16 +172,18 @@ export default function PaginationTable({
                         <input
                           style={{ width: "75px" }}
                           type="text"
-                          value={productCode}
-                          onChange={(e) => setProductCode(e.target.value)}
+                          name="productCode"
+                          value={editableProductData.productCode}
+                          onChange={handleChange}
                         />
                       </td>
                       <td>
                         <input
                           style={{ width: "75px" }}
                           type="text"
-                          value={productCategory}
-                          onChange={(e) => setProductCategory(e.target.value)}
+                          name="productCategory"
+                          value={editableProductData.productCategory}
+                          onChange={handleChange}
                         />
                       </td>
                       <td>
@@ -198,33 +196,37 @@ export default function PaginationTable({
                       <td>
                         <input
                           type="number"
-                          value={productCost}
-                          onChange={(e) => setProductCost(e.target.value)}
+                          name="productCost"
+                          value={editableProductData.productCost}
+                          onChange={handleChange}
                           style={{ width: "75px" }}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
-                          value={productPrice}
-                          onChange={(e) => setProductPrice(e.target.value)}
+                          name="productPrice"
+                          value={editableProductData.productPrice}
+                          onChange={handleChange}
                           style={{ width: "75px" }}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
-                          value={productQuantity}
-                          onChange={(e) => setProductQuantity(e.target.value)}
+                          name="productQuantity"
+                          value={editableProductData.productQuantity}
+                          onChange={handleChange}
                           style={{ width: "75px" }}
                         />
                       </td>
                       <td>
                         <input
                           type="text"
-                          onChange={(e) =>
-                            setProductDescription(e.target.value)
-                          }
+                          name="productDescription"
+                          name="productDescription"
+                          value={editableProductData.productDescription}
+                          onChange={handleChange}
                           style={{ width: "75px" }}
                         />
                       </td>
@@ -233,7 +235,7 @@ export default function PaginationTable({
                           className="mx-2 "
                           href="#"
                           onClick={(event) => {
-                            setEditableProductData(ele);
+                            getProductsData();
                             handleSaveProduct(event, ele.id);
                           }}
                         >
@@ -273,7 +275,10 @@ export default function PaginationTable({
                       <td>
                         <a
                           href="#"
-                          onClick={() => setEditableRow(index)} // Set current row as editable
+                          onClick={() => {
+                            setEditableRow(index);
+                            setEditableProductData({ ...ele });
+                          }}
                         >
                           <i className="fas fa-edit"></i>
                         </a>
