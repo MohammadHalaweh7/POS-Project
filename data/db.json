@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "productName": "Grapesxxx9",
+      "productName": "Gxx9",
       "productCategory": "Fruit",
       "productCode": "9955",
       "productCost": "99",
@@ -11,6 +11,18 @@
       "imagePreview": "",
       "productImage": "/public/products/undefined",
       "id": 5
+    },
+    {
+      "productName": "mm",
+      "productCategory": "mm",
+      "productCode": "mm",
+      "productCost": 3,
+      "productPrice": 4,
+      "productQuantity": 3,
+      "productDescription": "mmm",
+      "imagePreview": "",
+      "productImage": "/public/products/ddd456f7-7eef-4de3-bd67-071b7fb49cb1.jpg",
+      "id": 6
     }
   ],
   "users": [

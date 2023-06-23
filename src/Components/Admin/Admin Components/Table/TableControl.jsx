@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import style from "./Table.module.css";
 export default function TableControl({
   currentPage,
   setCurrentPage,
@@ -31,8 +31,8 @@ export default function TableControl({
     console.log(e.target.value);
   };
   return (
-    <div className="container mt-4 d-flex justify-content-between">
-      <div className="pagination h-50 ">
+    <div className={`${style.TableControl} flexBox container`}>
+      <div className={`${style.TableButton} pagination h-50`}>
         <a href="#" className="page-link rounded" onClick={prevPage}>
           Prev
         </a>
@@ -43,26 +43,20 @@ export default function TableControl({
       </div>
 
       <div
-        className=" d-flex justify-content-center  align-items-center p-2 rounded form-control "
-        style={{ height: "38px", width: "130px" }}
+        className={`${style.pageNumInfo} flexBox rounded form-control`}
       >
         <span className="">{`${firstItemOfPage}-${lastItemOfPage}`}</span>
         <span
           className="text-muted "
           style={{ paddingLeft: "7px", paddingRight: "7px" }}
         >
-          {" "}
-          of{" "}
+          of
         </span>
         <span className="">{numOfAllPage}</span>
       </div>
 
-      <div
-        className=" d-flex justify-content-end mb-5 form-control"
-        style={{ width: "90px" }}
-      >
+      <div className={` ${style.numOfPage} flexBox form-control`}>
         <input
-          style={{ width: "30px", textAlign: "center", border: "none" }}
           type="number"
           value={currentPage}
           onChange={handleChangePageNumber}

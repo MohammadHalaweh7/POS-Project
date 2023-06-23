@@ -1,0 +1,40 @@
+/* --------------------------------------------------- */
+.paginationTable {
+    text-align: center;
+}
+
+.paginationTable input {
+    width: 75px;
+}
+
+/* --------------------------------------------------- */
+.SearchControl {
+    width: 300px;
+    height: 40px;
+}
+
+/* --------------------------------------------------- */
+.TableControl {
+    margin-top: 30px;
+}
+
+.TableButton {
+    column-gap: 10px;
+}
+
+.pageNumInfo {
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 38px;
+}
+
+.numOfPage {
+    width: 95px;
+}
+
+.numOfPage input {
+    width: 30px;
+    text-align: center;
+    border: none;
+}

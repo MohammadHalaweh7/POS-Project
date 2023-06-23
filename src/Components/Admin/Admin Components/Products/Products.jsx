@@ -7,7 +7,7 @@ import SearchControl from "../Table/SearchControl";
 
 export default function Products() {
   const [myData, setMyData] = useState([]);
-  
+
   const getProductsData = () => {
     axios
       .get("http://localhost:3100/products")
@@ -22,12 +22,11 @@ export default function Products() {
   return (
     <>
       <Navbar title="Products" />
-      <div className="container d-flex align-items-center flex-wrap flex-row">
+      <div className="container flexBox">
         <SearchControl />
         <AddProductModal />
       </div>
       <PaginationTable
-        // searchToken={searchToken}
         getProductsData={getProductsData}
         setMyData={setMyData}
         myData={myData}

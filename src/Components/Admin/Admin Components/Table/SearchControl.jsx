@@ -1,7 +1,7 @@
 import { Input } from "@mui/material";
 import {  useContext } from "react";
 import { searchControlContext } from "./../../../../App.js";
-
+import style from './Table.module.css'
 export default function SearchControl() {
   const { searchToken, setSearchToken } = useContext(searchControlContext);
   const onChangeSearch = (e) => {
@@ -16,7 +16,7 @@ export default function SearchControl() {
       onChange={onChangeSearch}
       variant="outlined"
       size="small"
-      style={{ width: "300px", height: "40px" }}
+      className={`${style.SearchControl}`}
     />
   );
 }

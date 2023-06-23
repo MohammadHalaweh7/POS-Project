@@ -1,29 +1,24 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
-
-import { useEffect } from "react";
 import TableControl from "./TableControl";
 import { searchControlContext } from "./../../../../App.js";
+import style from './Table.module.css'
 
 export default function PaginationTable({
-  // searchToken,
   getProductsData,
   myData,
   setMyData,
 }) {
+
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
-
   const [editableRow, setEditableRow] = useState(null);
   const [editableProductData, setEditableProductData] = useState({});
-
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const firstItemOfPage = recordsPerPage * currentPage - recordsPerPage + 1;
   const lastItemOfPage = recordsPerPage * currentPage;
-
   const recordsData = myData.slice(firstIndex, lastIndex);
-
   const [imageFile, setImageFile] = useState();
   const numberOfPages = Math.ceil(myData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
@@ -79,14 +74,11 @@ export default function PaginationTable({
   useEffect(() => {
     getProductsData();
   }, [editableRow]);
-  // mmm
-  // mmm
-  // mmm
 
   return (
     <>
       <div className="container">
-        <table className="table">
+        <table className={`${style.paginationTable} table`}>
           <thead>
             <tr>
               <th>#</th>
@@ -102,7 +94,7 @@ export default function PaginationTable({
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {searchToken
               ? filteredData.map((ele, index) => (
                   <tr key={index}>
@@ -157,7 +149,7 @@ export default function PaginationTable({
                 ))
               : recordsData.map((ele, index) =>
                   editableRow === index ? (
-                    <tr key={index}>
+                    <tr key={index} >
                       <td>{index + 1}</td>
                       <td>
                         <input
@@ -165,12 +157,10 @@ export default function PaginationTable({
                           name="productName"
                           value={editableProductData.productName}
                           onChange={handleChange}
-                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
                         <input
-                          style={{ width: "75px" }}
                           type="text"
                           name="productCode"
                           value={editableProductData.productCode}
@@ -179,7 +169,7 @@ export default function PaginationTable({
                       </td>
                       <td>
                         <input
-                          style={{ width: "75px" }}
+
                           type="text"
                           name="productCategory"
                           value={editableProductData.productCategory}
@@ -199,7 +189,6 @@ export default function PaginationTable({
                           name="productCost"
                           value={editableProductData.productCost}
                           onChange={handleChange}
-                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
@@ -208,7 +197,6 @@ export default function PaginationTable({
                           name="productPrice"
                           value={editableProductData.productPrice}
                           onChange={handleChange}
-                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
@@ -217,7 +205,6 @@ export default function PaginationTable({
                           name="productQuantity"
                           value={editableProductData.productQuantity}
                           onChange={handleChange}
-                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
@@ -227,7 +214,6 @@ export default function PaginationTable({
                           name="productDescription"
                           value={editableProductData.productDescription}
                           onChange={handleChange}
-                          style={{ width: "75px" }}
                         />
                       </td>
                       <td>
