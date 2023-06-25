@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Navbar from "../Navbar/Navbar";
-import PaginationTable from "../Table/PaginationTable";
 import AddProductModal from "./AddProductModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
+import ProductsTable from "../Table/ProductsTable";
 
 export default function Products() {
   const [myData, setMyData] = useState([]);
@@ -23,10 +23,10 @@ export default function Products() {
     <>
       <Navbar title="Products" />
       <div className="container flexBox">
-        <SearchControl />
-        <AddProductModal />
+        <SearchControl title="Search Products"/>
+        <AddProductModal title="Add New Products" getProductsData={getProductsData}/>
       </div>
-      <PaginationTable
+      <ProductsTable
         getProductsData={getProductsData}
         setMyData={setMyData}
         myData={myData}

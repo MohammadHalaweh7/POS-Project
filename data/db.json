@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "productName": "Gxx9",
+      "productName": "Gxx9s",
       "productCategory": "Fruit",
       "productCode": "9955",
       "productCost": "99",
@@ -13,16 +13,38 @@
       "id": 5
     },
     {
-      "productName": "mm",
-      "productCategory": "mm",
-      "productCode": "mm",
-      "productCost": 3,
-      "productPrice": 4,
-      "productQuantity": 3,
-      "productDescription": "mmm",
+      "productName": "f",
+      "productCategory": "f",
+      "productCode": "f",
+      "productCost": 1,
+      "productPrice": 2,
+      "productQuantity": 1,
+      "productDescription": "f",
       "imagePreview": "",
       "productImage": "/public/products/ddd456f7-7eef-4de3-bd67-071b7fb49cb1.jpg",
       "id": 6
+    },
+    {
+      "productName": "s",
+      "productCategory": "s",
+      "productCode": "s",
+      "productCost": 5,
+      "productPrice": 3,
+      "productQuantity": 3,
+      "productDescription": "s",
+      "imagePreview": "",
+      "productImage": "/public/products/200.gif",
+      "id": 7
+    }
+  ],
+  "categories": [
+    {
+      "categoryName": "fffff",
+      "id": 1
+    },
+    {
+      "categoryName": "999",
+      "id": 2
     }
   ],
   "users": [
@@ -46,6 +68,32 @@
       "password": "Serrin",
       "isAdmin": false,
       "id": 3
+    }
+  ],
+  "units": [
+    {
+      "unitName": "cup",
+      "id": 1
+    },
+    {
+      "unitName": "kg",
+      "id": 2
+    },
+    {
+      "unitName": "ml",
+      "id": 3
+    },
+    {
+      "unitName": "how r u ",
+      "id": 5
+    },
+    {
+      "unitName": "testing",
+      "id": 6
+    },
+    {
+      "unitName": "dd",
+      "id": 7
     }
   ]
 }

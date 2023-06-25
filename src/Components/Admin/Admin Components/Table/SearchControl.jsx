@@ -2,7 +2,7 @@ import { Input } from "@mui/material";
 import {  useContext } from "react";
 import { searchControlContext } from "./../../../../App.js";
 import style from './Table.module.css'
-export default function SearchControl() {
+export default function SearchControl({title}) {
   const { searchToken, setSearchToken } = useContext(searchControlContext);
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -10,7 +10,7 @@ export default function SearchControl() {
   };
   return (
     <Input
-      placeholder="Search Product"
+      placeholder={title}
       type="text"
       value={searchToken}
       onChange={onChangeSearch}

@@ -4,7 +4,7 @@ import TableControl from "./TableControl";
 import { searchControlContext } from "./../../../../App.js";
 import style from './Table.module.css'
 
-export default function PaginationTable({
+export default function ProductsTable({
   getProductsData,
   myData,
   setMyData,
@@ -72,7 +72,7 @@ export default function PaginationTable({
 
   useEffect(() => {}, [searchToken]);
   useEffect(() => {
-    getProductsData();
+    getProductsData()
   }, [editableRow]);
 
   return (
