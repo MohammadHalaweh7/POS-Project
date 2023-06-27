@@ -1,0 +1,40 @@
+/*POS ---------------------------- */
+.pos {
+    /* background-color: green; */
+    /* width: 100%; */
+}
+
+.posContent {
+    width: 60%;
+    margin: 20px;
+}
+
+.cartSide {
+    width: 36%;
+    height: 100vh;
+    /* background-color: red; */
+    box-shadow: 0 0 30px rgb(171, 161, 161);
+
+}
+
+/*CategoriesSlider ------------------------------------------ */
+.sliderCategory {
+    margin-bottom: 10px;
+}
+
+.sliderCategory img {
+    width: 120px;
+    height: 180px;
+}
+
+/* SubCategories----------------------------------- */
+.subCategoryProduct {
+    background-color: rgb(164, 48, 37);
+    color: white;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+
+}
+
+/* ----------------------------------- */

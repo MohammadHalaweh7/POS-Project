@@ -9,7 +9,7 @@ import Input from "@mui/material/Input"
 
 import { useFormik } from "formik"
 
-export default function AddUnitModal({ getUnitsData }) {
+export default function AddUnitModal({ getData }) {
   const [open, setOpen] = useState(false)
   const formik = useFormik({
     initialValues: {
@@ -25,7 +25,7 @@ export default function AddUnitModal({ getUnitsData }) {
   }
   const handleClose = () => {
     setOpen(false)
-    getUnitsData()
+    getData()
   }
 
   const handleAddProduct = async (values) => {

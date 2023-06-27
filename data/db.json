@@ -1,50 +1,34 @@
 {
   "products": [
     {
-      "productName": "Gxx9s",
-      "productCategory": "Fruit",
-      "productCode": "9955",
-      "productCost": "99",
-      "productPrice": 25,
-      "productQuantity": 150,
-      "productDescription": "Purple",
-      "imagePreview": "",
-      "productImage": "/public/products/undefined",
-      "id": 5
-    },
-    {
-      "productName": "f",
-      "productCategory": "f",
-      "productCode": "f",
-      "productCost": 1,
-      "productPrice": 2,
-      "productQuantity": 1,
-      "productDescription": "f",
-      "imagePreview": "",
-      "productImage": "/public/products/ddd456f7-7eef-4de3-bd67-071b7fb49cb1.jpg",
-      "id": 6
-    },
-    {
-      "productName": "s",
-      "productCategory": "s",
-      "productCode": "s",
-      "productCost": 5,
-      "productPrice": 3,
-      "productQuantity": 3,
-      "productDescription": "s",
-      "imagePreview": "",
-      "productImage": "/public/products/200.gif",
-      "id": 7
-    }
-  ],
-  "categories": [
-    {
-      "categoryName": "fffff",
+      "name": "watermelon",
+      "category": "fruits",
+      "code": "12",
+      "price": 12,
+      "quantity": 12,
+      "description": "description",
+      "image": "/public/products/pasted-image-0-14.png",
       "id": 1
     },
     {
-      "categoryName": "999",
+      "name": "oranges",
+      "category": "fruits",
+      "code": "12",
+      "price": 12,
+      "quantity": 12,
+      "description": "description",
+      "image": "/public/products/pasted-image-0-14.png",
       "id": 2
+    },
+    {
+      "name": "d",
+      "category": "d",
+      "code": "d",
+      "price": 1,
+      "quantity": 1,
+      "description": "d",
+      "image": "/public/products/200.gif",
+      "id": 3
     }
   ],
   "users": [
@@ -68,32 +52,117 @@
       "password": "Serrin",
       "isAdmin": false,
       "id": 3
+    },
+    {
+      "userName": "ahmedlotfy",
+      "email": "alotfy2019@gmail.com",
+      "password": "0000",
+      "isAdmin": false,
+      "id": 4
+    }
+  ],
+  "categories": [
+    {
+      "name": "drinks",
+      "id": 9
+    },
+    {
+      "name": "testing",
+      "id": 10
+    },
+    {
+      "name": "fdsfdsfds",
+      "id": 11
+    },
+    {
+      "productImage": "/public/categories/undefined",
+      "id": 12
+    }
+  ],
+  "subCategories": [
+    {
+      "name": "Product 1"
+    },
+    {
+      "name": "Product 2"
+    },
+    {
+      "name": "Product 3"
+    },
+    {
+      "name": "Product 4"
+    },
+    {
+      "name": "Product 5"
+    },
+    {
+      "name": "Product 6"
+    },
+    {
+      "name": "Product 7"
+    },
+    {
+      "name": "Product 8"
+    },
+    {
+      "name": "Product 9"
+    },
+    {
+      "name": "Product 10"
+    },
+    {
+      "name": "Product 11"
+    },
+    {
+      "name": "Product 12"
+    },
+    {
+      "name": "Product 13"
+    },
+    {
+      "name": "Product 14"
+    },
+    {
+      "name": "Product 15"
+    },
+    {
+      "name": "Product 16"
+    },
+    {
+      "name": "Product 17"
+    },
+    {
+      "name": "Product 18"
     }
   ],
   "units": [
     {
-      "unitName": "cup",
+      "productImage": "/public/units/undefined",
       "id": 1
     },
     {
-      "unitName": "kg",
+      "name": "kg",
       "id": 2
     },
     {
-      "unitName": "ml",
+      "name": "ml",
       "id": 3
     },
     {
-      "unitName": "how r u ",
+      "name": "how r u ",
       "id": 5
     },
     {
-      "unitName": "testing",
+      "name": "testing",
       "id": 6
     },
     {
-      "unitName": "dd",
+      "unitName": "zzzzzzzzz",
       "id": 7
+    },
+    {
+      "unitName": "999",
+      "id": 8
     }
   ]
 }

@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import AddProductModal from "./AddProductModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
-import ProductsTable from "../Table/ProductsTable";
+import PaginationTable from "../Table/PaginationTable";
 
 export default function Products() {
   const [myData, setMyData] = useState([]);
 
-  const getProductsData = () => {
+  const getData = () => {
     axios
       .get("http://localhost:3100/products")
       .then((response) => {
@@ -19,17 +19,32 @@ export default function Products() {
         console.error("Error fetching product data:", error);
       });
   };
+  const productsKeys = [
+    "#",
+    "name",
+    "code",
+    "category",
+    "image",
+    "quantity",
+    "price",
+    "description",
+  ];
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
-      <Navbar title="Products" />
+      <Navbar title="Products" width="container" />
       <div className="container flexBox">
-        <SearchControl title="Search Products"/>
-        <AddProductModal title="Add New Products" getProductsData={getProductsData}/>
+        <SearchControl title="Search Products" tableType="Proudcts" />
+        <AddProductModal getData={getData} />
       </div>
-      <ProductsTable
-        getProductsData={getProductsData}
+      <PaginationTable
+        getData={getData}
         setMyData={setMyData}
         myData={myData}
+        productsKeys={productsKeys}
+        tableType="proudcts"
       />
     </>
   );

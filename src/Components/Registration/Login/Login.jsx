@@ -29,6 +29,7 @@ export default function Login({ saveCurrentUser }) {
     const { data } = await axios.get(
       `http://localhost:3100/users?email=${values.email}`
     )
+
     console.log(data)
     const user = JSON.stringify(data[0])
     console.log(data[0])
@@ -37,6 +38,7 @@ export default function Login({ saveCurrentUser }) {
       setErrors([])
       setStatusError("")
       localStorage.setItem("user", JSON.stringify(user))
+      console.log(user)
       saveCurrentUser()
       navigate(`/pos`)
       console.log("welcome")

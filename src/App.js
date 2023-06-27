@@ -14,6 +14,7 @@ import Dashboard from "./Components/Admin/Admin Components/Dashboard/Dashboard.j
 import AdminLayout from "./Components/Admin/AdminLayout";
 
 export const searchControlContext = createContext();
+export const UserContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
@@ -21,12 +22,14 @@ function App() {
   function saveCurrentUser() {
     const token = localStorage.getItem("user");
     const localStorageUser = JSON.parse(token);
+    console.log("***********************")
     console.log(localStorageUser);
     setUser(localStorageUser);
     console.log(localStorageUser);
+    console.log("***********************")
   }
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
+    if (localStorage.getItem("user")) {
       saveCurrentUser();
     }
   }, []);
@@ -62,9 +65,12 @@ function App() {
 
   return (
     <>
-      <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
+    <UserContext.Provider value={{user}}>
+    <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
         <RouterProvider router={routers}></RouterProvider>
       </searchControlContext.Provider>
+    </UserContext.Provider>
+
     </>
   );
 }

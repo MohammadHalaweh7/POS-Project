@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 const defaultImage =
   "https://cdn4.iconfinder.com/data/icons/documents-36/25/add-picture-1024.png";
 
-export default function AddProductModal({title,getProductsData}) {
+export default function AddProductModal({getData}) {
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(defaultImage);
@@ -60,7 +60,7 @@ export default function AddProductModal({title,getProductsData}) {
       }),
     });
     handleClose();
-    getProductsData();
+    getData();
   };
 
   return (
@@ -68,7 +68,7 @@ export default function AddProductModal({title,getProductsData}) {
       <div className="container mt-5">
         <div className="float-end mb-5">
           <Button variant="outlined" onClick={handleClickOpen}>
-            {title}
+          Add New Products
           </Button>
 
           <Dialog open={open} onClose={handleClose}>

@@ -1,15 +1,14 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
-import UnitsTable from "../Table/UnitsTable";
 import AddUnitModal from "./AddUnitModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
+import PaginationTable from "../Table/PaginationTable";
 
 export default function UnitOfMeasure() {
   const [myData, setMyData] = useState([]);
 
-  const getUnitsData = () => {
+  const getData = () => {
     axios
       .get("http://localhost:3100/units")
       .then((response) => {
@@ -20,17 +19,22 @@ export default function UnitOfMeasure() {
         console.error("Error fetching unit data:", error);
       });
   };
-
+  const productsKeys = ["#", "name"];
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
-      <Navbar title="units" />
+      <Navbar title="units" width="container"/>
       <div className="container flexBox">
-        <SearchControl title="Search Categories"/>
-        <AddUnitModal getUnitsData={getUnitsData} />
-        <UnitsTable
-          getUnitsData={getUnitsData}
+        <SearchControl title="Search Categories" tableType="Units" />
+        <AddUnitModal getData={getData} />
+        <PaginationTable
+          getData={getData}
           setMyData={setMyData}
           myData={myData}
+          productsKeys={productsKeys}
+          tableType="Units"
         />
       </div>
     </>

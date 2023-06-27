@@ -1,37 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import SearchControl from "../Table/SearchControl";
 import axios from "axios";
 import AddCategoryModal from "./AddCategoryModal";
-import CategoriesTable from "../Table/CategoriesTable";
+import PaginationTable from "../Table/PaginationTable";
+
 
 export default function Categories() {
-  const [myData, setMyData] = useState([])
+  const [myData, setMyData] = useState([]);
 
-  const getCategoriesData = () => {
+  const getData = () => {
     axios
       .get("http://localhost:3100/categories")
       .then((response) => {
-        const data = response.data
-        setMyData(data)
+        const data = response.data;
+        setMyData(data);
       })
       .catch((error) => {
-        console.error("Error fetching category data:", error)
-      })
-  }
+        console.error("Error fetching category data:", error);
+      });
+  };
+  const productsKeys = ["#", "name"];
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
-      <Navbar title="Categories" />
+      <Navbar title="Categories" width="container" />
       <div className="container flexBox">
-        <SearchControl title="Search Categories" />
-        <AddCategoryModal getCategoriesData={getCategoriesData} />
+        <SearchControl title="Search Categories" tableType="Categories" />
+        <AddCategoryModal getData={getData} />
       </div>
-      <CategoriesTable
-      getCategoriesData={getCategoriesData}
-      setMyData={setMyData}
-      myData={myData}
-       />
+      <PaginationTable
+        getData={getData}
+        setMyData={setMyData}
+        myData={myData}
+        productsKeys={productsKeys}
+        tableType="categories"
+      />
     </>
   );
 }

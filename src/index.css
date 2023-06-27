@@ -17,6 +17,12 @@ code {
   width: 75%;
   margin: auto;
 }
+.wideContainer
+{
+  width: 99%;
+  display: flex;
+  margin: auto;
+}
 .flexBox {
   display: flex;
   justify-content: space-between;
