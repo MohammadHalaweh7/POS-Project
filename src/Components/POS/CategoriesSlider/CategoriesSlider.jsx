@@ -10,8 +10,8 @@ export default function CategoriesSlider() {
     dots: true,
     infinite: true,
     speed: 2000,
-    slidesToShow: 5,
-    slidesToScroll: 4,
+    slidesToShow: 6,
+    slidesToScroll: 5,
     autoplay: true,
   };
 
@@ -33,7 +33,7 @@ export default function CategoriesSlider() {
   return (
     <>
       <div className={`${style.sliderCategory}`}>
-        <h2 className="mb-3">Categories</h2>
+        <h4 className="mb-3">Categories</h4>
         <Slider {...settings}>
           {categories.map((category, index) => (
             <div className="card" key={index}>

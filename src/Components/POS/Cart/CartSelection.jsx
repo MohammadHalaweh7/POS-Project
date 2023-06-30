@@ -45,7 +45,7 @@ export default function CartSelection() {
 
   return (
     <div className={`${style.CartSelection}`}>
-      <FormControl sx={{ m: 1, width: "96%" }}>
+      <FormControl sx={{ width: "100px" }}>
         <InputLabel id="demo-multiple-name-label">Carts</InputLabel>
         <Select
           labelId="demo-multiple-name-label"

@@ -35,7 +35,7 @@ export default function Products() {
   return (
     <>
       <Navbar title="Products" width="container" />
-      <div className="container flexBox">
+      <div className="container flexBox pt-5">
         <SearchControl title="Search Products" tableType="Proudcts" />
         <AddProductModal getData={getData} />
       </div>

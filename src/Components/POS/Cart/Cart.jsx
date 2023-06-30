@@ -7,8 +7,9 @@ import CartAddition from "./CartAddition";
 export default function Cart() {
   return (
     <>
-    <CartSelection />
-    <CartAddition />
+    <h4>Order Details</h4>
+    <hr />
+      <CartAddition />
       <CartProducts />
       <CartForm />
     </>

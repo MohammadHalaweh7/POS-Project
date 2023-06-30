@@ -3,21 +3,21 @@ import style from "./Cart.module.css";
 import { Button } from "@mui/material";
 export default function CartForm() {
   return (
-    <table className={style.CartTable}>
+    <table className={`${style.CartTable}`}>
       <tr>
-        <td>Sub Total</td>
+        <td>SubTotal</td>
         <td>500$</td>
       </tr>
 
       <tr>
-        <td>Tax(%)</td>
+        <td>Tax (10%)</td>
         <td>
           <input min={0} max={100} type="number"></input>
         </td>
       </tr>
 
       <tr>
-        <td>Discount %</td>
+        <td>Discount (20%)</td>
         <td>
           <input min={0} max={100} type="number"></input>
         </td>

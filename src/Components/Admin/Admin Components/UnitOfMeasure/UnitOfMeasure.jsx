@@ -26,7 +26,7 @@ export default function UnitOfMeasure() {
   return (
     <>
       <Navbar title="units" width="container"/>
-      <div className="container flexBox">
+      <div className="container flexBox pt-5">
         <SearchControl title="Search Categories" tableType="Units" />
         <AddUnitModal getData={getData} />
         <PaginationTable

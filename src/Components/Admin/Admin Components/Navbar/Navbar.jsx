@@ -9,7 +9,7 @@ export default function Navbar({ title, width }) {
   console.log(user);
   console.log("-----------------------------");
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-dark p-3 ">
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark p-3 position-fixed w-100 top-0 right-0 highIndex">
       <div className={width}>
         <div className="flex-row d-flex">
           <Link className="navbar-brand" to="/dashboard">

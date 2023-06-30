@@ -30,3 +30,7 @@ code {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.highIndex
+{
+  z-index: 99;
+}

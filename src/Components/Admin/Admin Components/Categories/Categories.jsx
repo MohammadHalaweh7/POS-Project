@@ -29,7 +29,7 @@ export default function Categories() {
   return (
     <>
       <Navbar title="Categories" width="container" />
-      <div className="container flexBox">
+      <div className="container flexBox pt-5">
         <SearchControl title="Search Categories" tableType="Categories" />
         <AddCategoryModal getData={getData} />
       </div>
