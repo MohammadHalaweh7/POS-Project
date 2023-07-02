@@ -9,21 +9,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
-export default function SubCategories() {
-  const [subCategories, setSubCategories] = useState([]);
+export default function SubCategories({ productsData }) {
   const [state, setState] = useState("done");
-  async function getSubCategories() {
-    try {
-      const { data } = await axios.get(`http://localhost:3100/subCategories`);
-      setSubCategories(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  useEffect(() => {
-    getSubCategories();
-  }, []);
+
+
+
+  const products = productsData
+  console.log(products)
 
   return (
     <>
@@ -33,7 +26,7 @@ export default function SubCategories() {
           <SearchControl title="Search product" />
         </div>
         <div className={`flexBox mt-3`}>
-          {subCategories.map((product, index) => (
+          {products.map((product, index) => (
             <Card
               sx={{ maxWidth: 160, maxHeight: 230, marginBottom: 3 }}
               key={index}

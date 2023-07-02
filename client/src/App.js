@@ -12,27 +12,73 @@ import Categories from "./Components/Admin/Admin Components/Categories/Categorie
 import UnitOfMeasure from "./Components/Admin/Admin Components/UnitOfMeasure/UnitOfMeasure";
 import Dashboard from "./Components/Admin/Admin Components/Dashboard/Dashboard.jsx";
 import AdminLayout from "./Components/Admin/AdminLayout";
+import axios from "axios";
 
 export const searchControlContext = createContext();
 export const UserContext = createContext();
 
-function App() {
+export default function App() {
   const [user, setUser] = useState(null);
   const [searchToken, setSearchToken] = useState("");
+
   function saveCurrentUser() {
     const token = localStorage.getItem("user");
     const localStorageUser = JSON.parse(token);
-    console.log("***********************")
-    console.log(localStorageUser);
     setUser(localStorageUser);
-    console.log(localStorageUser);
-    console.log("***********************")
   }
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       saveCurrentUser();
     }
   }, []);
+
+  const categoriesLoader = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:5050/product-categories"
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log("error", error);
+      return error;
+    }
+  };
+
+  const categoryProductLoader = async () => {
+    try {
+      const response = await Promise.all([
+        axios.get("http://localhost:5050/product-categories"),
+        axios.get("http://localhost:5050/products"),
+      ]);
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const productsLoader = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5050/products");
+      console.log(data);
+
+      return data;
+    } catch (error) {
+      console.log("error", error);
+      return error;
+    }
+  };
+
+  const unitLoader = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:5050/unit-of-measure");
+      console.log(data);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };
   const routers = createBrowserRouter([
     {
       path: "",
@@ -43,6 +89,7 @@ function App() {
         { path: "*", element: <NotFound /> },
         {
           path: "pos",
+          loader: categoryProductLoader,
           element: (
             <ProtectedRouter>
               <Pos user={user} setUser={setUser} />
@@ -54,9 +101,17 @@ function App() {
           element: <AdminLayout />,
           children: [
             { path: "", element: <Dashboard /> },
-            { path: "products", element: <Products /> },
-            { path: "categories", element: <Categories /> },
-            { path: "unitOfMeasure", element: <UnitOfMeasure /> },
+            { path: "products", loader: productsLoader, element: <Products /> },
+            {
+              path: "categories",
+              loader: categoriesLoader,
+              element: <Categories />,
+            },
+            {
+              path: "unitOfMeasure",
+              loader: unitLoader,
+              element: <UnitOfMeasure />,
+            },
           ],
         },
       ],
@@ -65,14 +120,11 @@ function App() {
 
   return (
     <>
-    <UserContext.Provider value={{user}}>
-    <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
-        <RouterProvider router={routers}></RouterProvider>
-      </searchControlContext.Provider>
-    </UserContext.Provider>
-
+      <UserContext.Provider value={{ user }}>
+        <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
+          <RouterProvider router={routers}></RouterProvider>
+        </searchControlContext.Provider>
+      </UserContext.Provider>
     </>
   );
 }
-
-export default App;

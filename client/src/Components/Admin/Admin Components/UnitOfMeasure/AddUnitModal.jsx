@@ -6,14 +6,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
+import axios from "axios";
+import { useRevalidator } from "react-router-dom";
 
 import { useFormik } from "formik";
 
-export default function AddCategoryModal({ getData }) {
+export default function AddUnitModal() {
+  const revalidator = useRevalidator();
+
   const [open, setOpen] = useState(false);
   const formik = useFormik({
     initialValues: {
-      categoryName: "",
+      unitName: "",
+      baseUnit: "",
+      conversionFactor: "",
     },
     onSubmit: (values) => {
       handleAddProduct(values);
@@ -25,20 +31,12 @@ export default function AddCategoryModal({ getData }) {
   };
   const handleClose = () => {
     setOpen(false);
-    getData();
   };
 
   const handleAddProduct = async (values) => {
     console.log(values);
-    await fetch("http://localhost:3100/categories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...values,
-      }),
-    });
+    await axios.post("http://localhost:5050/unit-of-measure", values);
+    revalidator.revalidate();
     handleClose();
   };
 
@@ -47,7 +45,7 @@ export default function AddCategoryModal({ getData }) {
       <div className="container mt-5">
         <div className="float-end mb-5">
           <Button variant="outlined" onClick={handleClickOpen}>
-            Add new Category
+            Add new Unit
           </Button>
 
           <Dialog open={open} onClose={handleClose}>
@@ -62,11 +60,29 @@ export default function AddCategoryModal({ getData }) {
               >
                 <Input
                   className="mt-3"
-                  placeholder="Category Name"
-                  name="categoryName"
+                  placeholder="Unit Name"
+                  name="unitName"
                   type="text"
                   onChange={formik.handleChange}
-                  value={formik.values.categoryName}
+                  value={formik.values.unitName}
+                />
+
+                <Input
+                  className="mt-3"
+                  placeholder="Unit Base"
+                  name="baseUnit"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.baseUnit}
+                />
+
+                <Input
+                  className="mt-3"
+                  placeholder="Unit Conversion Factor"
+                  name="conversionFactor"
+                  type="number"
+                  onChange={formik.handleChange}
+                  value={formik.values.conversionFactor}
                 />
 
                 <div className="ms-auto mt-2">

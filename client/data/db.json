@@ -1,34 +1,25 @@
 {
   "products": [
     {
-      "name": "watermelon",
-      "category": "fruits",
-      "code": "12",
-      "price": 12,
-      "quantity": 12,
-      "description": "description",
-      "image": "/public/products/pasted-image-0-14.png",
+      "name": "csdd",
+      "category": "s",
+      "code": "fdsfsdfd",
+      "price": "sfdsfsd",
+      "quantity": "fdsfddsadsas",
+      "description": "fdasdasdsfdsf",
+      "image": "/images/",
       "id": 1
     },
     {
-      "name": "oranges",
-      "category": "fruits",
-      "code": "12",
-      "price": 12,
-      "quantity": 12,
-      "description": "description",
-      "image": "/public/products/pasted-image-0-14.png",
-      "id": 2
-    },
-    {
-      "name": "d",
-      "category": "d",
-      "code": "d",
+      "name": "vvvv",
+      "category": "v",
+      "code": "v",
       "price": 1,
       "quantity": 1,
-      "description": "d",
-      "image": "/public/products/200.gif",
-      "id": 3
+      "description": "v",
+      "image": "v",
+      "productImage": "/public/products/undefined",
+      "id": 2
     }
   ],
   "users": [
@@ -63,20 +54,23 @@
   ],
   "categories": [
     {
-      "name": "drinks",
-      "id": 9
+      "name": "555",
+      "image": "/public/products/pasted-image-0-14.png",
+      "id": 3
+    }
+  ],
+  "units": [
+    {
+      "name": "cup",
+      "id": 1
     },
     {
-      "name": "testing",
-      "id": 10
+      "name": "555",
+      "id": 3
     },
     {
-      "name": "fdsfdsfds",
-      "id": 11
-    },
-    {
-      "productImage": "/public/categories/undefined",
-      "id": 12
+      "name": "centemeter",
+      "id": 4
     }
   ],
   "subCategories": [
@@ -184,36 +178,6 @@
       "name": "Product 15",
       "description": "Lizards are a widespread group of squamate",
       "price": 39.9
-    }
-  ],
-  "units": [
-    {
-      "productImage": "/public/units/undefined",
-      "id": 1
-    },
-    {
-      "name": "kg",
-      "id": 2
-    },
-    {
-      "name": "ml",
-      "id": 3
-    },
-    {
-      "name": "how r u ",
-      "id": 5
-    },
-    {
-      "name": "testing",
-      "id": 6
-    },
-    {
-      "unitName": "zzzzzzzzz",
-      "id": 7
-    },
-    {
-      "unitName": "999",
-      "id": 8
     }
   ]
 }

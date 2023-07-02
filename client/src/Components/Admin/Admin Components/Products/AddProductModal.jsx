@@ -6,25 +6,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
-
+import { useRevalidator } from "react-router-dom";
 import { useFormik } from "formik";
+import axios from "axios";
+
 const defaultImage =
   "https://cdn4.iconfinder.com/data/icons/documents-36/25/add-picture-1024.png";
 
-export default function AddProductModal({getData}) {
+export default function AddProductModal() {
+  const revalidator = useRevalidator();
+
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(defaultImage);
   const formik = useFormik({
     initialValues: {
-      productName: "",
-      productCategory: "",
-      productCode: "",
-      productCost: "",
-      productPrice: "",
-      productQuantity: "",
-      productDescription: "",
-      imagePreview: "",
+      name: "",
+      code: "",
+      quantity: "",
+      image: "",
+      price: "",
+      categoryId: "",
+      unitId: "",
     },
     onSubmit: (values) => {
       handleAddProduct(values);
@@ -47,20 +50,15 @@ export default function AddProductModal({getData}) {
   };
 
   const handleAddProduct = async (values) => {
+    console.log("9999999999999999999999999999")
     console.log(values);
     console.log("Selected File:", selectedFile);
-    await fetch("http://localhost:3100/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...values,
-        productImage: `/public/products/${selectedFile.name}`,
-      }),
+    await axios.post("http://localhost:5050/products", {
+      ...values,
+      image: `/public/products/${selectedFile.name}`,
     });
+    revalidator.revalidate();
     handleClose();
-    getData();
   };
 
   return (
@@ -68,7 +66,7 @@ export default function AddProductModal({getData}) {
       <div className="container mt-5">
         <div className="float-end mb-5">
           <Button variant="outlined" onClick={handleClickOpen}>
-          Add New Products
+            Add New Products
           </Button>
 
           <Dialog open={open} onClose={handleClose}>
@@ -83,71 +81,60 @@ export default function AddProductModal({getData}) {
               >
                 <Input
                   className="mt-3"
-                  id="productName"
+                  id="name"
                   placeholder="Product Name"
-                  name="productName"
+                  name="name"
                   type="text"
                   onChange={formik.handleChange}
-                  value={formik.values.productName}
+                  value={formik.values.name}
                 />
                 <Input
                   className="mt-3"
-                  id="productCategory"
-                  placeholder="Product Category"
-                  name="productCategory"
-                  type="text"
-                  onChange={formik.handleChange}
-                  value={formik.values.productCategory}
-                />
-                <Input
-                  className="mt-3"
-                  id="productCode"
+                  id="code"
                   placeholder="Product Code"
-                  name="productCode"
+                  name="code"
                   type="text"
                   onChange={formik.handleChange}
-                  value={formik.values.productCode}
+                  value={formik.values.code}
                 />
                 <Input
                   className="mt-3"
-                  id="productPrice"
-                  placeholder="Product Price"
-                  name="productPrice"
-                  type="number"
-                  onChange={formik.handleChange}
-                  value={formik.values.productPrice}
-                />
-
-                <Input
-                  className="mt-3"
-                  id="productQuantity"
+                  id="quantity"
                   placeholder="Product Quantity"
-                  name="productQuantity"
+                  name="quantity"
                   type="number"
                   onChange={formik.handleChange}
-                  value={formik.values.productQuantity}
+                  value={formik.values.quantity}
                 />
 
                 <Input
                   className="mt-3"
-                  id="productCost"
-                  placeholder="Product Cost"
-                  name="productCost"
+                  id="price"
+                  placeholder="Product Price"
+                  name="price"
                   type="number"
                   onChange={formik.handleChange}
-                  value={formik.values.productCost}
+                  value={formik.values.price}
                 />
                 <Input
                   className="mt-3"
-                  id="productDescription"
-                  placeholder="Product Description"
-                  name="productDescription"
-                  type="text"
-                  multiline
-                  rows={4}
+                  id="categoryId"
+                  placeholder="Product Category"
+                  name="categoryId"
+                  type="number"
                   onChange={formik.handleChange}
-                  value={formik.values.productDescription}
+                  value={formik.values.categoryId}
                 />
+                <Input
+                  className="mt-3"
+                  id="unitId"
+                  placeholder="Product unit"
+                  name="unitId"
+                  type="number"
+                  onChange={formik.handleChange}
+                  value={formik.values.unitId}
+                />
+
                 <label htmlFor="upload-image-input" className="mt-2">
                   <Button variant="outlined" component="span">
                     Upload image
@@ -156,7 +143,7 @@ export default function AddProductModal({getData}) {
                     className="m-auto m-5 d-none"
                     id="upload-image-input"
                     type="file"
-                    name="productImage"
+                    name="image"
                     accept="image/*"
                     onChange={handleFileChange}
                   />

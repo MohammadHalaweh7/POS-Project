@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import style from "./../Pos.module.css";
 
-export default function CategoriesSlider() {
-  const [categories, setCategories] = useState([]);
-
+export default function CategoriesSlider({ categoriesData }) {
   const settings = {
     dots: true,
     infinite: true,
@@ -15,21 +13,8 @@ export default function CategoriesSlider() {
     autoplay: true,
   };
 
-  async function getCategories() {
-    try {
-      const { data } = await axios.get(
-        "https://king-prawn-app-3mgea.ondigitalocean.app/category"
-      );
-      setCategories(data.category);
-    } catch (err) {
-      console.log("error", err);
-    }
-  }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
+  const categories = categoriesData.category;
+  console.log(categoriesData);
   return (
     <>
       <div className={`${style.sliderCategory}`}>
