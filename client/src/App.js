@@ -38,6 +38,7 @@ export default function App() {
       const { data } = await axios.get(
         "http://localhost:5050/product-categories"
       );
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       console.log(data);
       return data;
     } catch (error) {
@@ -52,7 +53,10 @@ export default function App() {
         axios.get("http://localhost:5050/product-categories"),
         axios.get("http://localhost:5050/products"),
       ]);
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+      console.log(response)
       return response;
+
     } catch (error) {
       return error;
     }
@@ -62,6 +66,7 @@ export default function App() {
     try {
       const { data } = await axios.get("http://localhost:5050/products");
       console.log(data);
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
       return data;
     } catch (error) {
