@@ -38,7 +38,6 @@ export default function App() {
       const { data } = await axios.get(
         "http://localhost:5050/product-categories"
       );
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       console.log(data);
       return data;
     } catch (error) {

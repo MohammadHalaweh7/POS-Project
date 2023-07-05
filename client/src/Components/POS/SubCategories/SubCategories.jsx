@@ -2,27 +2,41 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import style from "./SubCategories.module.css";
 import SearchControl from "Components/Admin/Admin Components/Table/SearchControl";
-
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { CategoryIdContext } from "./../Pos/Pos";
 import { CartItemsContext } from "../Pos/Pos";
-export default function SubCategories({ productsData }) {
-  const [state, setState] = useState("done");
-  const { categoryId } = useContext(CategoryIdContext);
-  const { cartItems, setCartItems } = useContext(CartItemsContext);
-  const products = productsData;
-  console.log(products);
+import { useSelector, useDispatch } from "react-redux";
+import { setCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
+import { searchControlContext } from "App";
 
-  const filterdProduct = categoryId
-    ? products.filter((product) => product.categoryId === categoryId)
+export default function SubCategories({ productsData }) {
+  const dispatch = useDispatch();
+  const categoryInfo = useSelector((state) => state.category);
+  const cartItems = useSelector((state) => state.cartItems.cartItems);
+
+  console.log({ cartItems });
+
+  const products = productsData;
+
+  const { searchToken } = useContext(searchControlContext);
+
+  const filterdProductByCategory = categoryInfo[0]
+    ? products.filter((product) => product.categoryId === categoryInfo[0])
     : products;
 
+  const filterdProduct = searchToken
+    ? filterdProductByCategory.filter((item) =>
+        searchToken
+          ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
+          : true
+      )
+    : filterdProductByCategory;
+
   const addToCart = (id) => {
-    const productToAdd = filterdProduct.find(
+    const productToAdd = products.find(
       (subCategory) => subCategory.productId === id
     );
 
@@ -32,17 +46,18 @@ export default function SubCategories({ productsData }) {
         image: productToAdd.image,
         name: productToAdd.name,
         price: productToAdd.price,
+        quantity: 1,
       };
 
-      setCartItems([...cartItems, newItem]);
+      dispatch(setCartItems(newItem));
     }
   };
-
+  // mm
   return (
     <>
       <div className="mt-3">
         <div className="flexBox mb-2">
-          <h4>Products -</h4>
+          <h4>Products - {categoryInfo[1]}</h4>
           <SearchControl title="Search product" />
         </div>
         <div className={`flexBox mt-3`}>
@@ -73,7 +88,7 @@ export default function SubCategories({ productsData }) {
                       fontSize: "12px",
                     }}
                   >
-                    {product.code}
+                    {product.quantity}
                     {/* mmmmmmmm */}
                   </Typography>
 

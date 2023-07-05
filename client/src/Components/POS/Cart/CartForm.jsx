@@ -1,27 +1,78 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import style from "./Cart.module.css";
 import { Button } from "@mui/material";
+
+import { clearCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function CartForm() {
+  const dispatch = useDispatch();
+  const [taxValue, setTaxValue] = useState(0);
+  const [discountValue, setDiscountValue] = useState(1);
+  const cartItems = useSelector((state) => state.cartItems.cartItems);
+  console.log({ cartItems });
+
+  const calculateSubtotal = () => {
+    let subTotal = 0;
+    cartItems?.forEach((ele) => {
+      const { quantity, price } = ele;
+      if (quantity && price) {
+        subTotal += price * quantity;
+      }
+    });
+    return subTotal;
+  };
+
+  const handleTax = (e) => {
+    const value = parseInt(e.target.value);
+    setTaxValue(value);
+  };
+  const handleDiscount = (e) => {
+    const value = parseInt(e.target.value);
+    setDiscountValue(value);
+  };
+
+  const subTotal = calculateSubtotal();
+  const taxAmount = subTotal * (taxValue / 100);
+  const discountedPrice = subTotal - subTotal * (discountValue / 100);
+
+  const calculateTotal = () => {
+    const totalPrice = subTotal + taxAmount - discountedPrice;
+    return Math.floor(totalPrice);
+  };
+
   return (
     <table className={`${style.CartTable}`}>
       <thead>
         <tr>
           <td>SubTotal</td>
-          <td>500$</td>
+          <td>{calculateSubtotal()}$</td>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Tax (10%)</td>
+          <td>Tax (%)</td>
           <td>
-            <input min={0} max={100} type="number"></input>
+            <input
+              min={0}
+              max={100}
+              type="number"
+              value={taxValue}
+              onChange={(e) => handleTax(e)}
+            ></input>
           </td>
         </tr>
 
         <tr>
-          <td>Discount (20%)</td>
+          <td>Discount (%)</td>
           <td>
-            <input min={0} max={100} type="number"></input>
+            <input
+              min={0}
+              max={100}
+              type="number"
+              value={discountValue}
+              onChange={(e) => handleDiscount(e)}
+            ></input>
           </td>
         </tr>
       </tbody>
@@ -29,12 +80,16 @@ export default function CartForm() {
       <tfoot>
         <tr>
           <td>Total</td>
-          <td>200$</td>
+          <td>{calculateTotal()}</td>
         </tr>
 
         <tr>
           <td>
-            <Button fullWidth variant="outlined">
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => dispatch(clearCartItems())}
+            >
               Cancel
             </Button>
           </td>
