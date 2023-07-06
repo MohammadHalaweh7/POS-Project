@@ -1,28 +1,86 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartItems: [],
+ carts:[
+  {
+    name:"Default Cart",
+    items:[]
+  }
+ ],
+
+ activeCart:"Default Cart"
 };
 
 export const cartItemsSlice = createSlice({
   name: "cartItems",
   initialState,
   reducers: {
-    setCartItems: (state, action) => {
-      state.cartItems = [...state.cartItems, action.payload];
+
+    addNewCart:(state,action)=>{
+      const existed = state.carts.find((ele)=>ele.name === action.payload.name)
+      if (existed){
+        alert("This Name already exists")
+      }
+      else
+      state.carts=[...state.carts,action.payload]
+    },
+    setActiveCart:(state,action)=>{
+      state.activeCart=action.payload
+    },
+
+    addCartItems: (state, action) => {
+      state.carts = state.carts.map((cart) => {
+        if (state.activeCart === cart.name) {
+          const existed = cart.items.find(
+            (product) => product.id === action.payload.id
+          );
+          if (existed) {
+            cart.items.forEach((product) => {
+              if (product.id === action.payload.id) {
+                product.quantity += 1;
+              }
+            });
+          } else {
+            cart.items = [...cart.items, action.payload];
+          }
+        }
+        return cart;
+      });
+    },
+
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      state.carts = state.carts.map((cart) => {
+        if (state.activeCart === cart.name) {
+          cart.items.forEach((product) => {
+            if (product.id === id) {
+              product.quantity = quantity;
+            }
+          });
+        }
+        return cart;
+      });
     },
     deleteCartItem: (state, action) => {
-      state.cartItems = state.cartItems.filter(
-        (item) => item.id !== action.payload
-      );
+      state.carts.forEach((cart) => {
+        cart.items = cart.items.filter((item) => item.id !== action.payload);
+      });
     },
     clearCartItems: (state) => {
-      state.cartItems = [];
+      state.carts.forEach((cart) => {
+        if (cart.name === state.activeCart) cart.items = [];
+      });
     },
   },
 });
 
-export const { setCartItems, deleteCartItem, clearCartItems } =
-  cartItemsSlice.actions;
+export const {
+  addCartItems,
+  deleteCartItem,
+  clearCartItems,
+  addNewCart,
+  setActiveCart,
+  updateQuantity,
+} = cartItemsSlice.actions;
 
 export default cartItemsSlice.reducer;

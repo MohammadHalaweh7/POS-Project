@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useState } from "react";
 import style from "./Cart.module.css";
 import { Button } from "@mui/material";
 
@@ -8,13 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 export default function CartForm() {
   const dispatch = useDispatch();
   const [taxValue, setTaxValue] = useState(0);
-  const [discountValue, setDiscountValue] = useState(1);
-  const cartItems = useSelector((state) => state.cartItems.cartItems);
-  console.log({ cartItems });
+  const [discountValue, setDiscountValue] = useState(0);
+  const cartItems = useSelector((state) => state.cartItems.carts);
+  const activeCart = useSelector((state) => state.cartItems.activeCart);
+  const activeCartItems = cartItems.filter(
+    (cart) => cart.name === activeCart
+  )[0].items;
+
 
   const calculateSubtotal = () => {
     let subTotal = 0;
-    cartItems?.forEach((ele) => {
+    activeCartItems?.forEach((ele) => {
       const { quantity, price } = ele;
       if (quantity && price) {
         subTotal += price * quantity;
@@ -34,7 +38,7 @@ export default function CartForm() {
 
   const subTotal = calculateSubtotal();
   const taxAmount = subTotal * (taxValue / 100);
-  const discountedPrice = subTotal - subTotal * (discountValue / 100);
+  const discountedPrice = subTotal * (discountValue / 100);
 
   const calculateTotal = () => {
     const totalPrice = subTotal + taxAmount - discountedPrice;

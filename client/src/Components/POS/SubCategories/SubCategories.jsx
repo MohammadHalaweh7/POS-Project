@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import style from "./SubCategories.module.css";
 import SearchControl from "Components/Admin/Admin Components/Table/SearchControl";
 import Card from "@mui/material/Card";
@@ -7,18 +6,13 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
-import { CartItemsContext } from "../Pos/Pos";
 import { useSelector, useDispatch } from "react-redux";
-import { setCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
+import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { searchControlContext } from "App";
 
 export default function SubCategories({ productsData }) {
   const dispatch = useDispatch();
   const categoryInfo = useSelector((state) => state.category);
-  const cartItems = useSelector((state) => state.cartItems.cartItems);
-
-  console.log({ cartItems });
-
   const products = productsData;
 
   const { searchToken } = useContext(searchControlContext);
@@ -49,10 +43,9 @@ export default function SubCategories({ productsData }) {
         quantity: 1,
       };
 
-      dispatch(setCartItems(newItem));
+      dispatch(addCartItems(newItem));
     }
   };
-  // mm
   return (
     <>
       <div className="mt-3">

@@ -1,32 +1,25 @@
-import React, { useContext, useState } from "react";
 import style from "./Cart.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setCartItems,
   deleteCartItem,
+  updateQuantity,
 } from "../../../redux/features/CartItems/cartItemsSlice";
 
 export default function CartProduct() {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cartItems.cartItems);
-  console.log({ cartItems });
+  const cartItems = useSelector((state) => state.cartItems.carts);
+  const activeCart = useSelector((state) => state.cartItems.activeCart);
+  const activeCartItems = cartItems.filter(
+    (cart) => cart.name === activeCart
+  )[0].items;
 
   const deleteFromCart = (id) => {
     dispatch(deleteCartItem(id));
   };
 
   const handleQuantityChange = (e, id) => {
-    // const newQuantity = parseInt(e.target.value);
-    // const updatedCartItems = [...cartItems];
-    // updatedCartItems[id].quantity = newQuantity;
-    // dispatch(setCartItems(updatedCartItems));
-
-    const updatedCartItems = cartItems.map((ele) => {
-      if (ele.id === id) {
-        ele["quantity"] = e.target.value;
-      }
-    });
-    dispatch(setCartItems(updatedCartItems));
+    const newQuantity = parseInt(e.target.value);
+    dispatch(updateQuantity({ id, quantity: newQuantity }));
   };
 
   const calculatePrice = (price, quantity) => {
@@ -36,7 +29,7 @@ export default function CartProduct() {
   return (
     <>
       {cartItems &&
-        cartItems?.map((item, index) => {
+        activeCartItems?.map((item, index) => {
           const { quantity } = item;
           return (
             <div className={`flexBox mb-2 ${style.CartProduct}`} key={index}>
