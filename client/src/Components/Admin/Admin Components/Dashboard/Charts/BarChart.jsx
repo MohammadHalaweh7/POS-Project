@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BarChart as RechartsBarChart,
   Bar,
@@ -9,57 +8,25 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-
-const data01 = [
-  {
-    name: "Page A",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Page B",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Page C",
-    uv: 2000,
-    pv: 2800,
-    amt: 2290,
-  },
-  {
-    name: "Page D",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "Page E",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Page F",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Page G",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+import { useLoaderData } from "react-router-dom";
 
 export default function BarCharts() {
+  const data = useLoaderData();
+
+  const chartData = data[0].data.map((category) => {
+    const numberOfProductsInCategory = data[1].data.filter(
+      (product) => product.categoryId === category.categoryId
+    ).length;
+
+    return {
+      name: category.categoryName,
+      pv: +numberOfProductsInCategory,
+    };
+  });
   const renderCustomBarLabel = (props) => {
     const { x, y, width, value } = props;
     const percentage = `${(
-      (value / data01.reduce((sum, entry) => sum + entry.pv, 0)) *
+      (value / chartData.reduce((sum, entry) => sum + entry.pv, 0)) *
       100
     ).toFixed(2)}%`;
 
@@ -74,11 +41,11 @@ export default function BarCharts() {
     <>
       <div>
         <h6 className="pb-4">Price of Categories : </h6>
-        <ResponsiveContainer width={600} height={400}>
+        <ResponsiveContainer width={700} height={400}>
           <RechartsBarChart
             width={500}
             height={300}
-            data={data01}
+            data={chartData}
             margin={{
               top: 5,
               right: 30,

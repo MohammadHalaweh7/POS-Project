@@ -1,4 +1,3 @@
-import React from "react";
 import style from "./../Dashboard.module.css";
 export default function Card({ icon, name, count, color }) {
   return (

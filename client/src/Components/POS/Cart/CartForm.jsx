@@ -50,7 +50,7 @@ export default function CartForm() {
       <thead>
         <tr>
           <td>SubTotal</td>
-          <td>{calculateSubtotal()}$</td>
+          <td>{calculateSubtotal()} $</td>
         </tr>
       </thead>
       <tbody>
@@ -84,7 +84,7 @@ export default function CartForm() {
       <tfoot>
         <tr>
           <td>Total</td>
-          <td>{calculateTotal()}</td>
+          <td style={{ color: "orange" }}>{calculateTotal()} $</td>
         </tr>
 
         <tr>

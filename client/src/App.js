@@ -46,11 +46,13 @@ export default function App() {
     }
   };
 
-  const categoryProductLoader = async () => {
+  const categoryProductUnitsUsersLoader = async () => {
     try {
       const response = await Promise.all([
         axios.get("http://localhost:5050/product-categories"),
         axios.get("http://localhost:5050/products"),
+        axios.get("http://localhost:5050/unit-of-measure"),
+        axios.get("http://localhost:3100/users")
       ]);
       console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       console.log(response)
@@ -64,9 +66,6 @@ export default function App() {
   const productsLoader = async () => {
     try {
       const { data } = await axios.get("http://localhost:5050/products");
-      console.log(data);
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-
       return data;
     } catch (error) {
       console.log("error", error);
@@ -77,7 +76,6 @@ export default function App() {
   const unitLoader = async () => {
     try {
       const { data } = await axios.get("http://localhost:5050/unit-of-measure");
-      console.log(data);
       return data;
     } catch (error) {
       return error;
@@ -93,7 +91,7 @@ export default function App() {
         { path: "*", element: <NotFound /> },
         {
           path: "pos",
-          loader: categoryProductLoader,
+          loader: categoryProductUnitsUsersLoader,
           element: (
             <ProtectedRouter>
               <Pos user={user} setUser={setUser} />
@@ -104,7 +102,7 @@ export default function App() {
           path: "dashboard",
           element: <AdminLayout />,
           children: [
-            { path: "", element: <Dashboard /> },
+            { path: "", loader: categoryProductUnitsUsersLoader,  element: <Dashboard /> },
             { path: "products", loader: productsLoader, element: <Products /> },
             {
               path: "categories",

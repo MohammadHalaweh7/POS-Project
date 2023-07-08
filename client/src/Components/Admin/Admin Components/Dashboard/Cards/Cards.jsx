@@ -1,31 +1,33 @@
 import React from "react";
 import Card from "./Card";
 import style from "./../Dashboard.module.css";
+import { useLoaderData } from "react-router-dom";
 
 export default function Cards() {
+  const data = useLoaderData();
   const Cards = [
     {
       icon: <i className="fa-solid fa-cart-shopping"></i>,
       name: "Products",
-      count: "100+",
+      count: `${data[1].data.length} +`,
       color: "#57b960",
     },
     {
       icon: <i className="fa-solid fa-list"></i>,
       name: "Categories",
-      count: "199+",
+      count: `${data[0].data.length} +`,
       color: "#dc3545",
     },
     {
-      icon: <i className="fa-solid fa-users"></i>,
-      name: "Coustomres",
-      count: "205+",
+      icon: <i className="fa fa-sliders"></i>,
+      name: "Unit of measures",
+      count: `${data[2].data.length} +`,
       color: "#17a2b8",
     },
     {
       icon: <i className="fa-solid fa-user"></i>,
       name: "Users",
-      count: "2+",
+      count: `${data[3].data.length} +`,
       color: "#ffc107",
     },
   ];

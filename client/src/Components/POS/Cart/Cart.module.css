@@ -44,6 +44,7 @@
 .CartTable input {
     width: 15%;
     margin: auto;
+    text-align: center;
 }
 
 /* ------------------------------ */

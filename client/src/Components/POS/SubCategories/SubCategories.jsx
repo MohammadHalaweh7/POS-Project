@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import style from "./SubCategories.module.css";
 import SearchControl from "Components/Admin/Admin Components/Table/SearchControl";
 import Card from "@mui/material/Card";
@@ -9,25 +9,43 @@ import { CardActionArea } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { searchControlContext } from "App";
+import {
+  setActiveCategory,
+  setCategoryProducts,
+} from "../../../redux/features/Category/categorySlice";
 
 export default function SubCategories({ productsData }) {
   const dispatch = useDispatch();
-  const categoryInfo = useSelector((state) => state.category);
+  const activeCategory = useSelector((state) => state.category.activeCategory);
+  const categoryProducts = useSelector(
+    (state) => state.category.categoryProducts
+  );
   const products = productsData;
 
   const { searchToken } = useContext(searchControlContext);
 
-  const filterdProductByCategory = categoryInfo[0]
-    ? products.filter((product) => product.categoryId === categoryInfo[0])
-    : products;
+  // console.log("bbbbbbbbbbbbbbbb");
+  // console.log({ categoryProducts });
+  // console.log("bbbbbbbbbbbbbbbb");
+  
+  // const filterdProductByCategory = products.filter(
+  //   (product) => product.categoryId === activeCategory
+  // );
 
-  const filterdProduct = searchToken
-    ? filterdProductByCategory.filter((item) =>
-        searchToken
-          ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
-          : true
-      )
-    : filterdProductByCategory;
+
+  // const filterdProduct = searchToken
+  //   ? filterdProductByCategory.filter((item) =>
+  //       searchToken
+  //         ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
+  //         : true
+  //     )
+  //   : filterdProductByCategory;
+
+  // const renderProduct = categoryInfo ? products : filterdProduct;
+
+  const handleProductsClick = () => {
+    dispatch(setCategoryProducts(products));
+  };
 
   const addToCart = (id) => {
     const productToAdd = products.find(
@@ -46,30 +64,49 @@ export default function SubCategories({ productsData }) {
       dispatch(addCartItems(newItem));
     }
   };
+
+
+  useEffect(() => {
+    dispatch(setCategoryProducts(products));
+  }, []);
+
   return (
     <>
       <div className="mt-3">
-        <div className="flexBox mb-2">
-          <h4>Products - {categoryInfo[1]}</h4>
+        <div className="flexBox mb-2 flex-start">
+          <h4 style={{ cursor: "pointer" }} onClick={handleProductsClick}>
+            Products - {activeCategory}
+          </h4>{" "}
           <SearchControl title="Search product" />
         </div>
         <div className={`flexBox mt-3`}>
-          {filterdProduct.map((product, index) => (
+          {categoryProducts?.map((product, index) => (
             <Card
-              sx={{ maxWidth: 160, maxHeight: 230, marginBottom: 3 }}
+              sx={{ maxWidth: 160, maxHeight: 260, marginBottom: 3 }}
               key={index}
             >
               <CardActionArea className={`${style.cardProduct}`}>
                 <CardMedia
                   component="img"
-                  height="100"
+                  sx={{ height: 120, width: 160 }}
                   image={product.image}
                   alt="green iguana"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      WebkitLineClamp: 1,
+                      overflow: "hidden",
+                    }}
+                  >
                     {product.name}
                   </Typography>
+
                   <Typography
                     variant="body2"
                     color="textSecondary"
