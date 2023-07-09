@@ -2,20 +2,11 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import counterSlice from "./features/counter/counterSlice";
-import categorySlice from "./features/Category/categorySlice.jsx";
-import cartItemsSlice from "./features/CartItems/cartItemsSlice"
+import searchSlice from "./features/Search/searchSlice";
+import categorySlice from "./features/Category/categorySlice";
+import cartItemsSlice from "./features/CartItems/cartItemsSlice";
+import userSlice from "./features/User/userSlice";
 
-// for counter slice
-const persistCounterConfig = {
-  key: "counter-persist",
-  storage,
-};
-const persistedCounterReducer = persistReducer(
-  persistCounterConfig,
-  counterSlice
-);
-// ---------------------------------------------------------------------------
 const persistCategoryConfig = {
   key: "category-persist",
   storage,
@@ -34,12 +25,18 @@ const persistedCartItemsReducer = persistReducer(
   cartItemsSlice
 );
 // ---------------------------------------------------------------------------
+const persistUserConfig = {
+  key: "user-persist",
+  storage,
+};
+const persistedUserReducer = persistReducer(persistUserConfig, userSlice);
 
 export const store = configureStore({
   reducer: {
-    counter: persistedCounterReducer,
+    search: searchSlice,
     category: persistedCategoryReducer,
-    cartItems:persistedCartItemsReducer
+    cartItems: persistedCartItemsReducer,
+    user: persistedUserReducer,
   },
   middleware: () => getDefaultMiddleware({ serializableCheck: false }),
 });

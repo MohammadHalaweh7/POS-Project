@@ -5,6 +5,7 @@ import { useLoaderData } from "react-router-dom";
 
 export default function Cards() {
   const data = useLoaderData();
+
   const Cards = [
     {
       icon: <i className="fa-solid fa-cart-shopping"></i>,
@@ -27,7 +28,7 @@ export default function Cards() {
     {
       icon: <i className="fa-solid fa-user"></i>,
       name: "Users",
-      count: `${data[3].data.length} +`,
+      count: `${data[2].data.length} +`,
       color: "#ffc107",
     },
   ];

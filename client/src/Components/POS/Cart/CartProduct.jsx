@@ -36,7 +36,7 @@ export default function CartProduct() {
               <div className="flexBox">
                 <img
                   src={item.image}
-                  alt="product image"
+                  alt={item.name}
                   style={{
                     width: "120px",
                     height: "70px",

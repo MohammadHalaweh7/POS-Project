@@ -1,14 +1,20 @@
-import React, { useState } from "react"
+import { useEffect, useState } from "react"
 import style from "./Login.module.css"
 import HeaderImg from "../HeaderImg/HeaderImg"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useFormik } from "formik"
 import * as Yup from "yup"
-export default function Login({ saveCurrentUser }) {
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/features/User/userSlice";
+
+export default function Login() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [errors, setErrors] = useState([])
   const [statusError, setStatusError] = useState("")
-  const navigate = useNavigate()
+  const [loggedIn, setloggedIn] = useState(false)
+
   const schema = Yup.object({
     email: Yup.string()
       .required("Email is required")
@@ -26,26 +32,38 @@ export default function Login({ saveCurrentUser }) {
   })
 
   async function sendLoginData(values) {
-    const { data } = await axios.get(
-      `http://localhost:3100/users?email=${values.email}`
-    )
+    try {
+      const { data } = await axios.post(
+        `http://localhost:5050/login`,
+        {
+          ...values
+        }
+      )
 
-    console.log(data)
-    const user = JSON.stringify(data[0])
-    console.log(data[0])
-    console.log(values)
-    if (values.password == data[0].password) {
-      setErrors([])
-      setStatusError("")
-      localStorage.setItem("user", JSON.stringify(user))
-      console.log(user)
-      saveCurrentUser()
-      navigate(`/pos`)
-      console.log("welcome")
-    } else {
-      setErrors(data.err[0])
+      if (data === "Password is incorrect") {
+        alert("Password is incorrect")
+      }
+      if (data.accessToken) {
+        const token = data.accessToken
+        localStorage.setItem("accessToken", JSON.stringify(token))
+        const user = { email: values.email, accessToken: data.accessToken }
+        dispatch(login(user))
+        setloggedIn(true)
+        setErrors([])
+        setStatusError("")
+        console.log("welcome")
+      }
+    } catch (error) {
+      console.log(error)
+      setErrors(error.err[0])
     }
   }
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/")
+    }
+  }, [loggedIn, navigate])
 
   return (
     <div className={style.loginContent}>

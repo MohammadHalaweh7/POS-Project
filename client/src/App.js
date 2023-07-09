@@ -1,42 +1,55 @@
 import "./App.css";
-import React, { useState, useEffect, createContext } from "react";
+import { useEffect } from "react";
 import Layout from "./Components/Layout/Layout";
 import NotFound from "./Components/NotFound/NotFound";
 import Pos from "./Components/POS/Pos/Pos";
 import Login from "./Components/Registration/Login/Login";
 import Signup from "./Components/Registration/Signup/Signup";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ProtectedRouter from "./Components/ProtectedRouter/ProtectedRouter";
 import Products from "./Components/Admin/Admin Components/Products/Products";
 import Categories from "./Components/Admin/Admin Components/Categories/Categories";
 import UnitOfMeasure from "./Components/Admin/Admin Components/UnitOfMeasure/UnitOfMeasure";
 import Dashboard from "./Components/Admin/Admin Components/Dashboard/Dashboard.jsx";
 import AdminLayout from "./Components/Admin/AdminLayout";
 import axios from "axios";
-
-export const searchControlContext = createContext();
-export const UserContext = createContext();
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProtectedRouter from "Components/ProtectedRouter/ProtectedRouter";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [searchToken, setSearchToken] = useState("");
+  const user = useSelector((state) => state.user);
 
-  function saveCurrentUser() {
-    const token = localStorage.getItem("user");
-    const localStorageUser = JSON.parse(token);
-    setUser(localStorageUser);
-  }
+  // function saveCurrentUser() {
+  //   const token = localStorage.getItem("user");
+  //   const localStorageUser = JSON.parse(token);
+  //   setUser(localStorageUser);
+  // }
 
-  useEffect(() => {
-    if (localStorage.getItem("user")) {
-      saveCurrentUser();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("user")) {
+  //     saveCurrentUser();
+  //   }
+  // }, []);
 
   const categoriesLoader = async () => {
+    if (!user?.email) {
+      return redirect("/login");
+    }
+
     try {
       const { data } = await axios.get(
-        "http://localhost:5050/product-categories"
+        "http://localhost:5050/product-categories",
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
       );
       console.log(data);
       return data;
@@ -49,15 +62,18 @@ export default function App() {
   const categoryProductUnitsUsersLoader = async () => {
     try {
       const response = await Promise.all([
-        axios.get("http://localhost:5050/product-categories"),
+        axios.get("http://localhost:5050/product-categories", {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }),
         axios.get("http://localhost:5050/products"),
         axios.get("http://localhost:5050/unit-of-measure"),
-        axios.get("http://localhost:3100/users")
       ]);
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-      console.log(response)
       return response;
-
     } catch (error) {
       return error;
     }
@@ -86,47 +102,53 @@ export default function App() {
       path: "",
       element: <Layout />,
       children: [
-        { index: true, element: <Login saveCurrentUser={saveCurrentUser} /> },
-        { path: "signup", element: <Signup /> },
-        { path: "*", element: <NotFound /> },
         {
-          path: "pos",
-          loader: categoryProductUnitsUsersLoader,
-          element: (
-            <ProtectedRouter>
-              <Pos user={user} setUser={setUser} />
-            </ProtectedRouter>
-          ),
-        },
-        {
-          path: "dashboard",
-          element: <AdminLayout />,
+          element: <ProtectedRouter />,
           children: [
-            { path: "", loader: categoryProductUnitsUsersLoader,  element: <Dashboard /> },
-            { path: "products", loader: productsLoader, element: <Products /> },
             {
-              path: "categories",
-              loader: categoriesLoader,
-              element: <Categories />,
+              path: "/",
+              loader: categoryProductUnitsUsersLoader,
+              element: <Pos />,
             },
+
             {
-              path: "unitOfMeasure",
-              loader: unitLoader,
-              element: <UnitOfMeasure />,
+              path: "dashboard",
+              element: <AdminLayout />,
+              children: [
+                {
+                  index: true,
+                  loader: categoryProductUnitsUsersLoader,
+                  element: <Dashboard />,
+                },
+                {
+                  path: "products",
+                  loader: productsLoader,
+                  element: <Products />,
+                },
+                {
+                  path: "categories",
+                  loader: categoriesLoader,
+                  element: <Categories />,
+                },
+                {
+                  path: "unitOfMeasure",
+                  loader: unitLoader,
+                  element: <UnitOfMeasure />,
+                },
+              ],
             },
           ],
         },
+        { path: "login", element: <Login /> },
+        { path: "signup", element: <Signup /> },
+        { path: "*", element: <NotFound /> },
       ],
     },
   ]);
 
   return (
     <>
-      <UserContext.Provider value={{ user }}>
-        <searchControlContext.Provider value={{ searchToken, setSearchToken }}>
-          <RouterProvider router={routers}></RouterProvider>
-        </searchControlContext.Provider>
-      </UserContext.Provider>
+      <RouterProvider router={routers}></RouterProvider>
     </>
   );
 }

@@ -1,33 +1,29 @@
-import { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
 import SearchControl from "../Table/SearchControl";
 import axios from "axios";
 import AddCategoryModal from "./AddCategoryModal";
 import PaginationTable from "../Table/PaginationTable";
 import { useLoaderData } from "react-router-dom";
-import { useRevalidator } from "react-router-dom"
-import { useContext } from "react";
-import { searchControlContext } from "App";
+import { useRevalidator } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 export default function Categories() {
   const data = useLoaderData();
   const revalidator = useRevalidator();
-  const fetchedData = data;
 
-  const tableKeys = Object.keys(fetchedData[0]);
+  const tableKeys = Object.keys(data[0]);
 
-  const rowData = fetchedData.map((data) => tableKeys.map((key) => data[key]));
 
-  const { searchToken } = useContext(searchControlContext);
+  const searchToken = useSelector((state) => state.search.value);
 
   const tableData = searchToken
-    ? rowData.filter((item) =>
-        searchToken
-          ? item.categoryName
-              ?.toLowerCase()
-              .includes(searchToken?.toLowerCase())
-          : true
-      )
-    : fetchedData;
+    ? data.filter((item) =>
+      searchToken
+        ? item.categoryName
+          ?.toLowerCase()
+          .includes(searchToken?.toLowerCase())
+        : true
+    )
+    : data;
 
   const handleSave = async (event, category) => {
     event.preventDefault();
@@ -68,7 +64,7 @@ export default function Categories() {
   };
   return (
     <>
-      <Navbar title="Categories" width="container" />
+
       <div className="container flexBox pt-5">
         <SearchControl title="Search Categories" tableType="Categories" />
         <AddCategoryModal />

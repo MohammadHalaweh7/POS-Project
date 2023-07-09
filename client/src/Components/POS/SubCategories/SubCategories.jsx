@@ -1,4 +1,3 @@
-import React, { useContext, useEffect } from "react";
 import style from "./SubCategories.module.css";
 import SearchControl from "Components/Admin/Admin Components/Table/SearchControl";
 import Card from "@mui/material/Card";
@@ -8,23 +7,15 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
-import { searchControlContext } from "App";
-import {
-  setActiveCategory,
-} from "../../../redux/features/Category/categorySlice";
+import { setActiveCategory } from "../../../redux/features/Category/categorySlice";
+
 
 export default function SubCategories({ productsData }) {
   const dispatch = useDispatch();
   const activeCategory = useSelector((state) => state.category.activeCategory);
   const products = productsData;
 
-  const { searchToken } = useContext(searchControlContext);
-
-  // const filterdProductByCategory = activeCategory
-  //   ? products.filter((product) => product.categoryId === activeCategory.categoryId)
-  //   : products;
-
-  // const renderProduct = searchToken?filterdProductByCategory.filter((product)=>product.name?.toLowerCase().includes(searchToken.toLowerCase())):filterdProductByCategory;
+  const searchToken = useSelector((state) => state.search.value);
 
   const filterProducts = (products) => {
     if (activeCategory) {
@@ -34,9 +25,8 @@ export default function SubCategories({ productsData }) {
     }
 
     if (searchToken) {
-      const searchTokenLower = searchToken.toLowerCase();
       products = products.filter((product) =>
-        product.name?.toLowerCase().includes(searchTokenLower)
+        product.name?.toLowerCase().includes(searchToken.toLowerCase())
       );
     }
 

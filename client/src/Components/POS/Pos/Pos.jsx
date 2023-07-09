@@ -1,4 +1,3 @@
-import Navbar from "Components/Admin/Admin Components/Navbar/Navbar";
 import CategoriesSlider from "../CategoriesSlider/CategoriesSlider";
 import SubCategories from "../SubCategories/SubCategories";
 import style from "./../Pos.module.css";
@@ -10,7 +9,6 @@ export default function Pos() {
 
   return (
     <>
-      <Navbar title="POS" width="wideContainer" />
       <div className={`flexBox ${style.pos}`}>
         <div className={`flex-column ${style.posContent}`}>
           <CategoriesSlider productsData={data[1].data}  categoriesData={data[0].data} />

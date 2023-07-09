@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import style from "./Table.module.css";
 export default function TableControl({
   currentPage,
@@ -42,9 +41,7 @@ export default function TableControl({
         </a>
       </div>
 
-      <div
-        className={`${style.pageNumInfo} flexBox rounded form-control`}
-      >
+      <div className={`${style.pageNumInfo} flexBox rounded form-control`}>
         <span className="">{`${firstItemOfPage}-${lastItemOfPage}`}</span>
         <span
           className="text-muted "

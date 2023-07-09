@@ -1,18 +1,20 @@
 import { Input } from "@mui/material";
-import {  useContext } from "react";
-import { searchControlContext } from "./../../../../App.js";
-import style from './Table.module.css'
-export default function SearchControl({title}) {
-  const { searchToken, setSearchToken } = useContext(searchControlContext);
+import style from "./Table.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchValue } from "../../../../redux/features/Search/searchSlice.js";
+
+export default function SearchControl({ title }) {
+  const dispatch = useDispatch();
+  const searchToken = useSelector((state) => state.search.value);
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearchToken(e.target.value);
+    dispatch(setSearchValue(e.target.value));
   };
   return (
     <Input
       placeholder={title}
       type="text"
-      value={searchToken}
+      value={searchToken.value}
       onChange={onChangeSearch}
       variant="outlined"
       size="small"

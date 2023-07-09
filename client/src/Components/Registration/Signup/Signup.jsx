@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "./Signup.module.css";
 import HeaderImg from "../HeaderImg/HeaderImg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/features/User/userSlice";
 
 export default function Signup() {
   const [errors, setErrors] = useState([]);
   const [statusError, setStatusError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loggedIn, setloggedIn] = useState(false);
 
   const schema = Yup.object({
     userName: Yup.string()
@@ -37,21 +41,41 @@ export default function Signup() {
   });
 
   async function sendRegisterData(values) {
-    if (values.password !== values.cPassword) return;
-    // const hash = argon.hash(values.password)
-    const { data } = await axios.post("http://localhost:3100/users", {
-      userName: values.userName,
-      email: values.email,
-      password: values.password,
-      isAdmin: false,
-    });
-    localStorage.setItem("user", JSON.stringify(data));
-    console.log(data);
-    setErrors([]);
-    setStatusError("");
-    navigate(`/pos`);
-    console.log("welcome");
+    console.log({values})
+    try {
+      if (values.password !== values.cPassword) return;
+      const { data } = await axios.post("http://localhost:5050/sign-up", {
+        userName: values.userName,
+        email: values.email,
+        password: values.password,
+      });
+      if ((data.message = "User registered successfully")) {
+        axios
+          .post("http://localhost:5050/login", {
+            email: values.email,
+            password: values.password,
+          })
+          .then((data) => {
+            const token = data.data.accessToken;
+            localStorage.setItem("accessToken", JSON.stringify(token));
+            console.log(data.data.accessToken);
+            dispatch(login({ email: values.email, accessToken: token }));
+            setloggedIn(true);
+            setErrors([]);
+            setStatusError("");
+            console.log("welcome");
+          });
+      }
+    } catch (error) {
+      console.log(error);
+      setErrors(error.err[0]);
+    }
   }
+  useEffect(() => {
+    if (loggedIn) {
+      navigate("/");
+    }
+  }, [loggedIn]);
   return (
     <div className={style.signUpContent}>
       <HeaderImg />

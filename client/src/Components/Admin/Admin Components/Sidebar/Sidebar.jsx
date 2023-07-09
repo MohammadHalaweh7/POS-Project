@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import style from "./Sidebar.module.css";
 import {
   FaTh,
@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
-export default function Sidebar({ children }) {
+export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const menuItem = [
@@ -43,7 +43,7 @@ export default function Sidebar({ children }) {
 
   return (
     <>
-      <div className={style.sid}>
+      <div className={style.sid} style={{ zIndex: 9999 }}>
         <div
           style={{ width: isOpen ? "200px" : "50px" }}
           className={style.sidebar}
@@ -56,30 +56,31 @@ export default function Sidebar({ children }) {
               Admin
             </h1>
             <div
-              style={{ marginLeft: isOpen ? "50px" : "0px" }}
+              style={{ marginLeft: isOpen ? "50px" : "0px", cursor: "pointer" }}
               className={style.bars}
             >
               <FaBars onClick={toggle} />
             </div>
           </div>
-          {menuItem.map((item, index) => (
-            <NavLink
-              to={item.path}
-              key={index}
-              className={style.link}
-              activeclassname={style.active}
-            >
-              <div className={style.icon}>{item.icon}</div>
-              <div
-                style={{ display: isOpen ? "block" : "none" }}
-                className={style.linkText}
+          {menuItem.map((item, index) => {
+            return (
+              <NavLink
+                to={item.path}
+                key={index}
+                className={style.link}
+                activeclassname={style.active}
               >
-                {item.name}
-              </div>
-            </NavLink>
-          ))}
+                <div className={style.icon}>{item.icon}</div>
+                <div
+                  style={{ display: isOpen ? "block" : "none" }}
+                  className={style.linkText}
+                >
+                  {item.name}
+                </div>
+              </NavLink>
+            );
+          })}
         </div>
-        <div className={style.children}>{children}</div>
       </div>
     </>
   );

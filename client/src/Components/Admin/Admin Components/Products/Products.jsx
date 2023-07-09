@@ -1,32 +1,25 @@
-import { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
 import AddProductModal from "./AddProductModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
 import PaginationTable from "../Table/PaginationTable";
-import { useLoaderData } from "react-router-dom";
-import { useRevalidator } from "react-router-dom";
-import { useContext } from "react";
-import { searchControlContext } from "App";
+import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 
 export default function Products() {
   const data = useLoaderData();
   const revalidator = useRevalidator();
-  const fetchedData = data;
-  console.log(data);
-  const tableKeys = Object.keys(fetchedData[0]);
 
-  const rowData = fetchedData.map((data) => tableKeys.map((key) => data[key]));
+  const tableKeys = Object.keys(data[0]);
 
-  const { searchToken } = useContext(searchControlContext);
+  const searchToken = useSelector((state) => state.search.value);
 
   const tableData = searchToken
-    ? rowData.filter((item) =>
+    ? data.filter((item) =>
         searchToken
-          ? item.at(1)?.toLowerCase().includes(searchToken?.toLowerCase())
+          ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
           : true
       )
-    : fetchedData;
+    : data;
 
   const handleSave = async (event, product) => {
     event.preventDefault();
@@ -70,7 +63,6 @@ export default function Products() {
 
   return (
     <>
-      <Navbar title="Products" width="container" />
       <div className="container flexBox pt-5">
         <SearchControl />
         <AddProductModal />

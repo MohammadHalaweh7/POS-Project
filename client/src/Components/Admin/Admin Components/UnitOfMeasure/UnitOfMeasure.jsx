@@ -1,13 +1,10 @@
-import { useState, useEffect } from "react";
-import Navbar from "../Navbar/Navbar";
 import AddUnitModal from "./AddUnitModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
 import PaginationTable from "../Table/PaginationTable";
 import { useLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
-import { useContext } from "react";
-import { searchControlContext } from "App";
+import { useSelector } from "react-redux";
 
 export default function UnitOfMeasure() {
   const data = useLoaderData();
@@ -16,17 +13,17 @@ export default function UnitOfMeasure() {
 
   const tableKeys = Object.keys(fetchedData[0]);
 
-  const rowData = fetchedData.map((data) => tableKeys.map((key) => data[key]));
-
-  const { searchToken } = useContext(searchControlContext);
+  const searchToken = useSelector((state) => state.search.value);
 
   const tableData = searchToken
-    ? rowData.filter((item) =>
-        searchToken
-          ? item.at(1)?.toLowerCase().includes(searchToken?.toLowerCase())
-          : true
-      )
-    : fetchedData;
+    ? data.filter((item) =>
+      searchToken
+        ? item.unitName
+          ?.toLowerCase()
+          .includes(searchToken?.toLowerCase())
+        : true
+    )
+    : data;
 
   const handleSave = async (event, unit) => {
     event.preventDefault();
@@ -38,8 +35,6 @@ export default function UnitOfMeasure() {
       } else {
         updatedUnit = { ...unit, conversionFactor: +unit.conversionFactor };
       }
-      console.log("8888888888888888888888888");
-      console.log(updatedUnit);
       await axios.put(
         `http://localhost:5050/unit-of-measure/${unit.unitId}`,
         updatedUnit
@@ -70,7 +65,6 @@ export default function UnitOfMeasure() {
 
   return (
     <>
-      <Navbar title="units" width="container" />
       <div className="container flexBox pt-5">
         <SearchControl title="Search Categories" tableType="Units" />
         <AddUnitModal />
