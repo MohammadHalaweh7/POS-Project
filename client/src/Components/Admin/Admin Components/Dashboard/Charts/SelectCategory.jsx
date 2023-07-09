@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,9 +6,9 @@ import Select from "@mui/material/Select";
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  setCategoryProducts,
+setActiveCategory
 } from "../../../../../redux/features/Category/categorySlice";
 
 export default function BasicSelect() {
@@ -39,7 +38,7 @@ export default function BasicSelect() {
               <MenuItem
                 key={index}
                 value={category.categoryName}
-                onClick={()=>dispath(setCategoryProducts(category))}
+                onClick={()=>dispath(setActiveCategory(category))}
               >
                 {category.categoryName}
               </MenuItem>

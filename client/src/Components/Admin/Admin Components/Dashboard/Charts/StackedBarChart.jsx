@@ -14,17 +14,15 @@ import { useSelector } from "react-redux";
 
 export default function StackedBarChart() {
   const data = useLoaderData();
-  const categoryProducts = useSelector((state) => state.category.categoryProducts);
-  const activeCategory = useSelector((state) => state.category.activeProduts);
+  const activeCategory = useSelector((state) => state.category.activeCategory);
 
-  // const filteredProductByCategory =
-  //   categoryInfo && data[1]?.data
-  //     ? data[1].data.filter(
-  //         (product) => product.categoryId === categoryInfo.categoryId
-  //       )
-  //     : data[1]?.data;
+  const filteredProductByCategory = activeCategory
+    ? data[1]?.data.filter(
+        (product) => product.categoryId === activeCategory.categoryId
+      )
+    : data[1]?.data;
 
-  const chartData = data[1].data?.map((product) => ({
+  const chartData = filteredProductByCategory?.map((product) => ({
     name: product.name,
     price: product.price,
     quantity: product.quantity,

@@ -9,7 +9,7 @@ export default function Dashboard() {
       <Navbar title="Dashboard" width="container" />
       <div className="m-5 pt-4">
         <Cards />
-        {/* <Charts /> */}
+        <Charts />
       </div>
     </>
   );

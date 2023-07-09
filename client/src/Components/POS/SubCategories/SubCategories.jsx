@@ -11,40 +11,42 @@ import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { searchControlContext } from "App";
 import {
   setActiveCategory,
-  setCategoryProducts,
 } from "../../../redux/features/Category/categorySlice";
 
 export default function SubCategories({ productsData }) {
   const dispatch = useDispatch();
   const activeCategory = useSelector((state) => state.category.activeCategory);
-  const categoryProducts = useSelector(
-    (state) => state.category.categoryProducts
-  );
   const products = productsData;
 
   const { searchToken } = useContext(searchControlContext);
 
-  // console.log("bbbbbbbbbbbbbbbb");
-  // console.log({ categoryProducts });
-  // console.log("bbbbbbbbbbbbbbbb");
-  
-  // const filterdProductByCategory = products.filter(
-  //   (product) => product.categoryId === activeCategory
-  // );
+  // const filterdProductByCategory = activeCategory
+  //   ? products.filter((product) => product.categoryId === activeCategory.categoryId)
+  //   : products;
 
+  // const renderProduct = searchToken?filterdProductByCategory.filter((product)=>product.name?.toLowerCase().includes(searchToken.toLowerCase())):filterdProductByCategory;
 
-  // const filterdProduct = searchToken
-  //   ? filterdProductByCategory.filter((item) =>
-  //       searchToken
-  //         ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
-  //         : true
-  //     )
-  //   : filterdProductByCategory;
+  const filterProducts = (products) => {
+    if (activeCategory) {
+      products = products.filter(
+        (product) => product.categoryId === activeCategory.categoryId
+      );
+    }
 
-  // const renderProduct = categoryInfo ? products : filterdProduct;
+    if (searchToken) {
+      const searchTokenLower = searchToken.toLowerCase();
+      products = products.filter((product) =>
+        product.name?.toLowerCase().includes(searchTokenLower)
+      );
+    }
+
+    return products;
+  };
+
+  const renderProducts = filterProducts(products);
 
   const handleProductsClick = () => {
-    dispatch(setCategoryProducts(products));
+    dispatch(setActiveCategory(null));
   };
 
   const addToCart = (id) => {
@@ -65,78 +67,73 @@ export default function SubCategories({ productsData }) {
     }
   };
 
-
-  useEffect(() => {
-    dispatch(setCategoryProducts(products));
-  }, []);
-
   return (
     <>
       <div className="mt-3">
         <div className="flexBox mb-2 flex-start">
           <h4 style={{ cursor: "pointer" }} onClick={handleProductsClick}>
-            Products - {activeCategory}
+            Products - {activeCategory?.categoryName}
           </h4>{" "}
           <SearchControl title="Search product" />
         </div>
         <div className={`flexBox mt-3`}>
-          {categoryProducts?.map((product, index) => (
-            <Card
-              sx={{ maxWidth: 160, maxHeight: 260, marginBottom: 3 }}
-              key={index}
-            >
-              <CardActionArea className={`${style.cardProduct}`}>
-                <CardMedia
-                  component="img"
-                  sx={{ height: 120, width: 160 }}
-                  image={product.image}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitBoxOrient: "vertical",
-                      WebkitLineClamp: 1,
-                      overflow: "hidden",
-                    }}
-                  >
-                    {product.name}
-                  </Typography>
+          {renderProducts &&
+            renderProducts?.map((product, index) => (
+              <Card
+                sx={{ maxWidth: 160, maxHeight: 260, marginBottom: 3 }}
+                key={index}
+              >
+                <CardActionArea className={`${style.cardProduct}`}>
+                  <CardMedia
+                    component="img"
+                    sx={{ height: 120, width: 160 }}
+                    image={product.image}
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 1,
+                        overflow: "hidden",
+                      }}
+                    >
+                      {product.name}
+                    </Typography>
 
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitBoxOrient: "vertical",
-                      WebkitLineClamp: 2,
-                      overflow: "hidden",
-                      fontSize: "12px",
-                    }}
-                  >
-                    {product.quantity}
-                    {/* mmmmmmmm */}
-                  </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitBoxOrient: "vertical",
+                        WebkitLineClamp: 2,
+                        overflow: "hidden",
+                        fontSize: "12px",
+                      }}
+                    >
+                      {product.quantity}
+                    </Typography>
 
-                  <Typography variant="h6" sx={{ color: "orange" }}>
-                    {product.price} $
-                  </Typography>
-                  <div className={`${style.overlay}`}></div>
-                  <button
-                    id="addBtn"
-                    className={`${style.addToCart}`}
-                    onClick={() => addToCart(product.productId)}
-                  >
-                    <i className="fa-solid fa-cart-plus"></i>
-                  </button>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
+                    <Typography variant="h6" sx={{ color: "orange" }}>
+                      {product.price} $
+                    </Typography>
+                    <div className={`${style.overlay}`}></div>
+                    <button
+                      id="addBtn"
+                      className={`${style.addToCart}`}
+                      onClick={() => addToCart(product.productId)}
+                    >
+                      <i className="fa-solid fa-cart-plus"></i>
+                    </button>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
         </div>
       </div>
     </>
