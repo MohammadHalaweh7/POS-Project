@@ -4,7 +4,11 @@
 }
 
 .paginationTable input {
-    width: 75px;
+    width: 55px;
+}
+
+.paginationTable tr td {
+    vertical-align: middle;
 }
 
 /* --------------------------------------------------- */
@@ -16,6 +20,7 @@
 /* --------------------------------------------------- */
 .TableControl {
     margin-top: 30px;
+    margin-bottom: 40px;
 }
 
 .TableButton {

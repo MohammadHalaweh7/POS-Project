@@ -38,23 +38,21 @@ export default function AddProductModal() {
   };
   const handleClose = () => {
     setOpen(false);
-    setImagePreview(defaultImage);
+    // setImagePreview(defaultImage);
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-    setImagePreview(URL.createObjectURL(file));
-    console.log(imagePreview);
-  };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setSelectedFile(file);
+  //   setImagePreview(URL.createObjectURL(file));
+  //   console.log(imagePreview);
+  // };
 
   const handleAddProduct = async (values) => {
-    console.log("9999999999999999999999999999")
-    console.log(values);
-    console.log("Selected File:", selectedFile);
+    // console.log("Selected File:", selectedFile);
     await axios.post("http://localhost:5050/products", {
       ...values,
-      image: `/public/products/${selectedFile.name}`,
+      // image: `/public/products/${selectedFile.name}`,
     });
     revalidator.revalidate();
     handleClose();
@@ -68,7 +66,7 @@ export default function AddProductModal() {
             Add New Products
           </Button>
 
-          <Dialog open={open} onClose={handleClose}>
+          <Dialog open={open} onClose={handleClose} >
             <DialogTitle>Add Product</DialogTitle>
             <DialogContent className="d-flex flex-column">
               <DialogContentText>
@@ -133,7 +131,16 @@ export default function AddProductModal() {
                   onChange={formik.handleChange}
                   value={formik.values.unitId}
                 />
-
+                <Input
+                  className="mt-3"
+                  id="image"
+                  placeholder="Product image"
+                  name="image"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.image}
+                />
+{/* 
                 <label htmlFor="upload-image-input" className="mt-2">
                   <Button variant="outlined" component="span">
                     Upload image
@@ -153,7 +160,7 @@ export default function AddProductModal() {
                     alt="Product Preview"
                     style={{ maxWidth: "50%", marginTop: "1rem" }}
                   />
-                </div>
+                </div> */}
 
                 <div className="ms-auto mt-2">
                   <Button type="submit">Add</Button>

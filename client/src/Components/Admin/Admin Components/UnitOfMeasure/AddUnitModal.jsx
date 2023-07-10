@@ -33,7 +33,6 @@ export default function AddUnitModal() {
   };
 
   const handleAddProduct = async (values) => {
-    console.log(values);
     await axios.post("http://localhost:5050/unit-of-measure", values);
     revalidator.revalidate();
     handleClose();
@@ -48,10 +47,10 @@ export default function AddUnitModal() {
           </Button>
 
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add Product</DialogTitle>
+            <DialogTitle>Add Units</DialogTitle>
             <DialogContent className="d-flex flex-column">
               <DialogContentText>
-                Please enter the details of the product:
+                Please enter the details of the unit:
               </DialogContentText>
               <form
                 onSubmit={formik.handleSubmit}

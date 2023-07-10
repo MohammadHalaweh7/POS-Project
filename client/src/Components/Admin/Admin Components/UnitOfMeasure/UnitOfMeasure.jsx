@@ -10,19 +10,14 @@ export default function UnitOfMeasure() {
   const data = useLoaderData();
   const revalidator = useRevalidator();
   const fetchedData = data;
-
   const tableKeys = Object.keys(fetchedData[0]);
-
   const searchToken = useSelector((state) => state.search.value);
-
   const tableData = searchToken
     ? data.filter((item) =>
-      searchToken
-        ? item.unitName
-          ?.toLowerCase()
-          .includes(searchToken?.toLowerCase())
-        : true
-    )
+        searchToken
+          ? item.unitName?.toLowerCase().includes(searchToken?.toLowerCase())
+          : true
+      )
     : data;
 
   const handleSave = async (event, unit) => {
@@ -37,7 +32,15 @@ export default function UnitOfMeasure() {
       }
       await axios.put(
         `http://localhost:5050/unit-of-measure/${unit.unitId}`,
-        updatedUnit
+        updatedUnit,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
       );
       revalidator.revalidate();
       console.log("Item Updated");
@@ -47,10 +50,17 @@ export default function UnitOfMeasure() {
   };
 
   const handleDelete = (unit) => {
+    console.log({ unit });
     axios
-      .delete(`http://localhost:5050/unit-of-measure/${unit.unitId}`)
+      .delete(`http://localhost:5050/unit-of-measure/${unit.unitId}`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("accessToken")
+          )}`,
+        },
+      })
       .then((response) => {
-        console.log(unit.unitId);
         if (response.status === 200) {
           console.log("Item Deleted");
         } else {
@@ -66,15 +76,15 @@ export default function UnitOfMeasure() {
   return (
     <>
       <div className="container flexBox pt-5">
-        <SearchControl title="Search Categories" tableType="Units" />
+        <SearchControl title="Search Units" />
         <AddUnitModal />
-        <PaginationTable
-          tableData={tableData}
-          tableKeys={tableKeys}
-          handleSave={handleSave}
-          handleDelete={handleDelete}
-        />
       </div>
+      <PaginationTable
+        tableData={tableData}
+        tableKeys={tableKeys}
+        handleSave={handleSave}
+        handleDelete={handleDelete}
+      />
     </>
   );
 }

@@ -7,8 +7,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
 import { useFormik } from "formik";
 import { useRevalidator } from "react-router-dom";
+import axios from "axios";
 
-export default function AddCategoryModal({ getData }) {
+export default function AddCategoryModal() {
   const revalidator = useRevalidator();
 
   const [open, setOpen] = useState(false);
@@ -29,18 +30,20 @@ export default function AddCategoryModal({ getData }) {
   };
 
   const handleAddProduct = async (values) => {
-    console.log(values);
-    await fetch("http://localhost:5050/product-categories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...values,
-      }),
-    });
-    revalidator.revalidate()
-    handleClose();
+    try {
+      await axios.post("http://localhost:5050/product-categories", values, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("accessToken")
+          )}`,
+        },
+      });
+      revalidator.revalidate();
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,10 +55,10 @@ export default function AddCategoryModal({ getData }) {
           </Button>
 
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add Product</DialogTitle>
+            <DialogTitle>Add Category</DialogTitle>
             <DialogContent className="d-flex flex-column">
               <DialogContentText>
-                Please enter the details of the product:
+                Please enter the details of the category:
               </DialogContentText>
               <form
                 onSubmit={formik.handleSubmit}

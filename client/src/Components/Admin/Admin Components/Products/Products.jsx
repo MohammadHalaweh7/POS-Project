@@ -8,11 +8,8 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 export default function Products() {
   const data = useLoaderData();
   const revalidator = useRevalidator();
-
   const tableKeys = Object.keys(data[0]);
-
   const searchToken = useSelector((state) => state.search.value);
-
   const tableData = searchToken
     ? data.filter((item) =>
         searchToken
@@ -25,17 +22,24 @@ export default function Products() {
     event.preventDefault();
     try {
       let updatedProduct;
-      if (product.productImage) {
-        const unitImage = `/public/products/${product.productImage}`;
-        updatedProduct = { ...product, unitImage };
-      } else {
+      // if (product.productImage) {
+      //   const unitImage = `/public/products/${product.productImage}`;
+      //   updatedProduct = { ...product, unitImage };
+      // } else {
         updatedProduct = { ...product };
-      }
+      // }
 
       await axios.put(
         `http://localhost:5050/products/${product.productId}`,
         updatedProduct,
-        { method: "Put" }
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
       );
       console.log("triggered");
       revalidator.revalidate();
@@ -46,25 +50,32 @@ export default function Products() {
   };
 
   const handleDelete = (product) => {
-    axios
-      .delete(`http://localhost:5050/products/${product.productId}`)
-      .then((response) => {
-        console.log(product.productId);
-        if (response.status === 200) {
-          console.log("Item Deleted");
-        } else {
-          throw new Error(`Failed to delete Product`);
-        }
-      })
-      .catch((error) => {
-        console.error(`Error deleting Product:`, error);
-      });
+    try {
+      axios
+        .delete(`http://localhost:5050/products/${product.productId}`, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Item Deleted");
+          } else {
+            throw new Error("Failed to delete Product");
+          }
+        });
+    } catch (error) {
+      console.error("Error deleting Product:", error);
+    }
   };
 
   return (
     <>
       <div className="container flexBox pt-5">
-        <SearchControl />
+        <SearchControl title="Search Product" />
         <AddProductModal />
       </div>
 

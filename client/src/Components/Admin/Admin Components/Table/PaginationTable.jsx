@@ -8,12 +8,8 @@ export default function Table({
   handleSave,
   handleDelete,
 }) {
-  console.log({ tableData, tableKeys });
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
-  const [editableRow, setEditableRow] = useState(null);
-  const [editableItem, setEditableItem] = useState({});
-
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const firstItemOfPage = recordsPerPage * currentPage - recordsPerPage + 1;
@@ -21,6 +17,9 @@ export default function Table({
   const recordsData = tableData.slice(firstIndex, lastIndex);
   const numberOfPages = Math.ceil(tableData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
+
+  const [editableRow, setEditableRow] = useState(null);
+  const [editableItem, setEditableItem] = useState({});
 
   const handleChange = (event) => {
     setEditableItem({
@@ -32,24 +31,47 @@ export default function Table({
   useEffect(() => {}, [editableRow]);
 
   const tdData = () => {
-    return tableData.map((item, index) => {
+    return recordsData.map((item, index) => {
       return (
         <tr key={index}>
           <td>{index + 1}</td>
           {tableKeys.slice(1).map((key) => {
-            return (
-              <td key={key}>
-                {editableRow === index ? (
-                  <input
-                    name={key}
-                    value={editableItem[key] || ""}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <div>{item[key]}</div>
-                )}
-              </td>
-            );
+            if (key === "image") {
+              return (
+                <td key={key}>
+                  {editableRow === index ? (
+                    <input
+                      name={key}
+                      value={editableItem[key] || ""}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <img
+                      src={item[key]}
+                      alt={item.name}
+                      style={{
+                        width: "90px",
+                        height: "70px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  )}
+                </td>
+              );
+            } else
+              return (
+                <td key={key}>
+                  {editableRow === index ? (
+                    <input
+                      name={key}
+                      value={editableItem[key] || ""}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <div>{item[key]}</div>
+                  )}
+                </td>
+              );
           })}
           <td>
             {editableRow === index ? (

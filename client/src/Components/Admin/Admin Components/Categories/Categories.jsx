@@ -9,20 +9,16 @@ import { useSelector } from "react-redux";
 export default function Categories() {
   const data = useLoaderData();
   const revalidator = useRevalidator();
-
   const tableKeys = Object.keys(data[0]);
-
-
   const searchToken = useSelector((state) => state.search.value);
-
   const tableData = searchToken
     ? data.filter((item) =>
-      searchToken
-        ? item.categoryName
-          ?.toLowerCase()
-          .includes(searchToken?.toLowerCase())
-        : true
-    )
+        searchToken
+          ? item.categoryName
+              ?.toLowerCase()
+              .includes(searchToken?.toLowerCase())
+          : true
+      )
     : data;
 
   const handleSave = async (event, category) => {
@@ -38,7 +34,15 @@ export default function Categories() {
 
       await axios.put(
         `http://localhost:5050/product-categories/${category.categoryId}`,
-        updatedProduct
+        updatedProduct,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
       );
       revalidator.revalidate();
       console.log("Item Updated");
@@ -49,7 +53,17 @@ export default function Categories() {
 
   const handleDelete = (category) => {
     axios
-      .delete(`http://localhost:5050/product-categories/${category.categoryId}`)
+      .delete(
+        `http://localhost:5050/product-categories/${category.categoryId}`,
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(category.categoryId);
         if (response.status === 200) {
@@ -64,9 +78,8 @@ export default function Categories() {
   };
   return (
     <>
-
       <div className="container flexBox pt-5">
-        <SearchControl title="Search Categories" tableType="Categories" />
+        <SearchControl title="Search Categorie"/>
         <AddCategoryModal />
       </div>
       <PaginationTable
