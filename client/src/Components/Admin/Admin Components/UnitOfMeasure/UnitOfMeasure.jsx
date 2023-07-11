@@ -86,6 +86,7 @@ export default function UnitOfMeasure() {
           })
           .then((response) => {
             if (response.status === 200) {
+              revalidator.revalidate();
               console.log("Item Deleted");
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {

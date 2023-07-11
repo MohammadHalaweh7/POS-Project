@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import style from "./Cart.module.css";
 import { Button } from "@mui/material";
 
 import { clearCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 export default function CartForm() {
   const dispatch = useDispatch();
@@ -41,6 +42,8 @@ export default function CartForm() {
   const discountedPrice = subTotal * (discountValue / 100);
 
   const calculateTotal = () => {
+    // !taxValue ? (taxValue = 0) : taxValue;
+    // !discountValue ? (discountValue = 0) : discountValue;
     const totalPrice = subTotal + taxAmount - discountedPrice;
     return Math.floor(totalPrice);
   };
@@ -59,6 +62,31 @@ export default function CartForm() {
       Swal.fire("Canceled!", "Your order has been Canceled.", "success");
       dispatch(clearCartItems());
     });
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5050/checkout",
+        {
+          products: [...activeCartItems],
+          tax: +taxValue / 100,
+          discount: +discountValue / 100,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
+      );
+      Swal.fire(`${activeCart} Toatal Price = ${data.totalPrice} `);
+      console.log("Checkout success:", data);
+    } catch (error) {
+      console.log("Checkout error:", error);
+    }
   };
 
   return (
@@ -110,7 +138,7 @@ export default function CartForm() {
             </Button>
           </td>
           <td>
-            <Button fullWidth variant="contained">
+            <Button fullWidth variant="contained" onClick={handleCheckout}>
               Checkout
             </Button>
           </td>

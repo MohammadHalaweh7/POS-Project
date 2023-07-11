@@ -92,6 +92,7 @@ export default function Categories() {
           .then((response) => {
             console.log(category.categoryId);
             if (response.status === 200) {
+              revalidator.revalidate();
               console.log("Item Deleted");
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {

@@ -25,7 +25,7 @@ export default function CartProduct() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (!result.isConfirmed) return;
-      Swal.fire("Deleted!", "Your Product has been deleted.", "success");
+            Swal.fire("Deleted!", "Your Product has been deleted.", "success");
       dispatch(deleteCartItem(id));
 
     });

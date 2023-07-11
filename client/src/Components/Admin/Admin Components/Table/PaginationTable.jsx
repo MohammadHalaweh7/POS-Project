@@ -28,13 +28,13 @@ export default function Table({
     });
   };
 
-  useEffect(() => {}, [editableRow]);
+  useEffect(() => {}, [editableRow,recordsPerPage,currentPage]);
 
   const tdData = () => {
     return recordsData.map((item, index) => {
       return (
         <tr key={index}>
-          <td>{index + 1}</td>
+          <td>{firstIndex + index + 1}</td>
           {tableKeys.slice(1).map((key) => {
             if (key === "image") {
               return (
@@ -152,6 +152,7 @@ export default function Table({
         numOfAllPage={numOfAllPage}
         currentPage={currentPage}
         numberOfPages={numberOfPages}
+        recordsPerPage={recordsPerPage}
       />
     </>
   );

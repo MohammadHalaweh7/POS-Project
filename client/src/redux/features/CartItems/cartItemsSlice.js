@@ -21,7 +21,7 @@ export const cartItemsSlice = createSlice({
         (ele) => ele.name === action.payload.name
       );
       if (existed) {
-        Swal.fire("This Name already exists! choose another name");
+        Swal.fire("This cart already exists! choose another name");
       } else state.carts = [...state.carts, action.payload];
     },
     setActiveCart: (state, action) => {

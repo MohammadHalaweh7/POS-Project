@@ -10,7 +10,6 @@ import { useRevalidator } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 export default function AddCategoryModal() {
   const revalidator = useRevalidator();
 
@@ -18,6 +17,7 @@ export default function AddCategoryModal() {
   const formik = useFormik({
     initialValues: {
       categoryName: "",
+      image:""
     },
     onSubmit: (values) => {
       handleAddProduct(values);
@@ -74,6 +74,15 @@ export default function AddCategoryModal() {
                   type="text"
                   onChange={formik.handleChange}
                   value={formik.values.categoryName}
+                />
+                <Input
+                  className="mt-3"
+                  id="image"
+                  placeholder="Category image"
+                  name="image"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.image}
                 />
 
                 <div className="ms-auto mt-2">

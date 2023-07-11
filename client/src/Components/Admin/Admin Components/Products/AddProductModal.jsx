@@ -37,10 +37,12 @@ export default function AddProductModal() {
   };
 
   const handleAddProduct = async (values) => {
-    await axios.post("http://localhost:5050/products", {
+    console.log({values})
+   const product= await axios.post("http://localhost:5050/products", {
       ...values,
     });
     revalidator.revalidate();
+    console.log(product.json())
     handleClose();
     toast.success("Added successfully");
   };

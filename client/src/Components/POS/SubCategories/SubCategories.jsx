@@ -39,9 +39,9 @@ export default function SubCategories({ productsData }) {
     dispatch(setActiveCategory(null));
   };
 
-  const addToCart = (id) => {
+  const addToCart = (product) => {
     const productToAdd = products.find(
-      (subCategory) => subCategory.productId === id
+      (subCategory) => subCategory.productId === product.productId
     );
 
     if (productToAdd) {
@@ -50,6 +50,7 @@ export default function SubCategories({ productsData }) {
         image: productToAdd.image,
         name: productToAdd.name,
         price: productToAdd.price,
+        code: productToAdd.code,
         quantity: 1,
       };
 
@@ -117,7 +118,7 @@ export default function SubCategories({ productsData }) {
                     <button
                       id="addBtn"
                       className={`${style.addToCart}`}
-                      onClick={() => addToCart(product.productId)}
+                      onClick={() => addToCart(product)}
                     >
                       <i className="fa-solid fa-cart-plus"></i>
                     </button>

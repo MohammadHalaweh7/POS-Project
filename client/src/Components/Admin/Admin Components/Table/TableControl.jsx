@@ -7,6 +7,7 @@ export default function TableControl({
   firstItemOfPage,
   lastItemOfPage,
   numOfAllPage,
+  recordsPerPage
 }) {
   const prevPage = () => {
     if (currentPage !== 1) {
@@ -67,6 +68,7 @@ export default function TableControl({
           className="form-control"
           name="pagesNumbers"
           id="pagesNumbers"
+          value={recordsPerPage}
           onChange={handleNumberOfItemsPerPage}
         >
           <option value="5">5</option>
