@@ -1,31 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 const initialState = {
- carts:[
-  {
-    name:"Default Cart",
-    items:[]
-  }
- ],
+  carts: [
+    {
+      name: "Default Cart",
+      items: [],
+    },
+  ],
 
- activeCart:"Default Cart"
+  activeCart: "Default Cart",
 };
 
 export const cartItemsSlice = createSlice({
   name: "cartItems",
   initialState,
   reducers: {
-
-    addNewCart:(state,action)=>{
-      const existed = state.carts.find((ele)=>ele.name === action.payload.name)
-      if (existed){
-        alert("This Name already exists")
-      }
-      else
-      state.carts=[...state.carts,action.payload]
+    addNewCart: (state, action) => {
+      const existed = state.carts.find(
+        (ele) => ele.name === action.payload.name
+      );
+      if (existed) {
+        Swal.fire("This Name already exists! choose another name");
+      } else state.carts = [...state.carts, action.payload];
     },
-    setActiveCart:(state,action)=>{
-      state.activeCart=action.payload
+    setActiveCart: (state, action) => {
+      state.activeCart = action.payload;
     },
 
     addCartItems: (state, action) => {

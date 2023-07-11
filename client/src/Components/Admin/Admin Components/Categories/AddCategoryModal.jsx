@@ -8,6 +8,8 @@ import Input from "@mui/material/Input";
 import { useFormik } from "formik";
 import { useRevalidator } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 export default function AddCategoryModal() {
   const revalidator = useRevalidator();
@@ -41,6 +43,7 @@ export default function AddCategoryModal() {
       });
       revalidator.revalidate();
       handleClose();
+      toast.success("Added successfully");
     } catch (error) {
       console.log(error);
     }

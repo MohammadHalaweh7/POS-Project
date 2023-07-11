@@ -4,6 +4,7 @@ import {
   deleteCartItem,
   updateQuantity,
 } from "../../../redux/features/CartItems/cartItemsSlice";
+import Swal from "sweetalert2";
 
 export default function CartProduct() {
   const dispatch = useDispatch();
@@ -14,7 +15,20 @@ export default function CartProduct() {
   )[0].items;
 
   const deleteFromCart = (id) => {
-    dispatch(deleteCartItem(id));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+      Swal.fire("Deleted!", "Your Product has been deleted.", "success");
+      dispatch(deleteCartItem(id));
+
+    });
   };
 
   const handleQuantityChange = (e, id) => {

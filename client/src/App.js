@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProtectedRouter from "Components/ProtectedRouter/ProtectedRouter";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const user = useSelector((state) => state.user);
@@ -148,6 +149,7 @@ export default function App() {
 
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={routers}></RouterProvider>
     </>
   );

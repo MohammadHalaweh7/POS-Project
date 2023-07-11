@@ -8,16 +8,12 @@ import Input from "@mui/material/Input";
 import { useRevalidator } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
-
-const defaultImage =
-  "https://cdn4.iconfinder.com/data/icons/documents-36/25/add-picture-1024.png";
+import { toast } from "react-toastify";
 
 export default function AddProductModal() {
   const revalidator = useRevalidator();
 
   const [open, setOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(defaultImage);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -38,24 +34,15 @@ export default function AddProductModal() {
   };
   const handleClose = () => {
     setOpen(false);
-    // setImagePreview(defaultImage);
   };
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setSelectedFile(file);
-  //   setImagePreview(URL.createObjectURL(file));
-  //   console.log(imagePreview);
-  // };
-
   const handleAddProduct = async (values) => {
-    // console.log("Selected File:", selectedFile);
     await axios.post("http://localhost:5050/products", {
       ...values,
-      // image: `/public/products/${selectedFile.name}`,
     });
     revalidator.revalidate();
     handleClose();
+    toast.success("Added successfully");
   };
 
   return (
@@ -66,7 +53,7 @@ export default function AddProductModal() {
             Add New Products
           </Button>
 
-          <Dialog open={open} onClose={handleClose} >
+          <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Product</DialogTitle>
             <DialogContent className="d-flex flex-column">
               <DialogContentText>
@@ -140,28 +127,6 @@ export default function AddProductModal() {
                   onChange={formik.handleChange}
                   value={formik.values.image}
                 />
-{/* 
-                <label htmlFor="upload-image-input" className="mt-2">
-                  <Button variant="outlined" component="span">
-                    Upload image
-                  </Button>
-                  <input
-                    className="m-auto m-5 d-none"
-                    id="upload-image-input"
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </label>
-                <div className="text-center">
-                  <img
-                    src={imagePreview}
-                    alt="Product Preview"
-                    style={{ maxWidth: "50%", marginTop: "1rem" }}
-                  />
-                </div> */}
-
                 <div className="ms-auto mt-2">
                   <Button type="submit">Add</Button>
                   <Button onClick={handleClose}>Cancel</Button>

@@ -7,8 +7,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
 import axios from "axios";
 import { useRevalidator } from "react-router-dom";
-
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 export default function AddUnitModal() {
   const revalidator = useRevalidator();
@@ -36,6 +36,7 @@ export default function AddUnitModal() {
     await axios.post("http://localhost:5050/unit-of-measure", values);
     revalidator.revalidate();
     handleClose();
+    toast.success("Added successfully");
   };
 
   return (

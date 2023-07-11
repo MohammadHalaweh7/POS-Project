@@ -1,9 +1,10 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import style from "./Cart.module.css";
 import { Button } from "@mui/material";
 
 import { clearCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 export default function CartForm() {
   const dispatch = useDispatch();
@@ -14,7 +15,6 @@ export default function CartForm() {
   const activeCartItems = cartItems.filter(
     (cart) => cart.name === activeCart
   )[0].items;
-
 
   const calculateSubtotal = () => {
     let subTotal = 0;
@@ -43,6 +43,22 @@ export default function CartForm() {
   const calculateTotal = () => {
     const totalPrice = subTotal + taxAmount - discountedPrice;
     return Math.floor(totalPrice);
+  };
+
+  const handleCancle = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Cancel the order!",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+      Swal.fire("Canceled!", "Your order has been Canceled.", "success");
+      dispatch(clearCartItems());
+    });
   };
 
   return (
@@ -89,11 +105,7 @@ export default function CartForm() {
 
         <tr>
           <td>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => dispatch(clearCartItems())}
-            >
+            <Button fullWidth variant="outlined" onClick={handleCancle}>
               Cancel
             </Button>
           </td>

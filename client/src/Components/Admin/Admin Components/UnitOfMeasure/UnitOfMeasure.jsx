@@ -5,6 +5,8 @@ import PaginationTable from "../Table/PaginationTable";
 import { useLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function UnitOfMeasure() {
   const data = useLoaderData();
@@ -22,55 +24,78 @@ export default function UnitOfMeasure() {
 
   const handleSave = async (event, unit) => {
     event.preventDefault();
-    try {
-      let updatedUnit;
-      if (unit.UnitImage) {
-        const unitImage = `/public/unit-of-measure/${unit.imageFile}`;
-        updatedUnit = { ...unit, unitImage };
-      } else {
-        updatedUnit = { ...unit, conversionFactor: +unit.conversionFactor };
-      }
-      await axios.put(
-        `http://localhost:5050/unit-of-measure/${unit.unitId}`,
-        updatedUnit,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("accessToken")
-            )}`,
-          },
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      if (!result.isConfirmed) return;
+
+      Swal.fire("Saved!", "", "success");
+      try {
+        let updatedUnit;
+        if (unit.UnitImage) {
+          const unitImage = `/public/unit-of-measure/${unit.imageFile}`;
+          updatedUnit = { ...unit, unitImage };
+        } else {
+          updatedUnit = { ...unit, conversionFactor: +unit.conversionFactor };
         }
-      );
-      revalidator.revalidate();
-      console.log("Item Updated");
-    } catch (error) {
-      console.error(`Error updating Unit:`, error);
-    }
+        await axios.put(
+          `http://localhost:5050/unit-of-measure/${unit.unitId}`,
+          updatedUnit,
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("accessToken")
+              )}`,
+            },
+          }
+        );
+        revalidator.revalidate();
+        console.log("Item Updated");
+        toast.success("Updated successfully");
+      } catch (error) {
+        console.error(`Error updating Unit:`, error);
+      }
+    });
   };
 
   const handleDelete = (unit) => {
-    console.log({ unit });
-    axios
-      .delete(`http://localhost:5050/unit-of-measure/${unit.unitId}`, {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("accessToken")
-          )}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("Item Deleted");
-        } else {
-          throw new Error(`Failed to delete Unit`);
-        }
-      })
-
-      .catch((error) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+      try {
+        axios
+          .delete(`http://localhost:5050/unit-of-measure/${unit.unitId}`, {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${JSON.parse(
+                localStorage.getItem("accessToken")
+              )}`,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("Item Deleted");
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            } else {
+              throw new Error(`Failed to delete Unit`);
+            }
+          });
+      } catch (error) {
         console.error(`Error deleting Unit:`, error);
-      });
+      }
+    });
   };
 
   return (

@@ -7,6 +7,7 @@ import {
   addNewCart,
   setActiveCart,
 } from "redux/features/CartItems/cartItemsSlice";
+import Swal from "sweetalert2";
 
 export default function CartAddition() {
   const dispatch = useDispatch();
@@ -18,9 +19,21 @@ export default function CartAddition() {
   };
 
   const handleAddNewCart = () => {
-    dispatch(addNewCart({ name: newCart, items: [] }));
-    dispatch(setActiveCart(newCart));
-    setNewCart("");
+    Swal.fire({
+      title: "Are you sure to add a new cart?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Added it!",
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+
+      Swal.fire("Added!", "Your cart has been added.", "success");
+      dispatch(addNewCart({ name: newCart, items: [] }));
+      dispatch(setActiveCart(newCart));
+      setNewCart("");
+    });
   };
   return (
     <>

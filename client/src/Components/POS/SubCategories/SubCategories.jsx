@@ -8,7 +8,7 @@ import { CardActionArea } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { setActiveCategory } from "../../../redux/features/Category/categorySlice";
-
+import { toast } from "react-toastify";
 
 export default function SubCategories({ productsData }) {
   const dispatch = useDispatch();
@@ -54,6 +54,7 @@ export default function SubCategories({ productsData }) {
       };
 
       dispatch(addCartItems(newItem));
+      toast.success("Add to cart successfully");
     }
   };
 
