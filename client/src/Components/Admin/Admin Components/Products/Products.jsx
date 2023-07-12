@@ -2,24 +2,27 @@ import AddProductModal from "./AddProductModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
 import PaginationTable from "../Table/PaginationTable";
-import { useLoaderData, useRevalidator } from "react-router-dom";
+import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Swal from "sweetalert2";
 
 export default function Products() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("allDataRoute");
+  const productsData = data[1].value.data;
+
   const revalidator = useRevalidator();
-  const tableKeys = Object.keys(data[0]);
+  const tableKeys = Object.keys(productsData[0]);
   const searchToken = useSelector((state) => state.search.value);
   const tableData = searchToken
-    ? data.filter((item) =>
+    ? productsData.filter((item) =>
         searchToken
           ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
           : true
       )
-    : data;
+    : productsData;
 
   const handleSave = async (event, product) => {
+    console.log({product})
     event.preventDefault();
     Swal.fire({
       title: "Do you want to save the changes?",
@@ -32,12 +35,9 @@ export default function Products() {
 
       Swal.fire("Saved!", "", "success");
       try {
-        let updatedProduct;
-        updatedProduct = { ...product };
-
         await axios.put(
           `http://localhost:5050/products/${product.productId}`,
-          updatedProduct,
+          product,
           {
             headers: {
               "Content-type": "application/json",

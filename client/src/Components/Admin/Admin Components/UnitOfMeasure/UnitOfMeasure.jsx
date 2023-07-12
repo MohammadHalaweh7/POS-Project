@@ -2,25 +2,26 @@ import AddUnitModal from "./AddUnitModal";
 import axios from "axios";
 import SearchControl from "../Table/SearchControl";
 import PaginationTable from "../Table/PaginationTable";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 export default function UnitOfMeasure() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("allDataRoute");
+  const unitsData = data[2].value.data;
+
   const revalidator = useRevalidator();
-  const fetchedData = data;
-  const tableKeys = Object.keys(fetchedData[0]);
+  const tableKeys = Object.keys(unitsData[0]);
   const searchToken = useSelector((state) => state.search.value);
   const tableData = searchToken
-    ? data.filter((item) =>
+    ? unitsData.filter((item) =>
         searchToken
           ? item.unitName?.toLowerCase().includes(searchToken?.toLowerCase())
           : true
       )
-    : data;
+    : unitsData;
 
   const handleSave = async (event, unit) => {
     event.preventDefault();

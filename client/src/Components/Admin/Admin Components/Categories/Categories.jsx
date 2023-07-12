@@ -2,26 +2,28 @@ import SearchControl from "../Table/SearchControl";
 import axios from "axios";
 import AddCategoryModal from "./AddCategoryModal";
 import PaginationTable from "../Table/PaginationTable";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
 export default function Categories() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("allDataRoute");
+  const categoriesData = data[0].value.data;
+
   const revalidator = useRevalidator();
-  const tableKeys = Object.keys(data[0]);
+  const tableKeys = Object.keys(categoriesData[0]);
   const searchToken = useSelector((state) => state.search.value);
   const tableData = searchToken
-    ? data.filter((item) =>
+    ? categoriesData.filter((item) =>
         searchToken
           ? item.categoryName
               ?.toLowerCase()
               .includes(searchToken?.toLowerCase())
           : true
       )
-    : data;
+    : categoriesData;
 
   const handleSave = async (event, category) => {
     event.preventDefault();
@@ -90,11 +92,10 @@ export default function Categories() {
             }
           )
           .then((response) => {
-            console.log(category.categoryId);
             if (response.status === 200) {
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
               revalidator.revalidate();
               console.log("Item Deleted");
-              Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {
               throw new Error(`Failed to delete Category`);
             }

@@ -5,12 +5,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
-import { useRevalidator } from "react-router-dom";
+import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { FormControl, InputLabel } from "@mui/material";
 
 export default function AddProductModal() {
+  const data = useRouteLoaderData("allDataRoute");
+  const categoriesData = data[0].value.data;
+  const productsData = data[1].value.data;
+  const unitsData = data[2].value.data;
+
   const revalidator = useRevalidator();
 
   const [open, setOpen] = useState(false);
@@ -37,12 +45,12 @@ export default function AddProductModal() {
   };
 
   const handleAddProduct = async (values) => {
-    console.log({values})
-   const product= await axios.post("http://localhost:5050/products", {
+    console.log({ values });
+    const product = await axios.post("http://localhost:5050/products", {
       ...values,
     });
     revalidator.revalidate();
-    console.log(product.json())
+    console.log({ product });
     handleClose();
     toast.success("Added successfully");
   };
@@ -102,24 +110,45 @@ export default function AddProductModal() {
                   onChange={formik.handleChange}
                   value={formik.values.price}
                 />
-                <Input
-                  className="mt-3"
-                  id="categoryId"
-                  placeholder="Product Category"
-                  name="categoryId"
-                  type="number"
-                  onChange={formik.handleChange}
-                  value={formik.values.categoryId}
-                />
-                <Input
-                  className="mt-3"
-                  id="unitId"
-                  placeholder="Product unit"
-                  name="unitId"
-                  type="number"
-                  onChange={formik.handleChange}
-                  value={formik.values.unitId}
-                />
+
+                <FormControl fullWidth>
+                  <InputLabel id="categoryId">Category </InputLabel>
+                  <Select
+                    labelId="categoryId"
+                    id="categoryId"
+                    label="Category"
+                    name="categoryId"
+                    value={formik.values.categoryId}
+                    onChange={formik.handleChange}
+                  >
+                    {categoriesData.map((category) => {
+                      return (
+                        <MenuItem value={category.categoryId}>
+                          {category.categoryName}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <InputLabel id="unitId">Unit </InputLabel>
+                  <Select
+                    labelId="unitId"
+                    id="unitId"
+                    label="Unit of measuer"
+                    name="unitId"
+                    value={formik.values.unitId}
+                    onChange={formik.handleChange}
+                  >
+                    {unitsData.map((unit) => {
+                      return (
+                        <MenuItem value={unit.unitId}>{unit.unitName}</MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
                 <Input
                   className="mt-3"
                   id="image"

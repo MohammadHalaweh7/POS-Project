@@ -2,9 +2,7 @@ import Slider from "react-slick";
 import style from "./../Pos.module.css";
 import { useDispatch } from "react-redux";
 
-import {
-  setActiveCategory,
-} from "../../../redux/features/Category/categorySlice";
+import { setActiveCategory } from "../../../redux/features/Category/categorySlice";
 import { useEffect, useState } from "react";
 
 export default function CategoriesSlider({ categoriesData, productsData }) {
@@ -14,15 +12,14 @@ export default function CategoriesSlider({ categoriesData, productsData }) {
     dots: true,
     infinite: true,
     speed: 2000,
-    slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToShow: 6,
+    slidesToScroll: 1,
     autoplay: false,
   };
 
   const handleSelectCategory = (category) => {
     dispatch(setActiveCategory(category));
   };
-
 
   return (
     <>
@@ -34,8 +31,14 @@ export default function CategoriesSlider({ categoriesData, productsData }) {
               className="card text-center p-2"
               key={index}
               onClick={() => handleSelectCategory(category)}
+              className={`${style.slideContainer}`}
             >
-              {category.categoryName}
+              <img
+                className="card-img-top m-auto"
+                src={category.image}
+                alt={category.categoryName}
+              />
+              <p>{category.categoryName}</p>
             </div>
           ))}
         </Slider>

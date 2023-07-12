@@ -9,18 +9,20 @@ import {
   Legend,
 } from "recharts";
 import SelectCategory from "./SelectCategory";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function StackedBarChart() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("allDataRoute");
+  const productsData = data[1].value.data;
+
   const activeCategory = useSelector((state) => state.category.activeCategory);
 
   const filteredProductByCategory = activeCategory
-    ? data[1]?.data.filter(
+    ? productsData?.filter(
         (product) => product.categoryId === activeCategory.categoryId
       )
-    : data[1]?.data;
+    : productsData;
 
   const chartData = filteredProductByCategory?.map((product) => ({
     name: product.name,

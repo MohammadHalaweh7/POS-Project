@@ -8,13 +8,15 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 export default function BarCharts() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("allDataRoute");
+  const categoriesData = data[0].value.data;
+  const productsData = data[1].value.data;
 
-  const chartData = data[0].data.map((category) => {
-    const numberOfProductsInCategory = data[1].data.filter(
+  const chartData = categoriesData.map((category) => {
+    const numberOfProductsInCategory = productsData.filter(
       (product) => product.categoryId === category.categoryId
     ).length;
 
