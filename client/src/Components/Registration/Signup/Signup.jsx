@@ -7,10 +7,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/features/User/userSlice";
+import { toast } from "react-toastify";
 
 export default function Signup() {
-  const [errors, setErrors] = useState([]);
-  const [statusError, setStatusError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loggedIn, setloggedIn] = useState(false);
@@ -41,7 +40,6 @@ export default function Signup() {
   });
 
   async function sendRegisterData(values) {
-    console.log({values})
     try {
       if (values.password !== values.cPassword) return;
       const { data } = await axios.post("http://localhost:5050/sign-up", {
@@ -49,7 +47,9 @@ export default function Signup() {
         email: values.email,
         password: values.password,
       });
-      if ((data.message = "User registered successfully")) {
+
+      if (data.message === "User registered successfully") {
+        toast.success("User registered successfully");
         axios
           .post("http://localhost:5050/login", {
             email: values.email,
@@ -61,14 +61,19 @@ export default function Signup() {
             console.log(data.data.accessToken);
             dispatch(login({ email: values.email, accessToken: token }));
             setloggedIn(true);
-            setErrors([]);
-            setStatusError("");
             console.log("welcome");
           });
       }
     } catch (error) {
-      console.log(error);
-      setErrors(error.err[0]);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error === "Email already registered"
+      ) {
+        toast.error("Email already registered");
+      } else {
+        console.log(error);
+      }
     }
   }
   useEffect(() => {
@@ -80,16 +85,6 @@ export default function Signup() {
     <div className={style.signUpContent}>
       <HeaderImg />
       <div className={`w-25 m-auto`}>
-        {statusError ? (
-          <div className="alert alert-danger text-danger">{statusError}</div>
-        ) : (
-          ""
-        )}
-        {errors.map((error) => {
-          return (
-            <div className=" alert alert-danger bg-light">{error.message}</div>
-          );
-        })}
         <form action="" onSubmit={formik.handleSubmit}>
           <input
             type="text"

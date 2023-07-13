@@ -75,7 +75,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 name="name"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.name}
+                value={editItem?.name || ""}
               />
               <Input
                 className="mt-3"
@@ -84,7 +84,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 name="code"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.code}
+                value={editItem?.code || ""}
               />
               <Input
                 className="mt-3"
@@ -93,7 +93,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 name="quantity"
                 type="number"
                 onChange={handleChange}
-                value={editItem?.quantity}
+                value={editItem?.quantity || ""}
               />
 
               <Input
@@ -103,7 +103,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 name="price"
                 type="number"
                 onChange={handleChange}
-                value={editItem?.price}
+                value={editItem?.price || ""}
               />
 
               <FormControl fullWidth className="mt-3">
@@ -113,12 +113,12 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   id="categoryId"
                   label="Category"
                   name="categoryId"
-                  value={editItem?.categoryId}
+                  value={editItem?.categoryId || ""}
                   onChange={handleChange}
                 >
-                  {categoriesData.map((category) => {
+                  {categoriesData.map((category, index) => {
                     return (
-                      <MenuItem value={category.categoryId}>
+                      <MenuItem key={index} value={category.categoryId}>
                         {category.categoryName}
                       </MenuItem>
                     );
@@ -133,12 +133,14 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   id="unitId"
                   label="Unit of measuer"
                   name="unitId"
-                  value={editItem?.unitId}
+                  value={editItem?.unitId || ""}
                   onChange={handleChange}
                 >
-                  {unitsData.map((unit) => {
+                  {unitsData.map((unit, index) => {
                     return (
-                      <MenuItem value={unit.unitId}>{unit.unitName}</MenuItem>
+                      <MenuItem key={index} value={unit.unitId}>
+                        {unit.unitName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
@@ -151,7 +153,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 name="image"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.image}
+                value={editItem?.image || ""}
               />
               <div className="ms-auto mt-2">
                 <Button onClick={() => handleSave(editItem)}>Save</Button>
@@ -208,9 +210,9 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   value={formik.values.categoryId}
                   onChange={formik.handleChange}
                 >
-                  {categoriesData.map((category) => {
+                  {categoriesData.map((category, index) => {
                     return (
-                      <MenuItem value={category.categoryId}>
+                      <MenuItem key={index} value={category.categoryId}>
                         {category.categoryName}
                       </MenuItem>
                     );
@@ -228,9 +230,9 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   value={formik.values.unitId}
                   onChange={formik.handleChange}
                 >
-                  {unitsData.map((unit) => {
+                  {unitsData.map((unit, index) => {
                     return (
-                      <MenuItem value={unit.unitId}>{unit.unitName}</MenuItem>
+                      <MenuItem key={index} value={unit.unitId}>{unit.unitName}</MenuItem>
                     );
                   })}
                 </Select>

@@ -9,6 +9,10 @@ import {
   FaLaptop,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../../redux/features/User/userSlice";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,12 +38,17 @@ export default function Sidebar() {
       name: "Measures",
       icon: <FaRuler />,
     },
-    {
-      path: "/#",
-      name: "Logout",
-      icon: <FaSignOutAlt />,
-    },
   ];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    sessionStorage.clear();
+    dispatch(logout());
+    setTimeout(() => {
+      navigate("/login");
+    }, 100);
+    console.log("logout");
+  };
 
   return (
     <>
@@ -80,6 +89,24 @@ export default function Sidebar() {
               </NavLink>
             );
           })}
+          <NavLink
+            className="nav-link"
+            to="/#"
+            data-toggle="collapse"
+            onClick={handleLogout}
+            className={style.link}
+            activeclassname={style.active}
+          >
+            <div className={style.icon}>
+              <FaSignOutAlt />
+            </div>
+            <div
+              style={{ display: isOpen ? "block" : "none" }}
+              className={style.linkText}
+            >
+              LogOut
+            </div>
+          </NavLink>
         </div>
       </div>
     </>

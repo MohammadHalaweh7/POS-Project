@@ -59,7 +59,7 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 name="unitName"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.unitName}
+                value={editItem?.unitName || ""}
               />
 
               <Input
@@ -68,7 +68,7 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 name="baseUnit"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.baseUnit}
+                value={editItem?.baseUnit || ""}
               />
 
               <Input
@@ -77,7 +77,7 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 name="conversionFactor"
                 type="number"
                 onChange={handleChange}
-                value={editItem?.conversionFactor}
+                value={editItem?.conversionFactor || ""}
               />
 
               <div className="ms-auto mt-2">
@@ -115,7 +115,7 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
               />
 
               <div className="ms-auto mt-2">
-                <Button type="submit">Add</Button>
+                <Button type="submit">{!editItem && "Add"}</Button>
                 <Button onClick={handleClose}>Cancel</Button>
               </div>
             </form>

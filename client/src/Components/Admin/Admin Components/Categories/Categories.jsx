@@ -6,14 +6,13 @@ import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 
 export default function Categories() {
   const data = useRouteLoaderData("allDataRoute");
   const categoriesData = data[0].value.data;
-
+  const editItem = useSelector((state) => state.editItem.item);
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(categoriesData[0]);
   const searchToken = useSelector((state) => state.search.value);
@@ -34,7 +33,7 @@ export default function Categories() {
   };
   const handleClose = () => {
     setOpen(false);
-    dispatch(setEditItem({}));
+    dispatch(setEditItem(null));
   };
 
   const handleSave = async (editItem) => {
@@ -63,7 +62,7 @@ export default function Categories() {
         );
         revalidator.revalidate();
         console.log("Item Updated");
-        dispatch(setEditItem({}));
+        dispatch(setEditItem(null));
       } catch (error) {
         console.error(`Error updating Category:`, error);
       }
@@ -108,6 +107,7 @@ export default function Categories() {
       }
     });
   };
+
   return (
     <>
       <div className="container flexBox pt-5">

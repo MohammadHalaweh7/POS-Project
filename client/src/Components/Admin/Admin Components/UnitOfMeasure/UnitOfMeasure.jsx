@@ -34,6 +34,7 @@ export default function UnitOfMeasure() {
   };
   const handleClose = () => {
     setOpen(false);
+    dispatch(setEditItem({}));
   };
 
   const handleSave = async (editItem) => {

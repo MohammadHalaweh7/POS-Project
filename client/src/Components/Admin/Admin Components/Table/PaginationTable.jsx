@@ -11,7 +11,6 @@ export default function Table({
   open,
   handleClickOpen,
   handleClose,
-  
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -24,11 +23,8 @@ export default function Table({
   const numOfAllPage = numberOfPages * recordsPerPage;
 
   const dispatch = useDispatch();
-  const editItem = useSelector((state) => state.editItem.product);
-  const [editableRow, setEditableRow] = useState(null);
 
-  console.log({ editItem });
-  useEffect(() => {}, [editableRow, recordsPerPage, currentPage]);
+  useEffect(() => {}, [recordsPerPage, currentPage]);
 
   const tdData = () => {
     return recordsData.map((item, index) => {
@@ -62,7 +58,6 @@ export default function Table({
               href="#"
               onClick={(event) => {
                 event.preventDefault();
-                setEditableRow(index);
                 dispatch(setEditItem({ ...item }));
                 handleClickOpen();
               }}

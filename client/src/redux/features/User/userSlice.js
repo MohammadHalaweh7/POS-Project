@@ -13,7 +13,8 @@ export const userSlice = createSlice({
     },
 
     logout: (state) => {
-      state = { email: null, accessToken: null };
+      state.email = null;
+      state.accessToken = null;
       localStorage.clear();
     },
   },

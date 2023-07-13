@@ -34,8 +34,6 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
     },
   });
 
-  console.log({ editItem });
-
   const handleAddProduct = async (values) => {
     try {
       await axios.post("http://localhost:5050/product-categories", values, {
@@ -49,10 +47,12 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
       revalidator.revalidate();
       handleClose();
       toast.success("Added successfully");
+      dispatch(setEditItem(null));
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -69,7 +69,7 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
                 name="categoryName"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.categoryName}
+                value={editItem?.categoryName || ""}
               />
               <Input
                 className="mt-3"
@@ -78,7 +78,7 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
                 name="image"
                 type="text"
                 onChange={handleChange}
-                value={editItem?.image}
+                value={editItem?.image || ""}
               />
 
               <div className="ms-auto mt-2">
