@@ -7,10 +7,14 @@ import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 
 export default function UnitOfMeasure() {
   const data = useRouteLoaderData("allDataRoute");
   const unitsData = data[2].value.data;
+  const dispatch = useDispatch();
 
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(unitsData[0]);
@@ -23,8 +27,17 @@ export default function UnitOfMeasure() {
       )
     : unitsData;
 
-  const handleSave = async (event, unit) => {
-    event.preventDefault();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSave = async (editItem) => {
+    setOpen(false);
     Swal.fire({
       title: "Do you want to save the changes?",
       showDenyButton: true,
@@ -33,19 +46,11 @@ export default function UnitOfMeasure() {
       denyButtonText: `Don't save`,
     }).then(async (result) => {
       if (!result.isConfirmed) return;
-
       Swal.fire("Saved!", "", "success");
       try {
-        let updatedUnit;
-        if (unit.UnitImage) {
-          const unitImage = `/public/unit-of-measure/${unit.imageFile}`;
-          updatedUnit = { ...unit, unitImage };
-        } else {
-          updatedUnit = { ...unit, conversionFactor: +unit.conversionFactor };
-        }
         await axios.put(
-          `http://localhost:5050/unit-of-measure/${unit.unitId}`,
-          updatedUnit,
+          `http://localhost:5050/unit-of-measure/${editItem.unitId}`,
+          editItem,
           {
             headers: {
               "Content-type": "application/json",
@@ -57,7 +62,7 @@ export default function UnitOfMeasure() {
         );
         revalidator.revalidate();
         console.log("Item Updated");
-        toast.success("Updated successfully");
+        dispatch(setEditItem({}));
       } catch (error) {
         console.error(`Error updating Unit:`, error);
       }
@@ -104,13 +109,21 @@ export default function UnitOfMeasure() {
     <>
       <div className="container flexBox pt-5">
         <SearchControl title="Search Units" />
-        <AddUnitModal />
+        <AddUnitModal
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          handleSave={handleSave}
+        />
       </div>
       <PaginationTable
         tableData={tableData}
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
       />
     </>
   );

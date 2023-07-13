@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import TableControl from "./TableControl";
 import style from "./Table.module.css";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 export default function Table({
   tableData,
   tableKeys,
   handleSave,
   handleDelete,
+  open,
+  handleClickOpen,
+  handleClose,
+  
 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -18,17 +23,12 @@ export default function Table({
   const numberOfPages = Math.ceil(tableData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
 
+  const dispatch = useDispatch();
+  const editItem = useSelector((state) => state.editItem.product);
   const [editableRow, setEditableRow] = useState(null);
-  const [editableItem, setEditableItem] = useState({});
 
-  const handleChange = (event) => {
-    setEditableItem({
-      ...editableItem,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  useEffect(() => {}, [editableRow,recordsPerPage,currentPage]);
+  console.log({ editItem });
+  useEffect(() => {}, [editableRow, recordsPerPage, currentPage]);
 
   const tdData = () => {
     return recordsData.map((item, index) => {
@@ -39,76 +39,36 @@ export default function Table({
             if (key === "image") {
               return (
                 <td key={key}>
-                  {editableRow === index ? (
-                    <input
-                      name={key}
-                      value={editableItem[key] || ""}
-                      onChange={handleChange}
-                    />
-                  ) : (
-                    <img
-                      src={item[key]}
-                      alt={item.name}
-                      style={{
-                        width: "90px",
-                        height: "70px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  )}
+                  <img
+                    src={item[key]}
+                    alt={item.name}
+                    style={{
+                      width: "90px",
+                      height: "70px",
+                      verticalAlign: "middle",
+                    }}
+                  />
                 </td>
               );
             } else
               return (
                 <td key={key}>
-                  {editableRow === index ? (
-                    <input
-                      name={key}
-                      value={editableItem[key] || ""}
-                      onChange={handleChange}
-                    />
-                  ) : (
-                    <div>{item[key]}</div>
-                  )}
+                  <div>{item[key]}</div>
                 </td>
               );
           })}
           <td>
-            {editableRow === index ? (
-              <>
-                <a
-                  className="mx-2"
-                  href="#"
-                  onClick={(event) => {
-                    handleSave(event, editableItem);
-                    setEditableRow(null);
-                  }}
-                >
-                  <i className="fas fa-save"></i>
-                </a>
-                <a
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setEditableRow(null);
-                    setEditableItem({});
-                  }}
-                >
-                  <i className="fas fa-times"></i>
-                </a>
-              </>
-            ) : (
-              <a
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setEditableRow(index);
-                  setEditableItem({ ...item });
-                }}
-              >
-                <i className="fas fa-edit"></i>
-              </a>
-            )}
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                setEditableRow(index);
+                dispatch(setEditItem({ ...item }));
+                handleClickOpen();
+              }}
+            >
+              <i className="fas fa-edit"></i>
+            </a>
           </td>
           <td>
             <a

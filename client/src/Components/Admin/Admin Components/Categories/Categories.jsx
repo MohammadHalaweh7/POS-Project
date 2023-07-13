@@ -4,9 +4,11 @@ import AddCategoryModal from "./AddCategoryModal";
 import PaginationTable from "../Table/PaginationTable";
 import { useLoaderData, useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 
 export default function Categories() {
   const data = useRouteLoaderData("allDataRoute");
@@ -24,9 +26,19 @@ export default function Categories() {
           : true
       )
     : categoriesData;
+  const dispatch = useDispatch();
 
-  const handleSave = async (event, category) => {
-    event.preventDefault();
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(setEditItem({}));
+  };
+
+  const handleSave = async (editItem) => {
+    setOpen(false);
     Swal.fire({
       title: "Do you want to save the changes?",
       showDenyButton: true,
@@ -35,20 +47,11 @@ export default function Categories() {
       denyButtonText: `Don't save`,
     }).then(async (result) => {
       if (!result.isConfirmed) return;
-
       Swal.fire("Saved!", "", "success");
       try {
-        let updatedProduct;
-        if (category.productImage) {
-          const productImage = `/public/category/${category.imageFile}`;
-          updatedProduct = { ...category, productImage };
-        } else {
-          updatedProduct = { ...category };
-        }
-
         await axios.put(
-          `http://localhost:5050/product-categories/${category.categoryId}`,
-          updatedProduct,
+          `http://localhost:5050/product-categories/${editItem.categoryId}`,
+          editItem,
           {
             headers: {
               "Content-type": "application/json",
@@ -60,7 +63,7 @@ export default function Categories() {
         );
         revalidator.revalidate();
         console.log("Item Updated");
-        toast.success("Updated successfully");
+        dispatch(setEditItem({}));
       } catch (error) {
         console.error(`Error updating Category:`, error);
       }
@@ -109,13 +112,21 @@ export default function Categories() {
     <>
       <div className="container flexBox pt-5">
         <SearchControl title="Search Categorie" />
-        <AddCategoryModal />
+        <AddCategoryModal
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          handleSave={handleSave}
+        />
       </div>
       <PaginationTable
         tableData={tableData}
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
       />
     </>
   );

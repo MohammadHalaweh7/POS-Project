@@ -5,6 +5,10 @@ import PaginationTable from "../Table/PaginationTable";
 import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
+import { toast } from "react-toastify";
 
 export default function Products() {
   const data = useRouteLoaderData("allDataRoute");
@@ -21,9 +25,19 @@ export default function Products() {
       )
     : productsData;
 
-  const handleSave = async (event, product) => {
-    console.log({product})
-    event.preventDefault();
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    dispatch(setEditItem({}));
+  };
+
+  const handleSave = async (editItem) => {
+    setOpen(false);
     Swal.fire({
       title: "Do you want to save the changes?",
       showDenyButton: true,
@@ -32,12 +46,11 @@ export default function Products() {
       denyButtonText: `Don't save`,
     }).then(async (result) => {
       if (!result.isConfirmed) return;
-
       Swal.fire("Saved!", "", "success");
       try {
         await axios.put(
-          `http://localhost:5050/products/${product.productId}`,
-          product,
+          `http://localhost:5050/products/${editItem.productId}`,
+          editItem,
           {
             headers: {
               "Content-type": "application/json",
@@ -50,6 +63,7 @@ export default function Products() {
 
         revalidator.revalidate();
         console.log("Item Updated");
+        dispatch(setEditItem({}));
       } catch (error) {
         console.error(`Error updating Product:`, error);
       }
@@ -96,7 +110,12 @@ export default function Products() {
     <>
       <div className="container flexBox pt-5">
         <SearchControl title="Search Product" />
-        <AddProductModal />
+        <AddProductModal
+          open={open}
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          handleSave={handleSave}
+        />
       </div>
 
       <PaginationTable
@@ -104,6 +123,9 @@ export default function Products() {
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}
+        open={open}
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
       />
     </>
   );

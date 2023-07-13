@@ -6,6 +6,7 @@ import searchSlice from "./features/Search/searchSlice";
 import categorySlice from "./features/Category/categorySlice";
 import cartItemsSlice from "./features/CartItems/cartItemsSlice";
 import userSlice from "./features/User/userSlice";
+import editItemSlice from "./features/editItem/editItemSlice";
 
 const persistCategoryConfig = {
   key: "category-persist",
@@ -37,6 +38,7 @@ export const store = configureStore({
     category: persistedCategoryReducer,
     cartItems: persistedCartItemsReducer,
     user: persistedUserReducer,
+    editItem: editItemSlice,
   },
   middleware: () => getDefaultMiddleware({ serializableCheck: false }),
 });
