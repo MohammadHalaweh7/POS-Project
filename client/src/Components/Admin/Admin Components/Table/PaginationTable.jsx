@@ -3,6 +3,8 @@ import TableControl from "./TableControl";
 import style from "./Table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
+import { useRouteLoaderData } from "react-router-dom";
+
 export default function Table({
   tableData,
   tableKeys,
@@ -25,6 +27,11 @@ export default function Table({
   const dispatch = useDispatch();
 
   useEffect(() => {}, [recordsPerPage, currentPage]);
+
+  const data = useRouteLoaderData("allDataRoute");
+  const categoriesData = data[0].value.data;
+  const productsData = data[1].value.data;
+  const unitsData = data[2].value.data;
 
   const tdData = () => {
     return recordsData.map((item, index) => {

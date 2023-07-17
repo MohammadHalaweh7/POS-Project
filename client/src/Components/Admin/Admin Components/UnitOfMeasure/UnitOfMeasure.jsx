@@ -6,7 +6,6 @@ import { useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
@@ -34,7 +33,7 @@ export default function UnitOfMeasure() {
   };
   const handleClose = () => {
     setOpen(false);
-    dispatch(setEditItem({}));
+    dispatch(setEditItem(null));
   };
 
   const handleSave = async (editItem) => {
@@ -63,7 +62,7 @@ export default function UnitOfMeasure() {
         );
         revalidator.revalidate();
         console.log("Item Updated");
-        dispatch(setEditItem({}));
+        dispatch(setEditItem(null));
       } catch (error) {
         console.error(`Error updating Unit:`, error);
       }

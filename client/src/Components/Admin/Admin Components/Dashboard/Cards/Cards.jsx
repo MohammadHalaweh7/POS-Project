@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
 import style from "./../Dashboard.module.css";
-import {useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 
 export default function Cards() {
   const data = useRouteLoaderData("allDataRoute");
@@ -38,9 +38,10 @@ export default function Cards() {
 
   return (
     <div className={`container mt-5 ${style.Cards}`}>
-      {Cards.map((ele) => {
+      {Cards.map((ele, index) => {
         return (
           <Card
+            key={index}
             icon={ele.icon}
             name={ele.name}
             color={ele.color}

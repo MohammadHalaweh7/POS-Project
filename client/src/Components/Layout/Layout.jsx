@@ -1,4 +1,4 @@
-import Navbar from "Components/Admin/Admin Components/Navbar/Navbar";
+import Navbar from "Components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 export default function Layout() {

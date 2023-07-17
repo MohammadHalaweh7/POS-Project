@@ -2,17 +2,16 @@ import SearchControl from "../Table/SearchControl";
 import axios from "axios";
 import AddCategoryModal from "./AddCategoryModal";
 import PaginationTable from "../Table/PaginationTable";
-import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 
 export default function Categories() {
   const data = useRouteLoaderData("allDataRoute");
   const categoriesData = data[0].value.data;
-  const editItem = useSelector((state) => state.editItem.item);
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(categoriesData[0]);
   const searchToken = useSelector((state) => state.search.value);
@@ -28,6 +27,7 @@ export default function Categories() {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };

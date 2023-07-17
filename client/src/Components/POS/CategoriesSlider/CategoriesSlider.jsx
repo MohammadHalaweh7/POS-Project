@@ -3,9 +3,12 @@ import style from "./../Pos.module.css";
 import { useDispatch } from "react-redux";
 
 import { setActiveCategory } from "../../../redux/features/Category/categorySlice";
-import { useEffect, useState } from "react";
+import { useRouteLoaderData } from "react-router-dom";
 
-export default function CategoriesSlider({ categoriesData, productsData }) {
+export default function CategoriesSlider() {
+  const data = useRouteLoaderData("allDataRoute");
+  const categoriesData = data[0].value.data;
+
   const dispatch = useDispatch();
 
   const settings = {

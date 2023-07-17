@@ -23,6 +23,7 @@ code {
   width: 99%;
   display: flex;
   margin: auto;
+  padding: 0 17px;
 }
 .flexBox {
   display: flex;

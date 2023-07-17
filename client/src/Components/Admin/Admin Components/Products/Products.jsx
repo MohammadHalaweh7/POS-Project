@@ -33,7 +33,7 @@ export default function Products() {
   };
   const handleClose = () => {
     setOpen(false);
-    dispatch(setEditItem({}));
+    dispatch(setEditItem(null));
   };
 
   const handleSave = async (editItem) => {
@@ -63,7 +63,7 @@ export default function Products() {
 
         revalidator.revalidate();
         console.log("Item Updated");
-        dispatch(setEditItem({}));
+        dispatch(setEditItem(null));
       } catch (error) {
         console.error(`Error updating Product:`, error);
       }

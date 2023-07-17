@@ -9,11 +9,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addCartItems } from "../../../redux/features/CartItems/cartItemsSlice";
 import { setActiveCategory } from "../../../redux/features/Category/categorySlice";
 import { toast } from "react-toastify";
+import { useRouteLoaderData } from "react-router-dom";
 
-export default function SubCategories({ productsData }) {
+export default function SubCategories() {
+  const data = useRouteLoaderData("allDataRoute");
+  const products = data[1].value.data;
+
   const dispatch = useDispatch();
   const activeCategory = useSelector((state) => state.category.activeCategory);
-  const products = productsData;
 
   const searchToken = useSelector((state) => state.search.value);
 
@@ -115,13 +118,13 @@ export default function SubCategories({ productsData }) {
                       {product.price} $
                     </Typography>
                     <div className={`${style.overlay}`}></div>
-                    <button
+                    <span
                       id="addBtn"
                       className={`${style.addToCart}`}
                       onClick={() => addToCart(product)}
                     >
                       <i className="fa-solid fa-cart-plus"></i>
-                    </button>
+                    </span>
                   </CardContent>
                 </CardActionArea>
               </Card>

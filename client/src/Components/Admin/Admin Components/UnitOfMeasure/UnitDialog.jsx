@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 import Button from "@mui/material/Button";
+import UnitsSchema from "../../../../Schemas/UnitsSchema";
 
 export default function UnitDialog({ open, handleClose, handleSave }) {
   const revalidator = useRevalidator();
@@ -23,6 +24,7 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
       baseUnit: "",
       conversionFactor: "",
     },
+    validationSchema: UnitsSchema,
     onSubmit: (values) => {
       handleAddProduct(values);
     },
@@ -38,10 +40,16 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
   };
 
   const handleAddProduct = async (values) => {
-    await axios.post("http://localhost:5050/unit-of-measure", values);
-    revalidator.revalidate();
-    handleClose();
-    toast.success("Added successfully");
+    try {
+      await axios.post("http://localhost:5050/unit-of-measure", values);
+      formik.resetForm();
+      revalidator.revalidate();
+      handleClose();
+      toast.success("Added successfully");
+    } catch (error) {
+      console.log(error);
+      formik.resetForm();
+    }
   };
   return (
     <>
@@ -95,6 +103,11 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.unitName}
               />
+              {formik.errors.unitName && (
+                <p className="text-danger text-start">
+                  {formik.errors.unitName}
+                </p>
+              )}
 
               <Input
                 className="mt-3"
@@ -104,6 +117,11 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.baseUnit}
               />
+              {formik.errors.baseUnit && (
+                <p className="text-danger text-start">
+                  {formik.errors.baseUnit}
+                </p>
+              )}
 
               <Input
                 className="mt-3"
@@ -113,6 +131,11 @@ export default function UnitDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.conversionFactor}
               />
+              {formik.errors.conversionFactor && (
+                <p className="text-danger text-start">
+                  {formik.errors.conversionFactor}
+                </p>
+              )}
 
               <div className="ms-auto mt-2">
                 <Button type="submit">{!editItem && "Add"}</Button>

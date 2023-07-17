@@ -1,5 +1,3 @@
-import React from "react";
-import Navbar from "../Navbar/Navbar";
 import Cards from "./Cards/Cards";
 import Charts from "./Charts/Charts";
 

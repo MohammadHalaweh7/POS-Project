@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
+import  CategorySchema  from "../../../../Schemas/CategorySchema";
 
 export default function CategoryDialog({ open, handleClose, handleSave }) {
   const revalidator = useRevalidator();
@@ -29,12 +30,13 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
       categoryName: "",
       image: "",
     },
+    validationSchema: CategorySchema,
     onSubmit: (values) => {
-      handleAddProduct(values);
+      handleAddCategory(values);
     },
   });
 
-  const handleAddProduct = async (values) => {
+  const handleAddCategory = async (values) => {
     try {
       await axios.post("http://localhost:5050/product-categories", values, {
         headers: {
@@ -44,12 +46,14 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
           )}`,
         },
       });
+      formik.resetForm();
       revalidator.revalidate();
       handleClose();
       toast.success("Added successfully");
       dispatch(setEditItem(null));
     } catch (error) {
       console.log(error);
+      formik.resetForm();
     }
   };
 
@@ -71,6 +75,7 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
                 onChange={handleChange}
                 value={editItem?.categoryName || ""}
               />
+
               <Input
                 className="mt-3"
                 id="image"
@@ -96,6 +101,13 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.categoryName}
               />
+              {formik.errors.categoryName ? (
+                <p className="text-danger text-start">
+                  {formik.errors.categoryName}
+                </p>
+              ) : (
+                ""
+              )}
               <Input
                 className="mt-3"
                 id="image"
@@ -105,6 +117,11 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.image}
               />
+              {formik.errors.image ? (
+                <p className="text-danger text-start">{formik.errors.image}</p>
+              ) : (
+                ""
+              )}
 
               <div className="ms-auto mt-2">
                 <Button type="submit">Add</Button>

@@ -13,11 +13,13 @@ import { FormControl, InputLabel } from "@mui/material";
 import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
+import ProductSchema from "../../../../Schemas/ProductSchema";
 
 export default function ProductDialog({ open, handleClose, handleSave }) {
   const data = useRouteLoaderData("allDataRoute");
   const categoriesData = data[0].value.data;
   const unitsData = data[2].value.data;
+  console.log({ categoriesData });
   const revalidator = useRevalidator();
 
   const dispatch = useDispatch();
@@ -42,20 +44,26 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
       categoryId: "",
       unitId: "",
     },
+    validationSchema: ProductSchema,
     onSubmit: (values) => {
       handleAddProduct(values);
     },
   });
 
   const handleAddProduct = async (values) => {
-    console.log({ values });
-    const product = await axios.post("http://localhost:5050/products", {
-      ...values,
-    });
-    revalidator.revalidate();
-    console.log({ product });
-    handleClose();
-    toast.success("Added successfully");
+    try {
+      const product = await axios.post("http://localhost:5050/products", {
+        ...values,
+      });
+      formik.resetForm();
+      revalidator.revalidate();
+      console.log({ product });
+      handleClose();
+      toast.success("Added successfully");
+    } catch (error) {
+      formik.resetForm();
+      console.log(error);
+    }
   };
 
   return (
@@ -77,6 +85,7 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={handleChange}
                 value={editItem?.name || ""}
               />
+
               <Input
                 className="mt-3"
                 id="code"
@@ -171,6 +180,9 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.name}
               />
+              {formik.errors.name && (
+                <p className="text-danger text-start">{formik.errors.name}</p>
+              )}
               <Input
                 className="mt-3"
                 id="code"
@@ -180,6 +192,9 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.code}
               />
+              {formik.errors.code && (
+                <p className="text-danger text-start">{formik.errors.code}</p>
+              )}
               <Input
                 className="mt-3"
                 id="quantity"
@@ -189,7 +204,11 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.quantity}
               />
-
+              {formik.errors.quantity && (
+                <p className="text-danger text-start">
+                  {formik.errors.quantity}
+                </p>
+              )}
               <Input
                 className="mt-3"
                 id="price"
@@ -199,10 +218,13 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.price}
               />
-
+              {formik.errors.price && (
+                <p className="text-danger text-start">{formik.errors.price}</p>
+              )}
               <FormControl fullWidth>
                 <InputLabel id="categoryId">Category </InputLabel>
                 <Select
+                  className="mt-3"
                   labelId="categoryId"
                   id="categoryId"
                   label="Category"
@@ -219,10 +241,16 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   })}
                 </Select>
               </FormControl>
+              {formik.errors.categoryId && (
+                <p className="text-danger text-start">
+                  {formik.errors.categoryId}
+                </p>
+              )}
 
               <FormControl fullWidth>
                 <InputLabel id="unitId">Unit </InputLabel>
                 <Select
+                  className="mt-3"
                   labelId="unitId"
                   id="unitId"
                   label="Unit of measuer"
@@ -232,12 +260,16 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 >
                   {unitsData.map((unit, index) => {
                     return (
-                      <MenuItem key={index} value={unit.unitId}>{unit.unitName}</MenuItem>
+                      <MenuItem key={index} value={unit.unitId}>
+                        {unit.unitName}
+                      </MenuItem>
                     );
                   })}
                 </Select>
               </FormControl>
-
+              {formik.errors.unitId && (
+                <p className="text-danger text-start">{formik.errors.unitId}</p>
+              )}
               <Input
                 className="mt-3"
                 id="image"
@@ -247,6 +279,9 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 onChange={formik.handleChange}
                 value={formik.values.image}
               />
+              {formik.errors.image && (
+                <p className="text-danger text-start">{formik.errors.image}</p>
+              )}
               <div className="ms-auto mt-2">
                 <Button type="submit">Add</Button>
                 <Button onClick={handleClose}>Cancel</Button>

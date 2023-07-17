@@ -1,32 +1,17 @@
 import { useState, useEffect } from "react";
-import style from "./Signup.module.css";
 import HeaderImg from "../HeaderImg/HeaderImg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/features/User/userSlice";
 import { toast } from "react-toastify";
+import  SignupSchema  from "../../../Schemas/SignupSchema";
 
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loggedIn, setloggedIn] = useState(false);
-
-  const schema = Yup.object({
-    userName: Yup.string()
-      .required("name is required")
-      .min(3, "min is 3 char")
-      .max(10, "max is 10 char"),
-    email: Yup.string().required("email is required").email("not valid email"),
-    password: Yup.string()
-      .required("password is required")
-      .matches(/^[A-Z][a-z0-9]{3,7}$/),
-    cPassword: Yup.string()
-      .required("Confirm password is required")
-      .oneOf([Yup.ref("password")], "not match password"),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -35,30 +20,30 @@ export default function Signup() {
       password: "",
       cPassword: "",
     },
-    validationSchema: schema,
+    validationSchema: SignupSchema,
     onSubmit: sendRegisterData,
   });
 
   async function sendRegisterData(values) {
     try {
+      const { userName, email, password } = values;
       if (values.password !== values.cPassword) return;
       const { data } = await axios.post("http://localhost:5050/sign-up", {
-        userName: values.userName,
-        email: values.email,
-        password: values.password,
+        userName,
+        email,
+        password,
       });
 
       if (data.message === "User registered successfully") {
         toast.success("User registered successfully");
         axios
           .post("http://localhost:5050/login", {
-            email: values.email,
-            password: values.password,
+            email,
+            password,
           })
           .then((data) => {
             const token = data.data.accessToken;
             localStorage.setItem("accessToken", JSON.stringify(token));
-            console.log(data.data.accessToken);
             dispatch(login({ email: values.email, accessToken: token }));
             setloggedIn(true);
             console.log("welcome");
@@ -81,8 +66,9 @@ export default function Signup() {
       navigate("/");
     }
   }, [loggedIn]);
+
   return (
-    <div className={style.signUpContent}>
+    <div className={`flexBox text-center`}>
       <HeaderImg />
       <div className={`w-25 m-auto`}>
         <form action="" onSubmit={formik.handleSubmit}>

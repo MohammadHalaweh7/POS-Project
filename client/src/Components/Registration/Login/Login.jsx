@@ -1,32 +1,24 @@
 import { useEffect, useState } from "react";
-import style from "./Login.module.css";
 import HeaderImg from "../HeaderImg/HeaderImg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/features/User/userSlice";
 import { toast } from "react-toastify";
+import LoginSchema from "../../../Schemas/LoginSchema";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loggedIn, setloggedIn] = useState(false);
 
-  const schema = Yup.object({
-    email: Yup.string()
-      .required("Email is required")
-      .email("Not a valid email"),
-    password: Yup.string().required("Password is required"),
-  });
-
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validationSchema: schema,
+    validationSchema: LoginSchema,
     onSubmit: sendLoginData,
   });
 
@@ -35,8 +27,6 @@ export default function Login() {
       const { data } = await axios.post(`http://localhost:5050/login`, {
         ...values,
       });
-
-      console.log({ data });
 
       if (data === "Password is incorrect") {
         toast.error("Password is incorrect");
@@ -62,7 +52,7 @@ export default function Login() {
   }, [loggedIn, navigate]);
 
   return (
-    <div className={style.loginContent}>
+    <div className={`flexBox text-center`}>
       <HeaderImg />
       <div className={`w-25 m-auto`}>
         <div className="logo">
