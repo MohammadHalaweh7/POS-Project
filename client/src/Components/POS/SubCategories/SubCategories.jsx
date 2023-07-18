@@ -111,7 +111,7 @@ export default function SubCategories() {
                         fontSize: "12px",
                       }}
                     >
-                      {product.quantity}
+                      {product.code}
                     </Typography>
 
                     <Typography variant="h6" sx={{ color: "orange" }}>
