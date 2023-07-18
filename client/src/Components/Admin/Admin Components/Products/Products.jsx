@@ -16,14 +16,7 @@ export default function Products() {
 
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(productsData[0]);
-  const searchToken = useSelector((state) => state.search.value);
-  const tableData = searchToken
-    ? productsData.filter((item) =>
-        searchToken
-          ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
-          : true
-      )
-    : productsData;
+
 
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -119,7 +112,7 @@ export default function Products() {
       </div>
 
       <PaginationTable
-        tableData={tableData}
+        tableData={productsData}
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}

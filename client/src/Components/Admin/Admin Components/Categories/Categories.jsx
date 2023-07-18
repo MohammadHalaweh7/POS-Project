@@ -14,16 +14,6 @@ export default function Categories() {
   const categoriesData = data[0].value.data;
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(categoriesData[0]);
-  const searchToken = useSelector((state) => state.search.value);
-  const tableData = searchToken
-    ? categoriesData.filter((item) =>
-        searchToken
-          ? item.categoryName
-              ?.toLowerCase()
-              .includes(searchToken?.toLowerCase())
-          : true
-      )
-    : categoriesData;
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
@@ -120,7 +110,7 @@ export default function Categories() {
         />
       </div>
       <PaginationTable
-        tableData={tableData}
+        tableData={categoriesData}
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}

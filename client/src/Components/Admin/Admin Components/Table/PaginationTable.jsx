@@ -3,7 +3,6 @@ import TableControl from "./TableControl";
 import style from "./Table.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
-import { useRouteLoaderData } from "react-router-dom";
 
 export default function Table({
   tableData,
@@ -14,13 +13,17 @@ export default function Table({
   handleClickOpen,
   handleClose,
 }) {
+  const [sortedTableData, setSortedTableData] = useState(tableData);
+  const [activeKey, setActiveKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const firstItemOfPage = recordsPerPage * currentPage - recordsPerPage + 1;
   const lastItemOfPage = recordsPerPage * currentPage;
-  const recordsData = tableData.slice(firstIndex, lastIndex);
+  const recordsData = sortedTableData.slice(firstIndex, lastIndex);
   const numberOfPages = Math.ceil(tableData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
 
@@ -28,13 +31,42 @@ export default function Table({
 
   useEffect(() => {}, [recordsPerPage, currentPage]);
 
-  const data = useRouteLoaderData("allDataRoute");
-  const categoriesData = data[0].value.data;
-  const productsData = data[1].value.data;
-  const unitsData = data[2].value.data;
+  const searchToken = useSelector((state) => state.search.value);
+  const filteredTableData = searchToken
+    ? tableData.filter((item) =>
+        searchToken
+          ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
+          : true
+      )
+    : tableData;
+
+  const onSort = (key) => {
+    if (
+      key === "name" ||
+      key === "price" ||
+      key === "quantity" ||
+      key === "unitName" ||
+      key === "categoryName"
+    ) {
+      setActiveKey(key);
+      const isAsc = sortOrder === "asc";
+
+      const sortedData = [...tableData].sort((a, b) => {
+        if (a[key] < b[key]) {
+          return isAsc ? -1 : 1;
+        }
+        if (a[key] > b[key]) {
+          return isAsc ? 1 : -1;
+        }
+        return 0;
+      });
+      setSortOrder(isAsc ? "desc" : "asc");
+      setSortedTableData(sortedData);
+    }
+  };
 
   const tdData = () => {
-    return recordsData.map((item, index) => {
+    return filteredTableData.map((item, index) => {
       return (
         <tr key={index}>
           <td>{firstIndex + index + 1}</td>
@@ -87,6 +119,10 @@ export default function Table({
     });
   };
 
+  useEffect(() => {
+    console.log({ tableData });
+  }, [tableData]);
+
   return (
     <>
       <div className="container">
@@ -94,7 +130,15 @@ export default function Table({
           <thead>
             <tr>
               {tableKeys.map((key) => (
-                <th key={key}>{key}</th>
+                <th key={key} onClick={() => onSort(key)}>
+                  {key}
+                  {activeKey === key && sortOrder === "asc" && (
+                    <i className="fa fa-arrow-down" aria-hidden="true"></i>
+                  )}
+                  {activeKey === key && sortOrder === "desc" && (
+                    <i className="fa fa-arrow-up" aria-hidden="true"></i>
+                  )}
+                </th>
               ))}
               <th>Update</th>
               <th>Delete</th>

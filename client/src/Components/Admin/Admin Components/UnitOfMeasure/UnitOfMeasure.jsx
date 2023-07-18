@@ -17,14 +17,6 @@ export default function UnitOfMeasure() {
 
   const revalidator = useRevalidator();
   const tableKeys = Object.keys(unitsData[0]);
-  const searchToken = useSelector((state) => state.search.value);
-  const tableData = searchToken
-    ? unitsData.filter((item) =>
-        searchToken
-          ? item.unitName?.toLowerCase().includes(searchToken?.toLowerCase())
-          : true
-      )
-    : unitsData;
 
   const [open, setOpen] = useState(false);
 
@@ -117,7 +109,7 @@ export default function UnitOfMeasure() {
         />
       </div>
       <PaginationTable
-        tableData={tableData}
+        tableData={unitsData}
         tableKeys={tableKeys}
         handleSave={handleSave}
         handleDelete={handleDelete}

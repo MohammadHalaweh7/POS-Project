@@ -5,7 +5,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveCart } from "../../../redux/features/CartItems/cartItemsSlice";
+import {
+  setActiveCart,
+  deleteCart,
+} from "../../../redux/features/CartItems/cartItemsSlice";
 
 export default function BasicSelect() {
   const dispatch = useDispatch();
@@ -16,21 +19,37 @@ export default function BasicSelect() {
     dispatch(setActiveCart(e.target.value));
   };
 
+  const handleDeleteCart = (cartName) => {
+    dispatch(deleteCart(cartName));
+  };
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
+    <Box sx={{ minWidth: 150 }}>
+      <FormControl>
         <InputLabel id="demo-simple-select-label">Carts</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={activeCart}
           label="Age"
+          fullWidth
           onChange={handleChange}
         >
           {carts.map((cart, index) => {
             return (
-              <MenuItem key={index} value={cart.name}>
-                {cart.name}
+              <MenuItem key={index} value={cart.name} sx={{ minWidth: 150 }}>
+                {cart.name}{" "}
+                {cart.name !== activeCart && (
+                  <i
+                    className="fas fa-times"
+                    style={{
+                      color: "gray",
+                      fontSize: "15px",
+                      cursor: "pointer",
+                      marginLeft: "auto",
+                    }}
+                    onClick={() => handleDeleteCart(cart.name)}
+                  ></i>
+                )}
               </MenuItem>
             );
           })}

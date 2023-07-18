@@ -42,7 +42,7 @@ export default function CartProduct() {
 
   return (
     <>
-      {cartItems &&
+      {
         activeCartItems?.map((item, index) => {
           const { quantity } = item;
           return (

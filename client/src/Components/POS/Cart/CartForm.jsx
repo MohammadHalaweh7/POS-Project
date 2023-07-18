@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import style from "./Cart.module.css";
 import { Button } from "@mui/material";
 
@@ -11,11 +11,14 @@ export default function CartForm() {
   const dispatch = useDispatch();
   const [taxValue, setTaxValue] = useState(0);
   const [discountValue, setDiscountValue] = useState(0);
+  // const [subTotal, setSubTotal] = useState(0);
   const cartItems = useSelector((state) => state.cartItems.carts);
   const activeCart = useSelector((state) => state.cartItems.activeCart);
   const activeCartItems = cartItems.filter(
     (cart) => cart.name === activeCart
   )[0].items;
+
+  const cartSubTotalRef = useRef();
 
   const calculateSubtotal = () => {
     let subTotal = 0;
@@ -61,6 +64,8 @@ export default function CartForm() {
       if (!result.isConfirmed) return;
       Swal.fire("Canceled!", "Your order has been Canceled.", "success");
       dispatch(clearCartItems());
+      setTaxValue(0);
+      setDiscountValue(0);
     });
   };
 
@@ -84,6 +89,9 @@ export default function CartForm() {
       );
       Swal.fire(`${activeCart} Toatal Price = ${data.totalPrice} `);
       console.log("Checkout success:", data);
+      dispatch(clearCartItems());
+      setTaxValue(0);
+      setDiscountValue(0);
     } catch (error) {
       console.log("Checkout error:", error);
     }
