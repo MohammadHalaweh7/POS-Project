@@ -56,6 +56,7 @@ export default function CartAddition() {
             fullWidth
             variant="contained"
             onClick={handleAddNewCart}
+            className="buttonMode"
           >
             Add cart
           </Button>

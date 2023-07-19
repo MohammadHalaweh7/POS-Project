@@ -8,7 +8,7 @@ export default function AddUnitModal({open ,handleClickOpen ,handleClose,handleS
     <>
       <div className="container mt-5">
         <div className="float-end mb-5">
-          <Button variant="outlined" onClick={handleClickOpen}>
+          <Button variant="outlined" onClick={handleClickOpen} className="buttonMode">
             Add new Unit
           </Button>
 

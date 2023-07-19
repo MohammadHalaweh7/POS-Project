@@ -6,12 +6,12 @@ import Cart from "../Cart/Cart";
 export default function Pos() {
   return (
     <>
-      <div className={`flexBox ${style.pos}`}>
+      <div className={`flexBox ${style.pos} mode`}>
         <div className={`flex-column ${style.posContent}`}>
           <CategoriesSlider />
           <SubCategories />
         </div>
-        <div className={`${style.cartSide}`}>
+        <div className={`${style.cartSide} cartMode`}>
           <Cart />
         </div>
       </div>

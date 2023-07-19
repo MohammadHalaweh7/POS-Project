@@ -27,7 +27,7 @@ export default function CategoriesSlider() {
   return (
     <>
       <div className={`${style.sliderCategory}`}>
-        <h4 className="mb-3">Categories</h4>
+        <h4 className="mb-3 textMode">Categories</h4>
         <Slider {...settings}>
           {categoriesData.map((category, index) => (
             <div
@@ -41,7 +41,7 @@ export default function CategoriesSlider() {
                 src={category.image}
                 alt={category.categoryName}
               />
-              <p>{category.categoryName}</p>
+              <p className="textMode">{category.categoryName}</p>
             </div>
           ))}
         </Slider>

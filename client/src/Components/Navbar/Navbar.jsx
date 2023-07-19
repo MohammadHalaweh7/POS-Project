@@ -3,9 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { logout } from "../../redux/features/User/userSlice";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import ReactSwitch from "react-switch";
+
+import { ThemeContext } from "App";
+import { useContext } from "react";
 
 export default function Navbar() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -69,6 +74,15 @@ export default function Navbar() {
                   >
                     Logout
                   </Link>
+                </li>
+                <li className="nav-item mt-2">
+                  <ReactSwitch
+                    onChange={toggleTheme}
+                    checked={theme === "dark"}
+                    height={25}
+                    width={52}
+                    handleDiameter={22}
+                  />
                 </li>
               </>
             </ul>

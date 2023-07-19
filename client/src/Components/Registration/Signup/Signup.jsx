@@ -126,13 +126,13 @@ export default function Signup() {
           )}
           <button
             type="submit"
-            className="btn btn-info mt-3 mb-3"
+            className="btn btn-info mt-3 mb-3 buttonMode"
             style={{ width: "50%" }}
           >
             Register
           </button>
 
-          <p>
+          <p className="textMode">
             Already have an account !! <Link to="/#">Log in</Link>
           </p>
         </form>

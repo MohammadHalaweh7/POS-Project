@@ -98,7 +98,7 @@ export default function CartForm() {
   };
 
   return (
-    <table className={`${style.CartTable}`}>
+    <table className={`${style.CartTable} textMode`}>
       <thead>
         <tr>
           <td>SubTotal</td>
@@ -141,7 +141,7 @@ export default function CartForm() {
 
         <tr>
           <td>
-            <Button fullWidth variant="outlined" onClick={handleCancle}>
+            <Button fullWidth variant="outlined" onClick={handleCancle} className="buttonMode">
               Cancel
             </Button>
           </td>

@@ -34,7 +34,7 @@ export default function StackedBarChart() {
   const yDomain = [0, 300];
 
   return (
-    <div className="container mb-5">
+    <div className="container mb-5 textMode">
       <div className="flexBox mb-3">
         <h6 className="pb-4">Product Information :</h6>
         <SelectCategory />

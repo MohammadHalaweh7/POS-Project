@@ -7,7 +7,7 @@ export default function AddProductModal({open ,handleClickOpen ,handleClose,hand
     <>
       <div className="container mt-5">
         <div className="float-end mb-5">
-          <Button variant="outlined" onClick={handleClickOpen}>
+          <Button variant="outlined" onClick={handleClickOpen} className="buttonMode">
             Add New Products
           </Button>
 

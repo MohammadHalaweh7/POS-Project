@@ -18,8 +18,16 @@ import {
 import { useSelector } from "react-redux";
 import ProtectedRouter from "Components/ProtectedRouter/ProtectedRouter";
 import { ToastContainer } from "react-toastify";
+import { createContext, useState } from "react";
+
+export const ThemeContext = createContext();
 
 export default function App() {
+  const [theme, setTheme] = useState("dark");
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
   const user = useSelector((state) => state.user);
 
   console.log({ user });
@@ -91,8 +99,12 @@ export default function App() {
 
   return (
     <>
-      <ToastContainer />
-      <RouterProvider router={routers}></RouterProvider>
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <div id={theme}>
+          <ToastContainer />
+          <RouterProvider router={routers}></RouterProvider>
+        </div>
+      </ThemeContext.Provider>
     </>
   );
 }

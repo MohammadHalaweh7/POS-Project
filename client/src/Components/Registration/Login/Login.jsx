@@ -92,13 +92,13 @@ export default function Login() {
 
           <button
             type="submit"
-            className="btn btn-info mt-3 mb-3"
+            className="btn btn-info mt-3 mb-3 buttonMode"
             style={{ width: "50%" }}
           >
             Login
           </button>
 
-          <p>
+          <p className="textMode">
             Don't have an account !! <Link to="/signup">Rigester Now</Link>
           </p>
         </form>

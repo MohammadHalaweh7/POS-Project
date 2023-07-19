@@ -66,7 +66,11 @@ export default function SubCategories() {
     <>
       <div className="mt-3">
         <div className="flexBox mb-2 flex-start">
-          <h4 style={{ cursor: "pointer" }} onClick={handleProductsClick}>
+          <h4
+            style={{ cursor: "pointer" }}
+            onClick={handleProductsClick}
+            className="textMode"
+          >
             Products - {activeCategory?.categoryName}
           </h4>{" "}
           <SearchControl title="Search product" />
@@ -77,6 +81,7 @@ export default function SubCategories() {
               <Card
                 sx={{ maxWidth: 160, maxHeight: 260, marginBottom: 3 }}
                 key={index}
+                className="cardMode textMode"
               >
                 <CardActionArea className={`${style.cardProduct}`}>
                   <CardMedia
@@ -110,6 +115,7 @@ export default function SubCategories() {
                         overflow: "hidden",
                         fontSize: "12px",
                       }}
+                      className="textMode"
                     >
                       {product.code}
                     </Typography>

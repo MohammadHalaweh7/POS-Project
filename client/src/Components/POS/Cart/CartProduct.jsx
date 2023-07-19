@@ -46,7 +46,7 @@ export default function CartProduct() {
         activeCartItems?.map((item, index) => {
           const { quantity } = item;
           return (
-            <div className={`flexBox mb-2 ${style.CartProduct}`} key={index}>
+            <div className={`flexBox mb-2 ${style.CartProduct} textMode cardMode`} key={index}>
               <div className="flexBox">
                 <img
                   src={item.image}
