@@ -10,9 +10,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
-import  CategorySchema  from "../../../../Schemas/CategorySchema";
+import CategorySchema from "../../../../Schemas/CategorySchema";
+
+import useUploadImage from "../../../hooks/useUploadImage";
+import { useRef, useState } from "react";
+import { CircularProgress } from "@mui/material";
 
 export default function CategoryDialog({ open, handleClose, handleSave }) {
+  const { uploadImage, imageLinkUrl, isPending } = useUploadImage();
+  const [imageLink, setImageLink] = useState(null);
+  const fileInputRef = useRef(null);
+
   const revalidator = useRevalidator();
   const dispatch = useDispatch();
   const editItem = useSelector((state) => state.editItem.item);
@@ -38,14 +46,21 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
 
   const handleAddCategory = async (values) => {
     try {
-      await axios.post("http://localhost:5050/product-categories", values, {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("accessToken")
-          )}`,
+      await axios.post(
+        "http://localhost:5050/product-categories",
+        {
+          ...values,
+          image: imageLinkUrl,
         },
-      });
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("accessToken")
+            )}`,
+          },
+        }
+      );
       formik.resetForm();
       revalidator.revalidate();
       handleClose();
@@ -55,6 +70,14 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
       console.log(error);
       formik.resetForm();
     }
+  };
+
+  const handleUpload = (e) => {
+    const selectedImage = e.target.files[0];
+    formik.setFieldValue("image", selectedImage);
+    uploadImage(e.target.files[0]);
+    setImageLink(imageLinkUrl);
+    revalidator.revalidate();
   };
 
   return (
@@ -79,15 +102,41 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
               <Input
                 className="mt-3"
                 id="image"
-                placeholder="Category image - URL"
+                placeholder="Product image"
                 name="image"
-                type="text"
-                onChange={handleChange}
-                value={editItem?.image || ""}
+                type="file"
+                ref={fileInputRef}
+                onChange={handleUpload}
               />
+              {isPending ? <CircularProgress /> : ""}
+              {imageLinkUrl ? (
+                <img
+                  src={imageLinkUrl}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              ) : (
+                <img
+                  src={editItem.image}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+
+              {formik.errors.image && (
+                <p className="text-danger text-start">{formik.errors.image}</p>
+              )}
 
               <div className="ms-auto mt-2">
-                <Button onClick={() => handleSave(editItem)}>Save</Button>
+                <Button onClick={() => handleSave(editItem,imageLinkUrl)}>Save</Button>
                 <Button onClick={handleClose}>Cancel</Button>
               </div>
             </form>
@@ -111,16 +160,26 @@ export default function CategoryDialog({ open, handleClose, handleSave }) {
               <Input
                 className="mt-3"
                 id="image"
-                placeholder="Category image"
+                placeholder="Product image"
                 name="image"
-                type="text"
-                onChange={formik.handleChange}
-                value={formik.values.image}
+                type="file"
+                ref={fileInputRef}
+                onChange={handleUpload}
               />
-              {formik.errors.image ? (
+              {isPending ? <CircularProgress /> : ""}
+              {imageLinkUrl && (
+                <img
+                  src={imageLinkUrl}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+              {formik.errors.image && (
                 <p className="text-danger text-start">{formik.errors.image}</p>
-              ) : (
-                ""
               )}
 
               <div className="ms-auto mt-2">

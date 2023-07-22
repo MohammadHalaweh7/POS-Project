@@ -36,7 +36,7 @@ export default function StackedBarChart() {
   return (
     <div className="container mb-5 textMode">
       <div className="flexBox mb-3">
-        <h6 className="pb-4">Product Information :</h6>
+        <h6 className="pb-4">Product information :</h6>
         <SelectCategory />
       </div>
       <ResponsiveContainer width="100%" height={300} className={"container"}>

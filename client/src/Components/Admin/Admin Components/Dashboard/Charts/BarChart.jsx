@@ -42,7 +42,7 @@ export default function BarCharts() {
   return (
     <>
       <div>
-        <h6 className="pb-4">Price of Categories : </h6>
+        <h6 className="pb-4">Percentage of each category : </h6>
         <ResponsiveContainer width={700} height={400}>
           <RechartsBarChart
             width={500}

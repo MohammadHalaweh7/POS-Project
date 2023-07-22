@@ -30,16 +30,16 @@
 .pageNumInfo {
     justify-content: center;
     align-items: center;
-    width: 130px;
+    width: 180px;
     height: 38px;
 }
 
 .numOfPage {
-    width: 95px;
+    width:120px;
 }
 
 .numOfPage input {
-    width: 30px;
+    width: 40px;
     text-align: center;
     border: none;
 }

@@ -4,6 +4,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Input from "@mui/material/Input";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,17 +16,23 @@ import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 import ProductSchema from "../../../../Schemas/ProductSchema";
+import { useEffect, useRef, useState } from "react";
+
+import useUploadImage from "../../../hooks/useUploadImage";
 
 export default function ProductDialog({ open, handleClose, handleSave }) {
+  const { uploadImage, imageLinkUrl, isPending } = useUploadImage();
+  const [imageLink, setImageLink] = useState(null);
+  const fileInputRef = useRef(null);
+
   const data = useRouteLoaderData("allDataRoute");
-  const categoriesData = data[0].value.data;
-  const unitsData = data[2].value.data;
+  const categoriesData = data[0].value.data || [];
+  const unitsData = data[2].value.data || [];
   console.log({ categoriesData });
   const revalidator = useRevalidator();
 
   const dispatch = useDispatch();
   const editItem = useSelector((state) => state.editItem.item);
-
   const handleChange = (event) => {
     dispatch(
       setEditItem({
@@ -33,6 +41,10 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
       })
     );
   };
+
+  useEffect(() => {
+    console.log(imageLink);
+  }, [imageLinkUrl]);
 
   const formik = useFormik({
     initialValues: {
@@ -54,9 +66,10 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
     try {
       const product = await axios.post("http://localhost:5050/products", {
         ...values,
+        image: imageLinkUrl,
       });
-      formik.resetForm();
       revalidator.revalidate();
+      formik.resetForm();
       console.log({ product });
       handleClose();
       toast.success("Added successfully");
@@ -66,10 +79,18 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
     }
   };
 
+  const handleUpload = (e) => {
+    const selectedImage = e.target.files[0];
+    formik.setFieldValue("image", selectedImage);
+    uploadImage(e.target.files[0]);
+    setImageLink(imageLinkUrl);
+    revalidator.revalidate();
+  };
+
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Product</DialogTitle>
+        <DialogTitle>{editItem ? "Edit Product" : "Add Product"}</DialogTitle>
         <DialogContent className="d-flex flex-column">
           <DialogContentText>
             Please enter the details of the product:
@@ -154,18 +175,45 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                   })}
                 </Select>
               </FormControl>
-
               <Input
                 className="mt-3"
                 id="image"
-                placeholder="Product image - URL"
+                placeholder="Product image"
                 name="image"
-                type="text"
-                onChange={handleChange}
-                value={editItem?.image || ""}
+                type="file"
+                ref={fileInputRef}
+                onChange={handleUpload}
               />
+              {isPending ? <CircularProgress /> : ""}
+              {imageLinkUrl ? (
+                <img
+                  src={imageLinkUrl}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              ) : (
+                <img
+                  src={editItem.image}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
+
+              {formik.errors.image && (
+                <p className="text-danger text-start">{formik.errors.image}</p>
+              )}
               <div className="ms-auto mt-2">
-                <Button onClick={() => handleSave(editItem)}>Save</Button>
+                <Button onClick={() => handleSave(editItem, imageLinkUrl)}>
+                  Save
+                </Button>
                 <Button onClick={handleClose}>Cancel</Button>
               </div>
             </form>
@@ -275,10 +323,22 @@ export default function ProductDialog({ open, handleClose, handleSave }) {
                 id="image"
                 placeholder="Product image"
                 name="image"
-                type="text"
-                onChange={formik.handleChange}
-                value={formik.values.image}
+                type="file"
+                ref={fileInputRef}
+                onChange={handleUpload}
               />
+              {isPending ? <CircularProgress /> : ""}
+              {imageLinkUrl && (
+                <img
+                  src={imageLinkUrl}
+                  alt="Product Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "200px",
+                    marginTop: "10px",
+                  }}
+                />
+              )}
               {formik.errors.image && (
                 <p className="text-danger text-start">{formik.errors.image}</p>
               )}

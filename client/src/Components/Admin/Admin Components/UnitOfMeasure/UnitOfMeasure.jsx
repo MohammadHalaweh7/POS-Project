@@ -6,17 +6,17 @@ import { useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 
 export default function UnitOfMeasure() {
   const data = useRouteLoaderData("allDataRoute");
-  const unitsData = data[2].value.data;
+  const unitsData = data[2].value.data || [];
   const dispatch = useDispatch();
 
   const revalidator = useRevalidator();
-  const tableKeys = Object.keys(unitsData[0]);
+  const tableKeys = unitsData.length > 0 ? Object.keys(unitsData[0]) : [];
 
   const [open, setOpen] = useState(false);
 
@@ -96,6 +96,8 @@ export default function UnitOfMeasure() {
       }
     });
   };
+
+  useEffect(() => {}, [unitsData]);
 
   return (
     <>

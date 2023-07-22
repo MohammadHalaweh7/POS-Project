@@ -33,12 +33,12 @@ export default function Table({
 
   const searchToken = useSelector((state) => state.search.value);
   const filteredTableData = searchToken
-    ? tableData.filter((item) =>
+    ? recordsData.filter((item) =>
         searchToken
           ? item.name?.toLowerCase().includes(searchToken?.toLowerCase())
           : true
       )
-    : tableData;
+    : recordsData;
 
   const onSort = (key) => {
     if (
@@ -51,7 +51,7 @@ export default function Table({
       setActiveKey(key);
       const isAsc = sortOrder === "asc";
 
-      const sortedData = [...tableData].sort((a, b) => {
+      const sortedData = [...recordsData].sort((a, b) => {
         if (a[key] < b[key]) {
           return isAsc ? -1 : 1;
         }

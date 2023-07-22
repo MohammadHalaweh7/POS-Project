@@ -25,9 +25,8 @@ export default function CartProduct() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (!result.isConfirmed) return;
-            Swal.fire("Deleted!", "Your Product has been deleted.", "success");
+      Swal.fire("Deleted!", "Your Product has been deleted.", "success");
       dispatch(deleteCartItem(id));
-
     });
   };
 
@@ -42,58 +41,62 @@ export default function CartProduct() {
 
   return (
     <>
-      {
-        activeCartItems?.map((item, index) => {
-          const { quantity } = item;
-          return (
-            <div className={`flexBox mb-2 ${style.CartProduct} textMode cardMode`} key={index}>
-              <div className="flexBox">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  style={{
-                    width: "120px",
-                    height: "70px",
-                    borderTopLeftRadius: "10px",
-                    borderBottomLeftRadius: "10px",
-                    marginRight: "10px",
-                  }}
-                />
-                <div>
-                  <div style={{ fontWeight: "bold", fontSize: "18px" }}>
-                    {item.name}
-                  </div>
-                  <div style={{ color: "orange" }}>
-                    {" "}
-                    {calculatePrice(item.price, quantity)} $
-                  </div>
+      {activeCartItems?.map((item, index) => {
+        const { quantity } = item;
+        return (
+          <div
+            className={`flexBox  mb-2 ${style.CartProduct} textMode cardMode`}
+            key={index}
+          >
+            <div className="flexBox me-auto">
+              <img
+                src={item.image}
+                alt={item.name}
+                style={{
+                  width: "120px",
+                  height: "70px",
+                  borderTopLeftRadius: "10px",
+                  borderBottomLeftRadius: "10px",
+                  marginRight: "10px",
+                }}
+              />
+              <div>
+                <div style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  {item.name}
+                </div>
+                <div style={{ color: "orange" }}>
+                  {" "}
+                  {calculatePrice(item.price, quantity)} $
                 </div>
               </div>
-              <div>
-                <input
-                  min={1}
-                  max={100}
-                  type="number"
-                  style={{ width: "50px", textAlign: "center" }}
-                  value={quantity || 1}
-                  onChange={(e) => handleQuantityChange(e, item.id)}
-                ></input>
-              </div>
-              <div>
-                <i
-                  className="fas fa-times"
-                  style={{
-                    color: "red",
-                    fontSize: "20px",
-                    cursor: "pointer",
-                    marginRight: "10px",
-                  }}
-                  onClick={() => deleteFromCart(item.id)}
-                ></i>
-              </div>
             </div>
-          );
-        })}
+
+            <div className="" style={{ paddingRight: "120px" }}>
+              <input
+                min={1}
+                max={100}
+                type="number"
+                style={{ width: "50px", textAlign: "center" }}
+                value={quantity || 1}
+                onChange={(e) => handleQuantityChange(e, item.id)}
+              ></input>
+            </div>
+
+            <div>
+              <i
+                className="fas fa-times"
+                style={{
+                  color: "red",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={() => deleteFromCart(item.id)}
+              ></i>
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 }

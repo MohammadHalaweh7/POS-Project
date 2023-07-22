@@ -78,7 +78,7 @@ export default function Navbar() {
                 <li className="nav-item mt-2">
                   <ReactSwitch
                     onChange={toggleTheme}
-                    checked={theme === "dark"}
+                    checked={theme === "light"}
                     height={25}
                     width={52}
                     handleDiameter={22}

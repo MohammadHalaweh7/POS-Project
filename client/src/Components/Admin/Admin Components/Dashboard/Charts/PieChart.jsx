@@ -46,7 +46,7 @@ export default function PieChart() {
   return (
     <>
       <div>
-        <h6 className="pb-4">Percentage of Categories:</h6>
+        <h6 className="pb-4">Number of products in each category : </h6>
         <ResponsiveContainer width={340} height={400}>
           <RechartsPieChart>
             <Pie

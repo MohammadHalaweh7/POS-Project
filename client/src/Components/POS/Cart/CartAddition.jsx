@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CartSelection from "./CartSelection";
@@ -8,10 +8,13 @@ import {
   setActiveCart,
 } from "redux/features/CartItems/cartItemsSlice";
 import Swal from "sweetalert2";
+import { ThemeContext } from "App";
 
 export default function CartAddition() {
   const dispatch = useDispatch();
   const [newCart, setNewCart] = useState("");
+
+  const { theme } = useContext(ThemeContext);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -48,6 +51,12 @@ export default function CartAddition() {
             sx={{ width: "250px" }}
             value={newCart}
             onChange={handleInputChange}
+            InputLabelProps={{
+              style: { color: theme === "dark" ? "white" : "black" },
+            }}
+            inputProps={{
+              style: { color: theme === "dark" ? "white" : "black" },
+            }}
           />
         </div>
         <div>

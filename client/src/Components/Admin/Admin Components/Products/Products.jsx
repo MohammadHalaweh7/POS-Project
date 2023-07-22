@@ -5,17 +5,20 @@ import PaginationTable from "../Table/PaginationTable";
 import { useRevalidator, useRouteLoaderData } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
 import { toast } from "react-toastify";
+import useDeleteImage from "../../../hooks/useDeleteImage";
 
 export default function Products() {
+  const { deleteImage, isPending } = useDeleteImage()
   const data = useRouteLoaderData("allDataRoute");
-  const productsData = data[1].value.data;
+  const productsData = data[1].value.data || [];
 
   const revalidator = useRevalidator();
-  const tableKeys = Object.keys(productsData[0]);
+  
+  const tableKeys = productsData.length > 0 ? Object.keys(productsData[0]) : [];
 
 
   const [open, setOpen] = useState(false);
@@ -29,7 +32,7 @@ export default function Products() {
     dispatch(setEditItem(null));
   };
 
-  const handleSave = async (editItem) => {
+  const handleSave = async (editItem, imageLinkUrl) => {
     setOpen(false);
     Swal.fire({
       title: "Do you want to save the changes?",
@@ -43,7 +46,7 @@ export default function Products() {
       try {
         await axios.put(
           `http://localhost:5050/products/${editItem.productId}`,
-          editItem,
+          { ...editItem, image: imageLinkUrl },
           {
             headers: {
               "Content-type": "application/json",
@@ -53,7 +56,6 @@ export default function Products() {
             },
           }
         );
-
         revalidator.revalidate();
         console.log("Item Updated");
         dispatch(setEditItem(null));
@@ -86,8 +88,9 @@ export default function Products() {
           })
           .then((response) => {
             if (response.status === 200) {
-              revalidator.revalidate();
               console.log("Item Deleted");
+              deleteImage(product.image)
+              revalidator.revalidate();
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
             } else {
               throw new Error("Failed to delete Product");
@@ -98,6 +101,10 @@ export default function Products() {
       }
     });
   };
+
+
+  useEffect(() => { }, [productsData])
+  
 
   return (
     <>

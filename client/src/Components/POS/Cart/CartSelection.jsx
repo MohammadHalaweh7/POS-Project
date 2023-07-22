@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -9,8 +9,10 @@ import {
   setActiveCart,
   deleteCart,
 } from "../../../redux/features/CartItems/cartItemsSlice";
+import { ThemeContext } from "App";
 
 export default function BasicSelect() {
+  const { theme } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.cartItems.carts);
   const activeCart = useSelector((state) => state.cartItems.activeCart);
@@ -25,18 +27,24 @@ export default function BasicSelect() {
   return (
     <Box sx={{ minWidth: 150 }}>
       <FormControl>
-        <InputLabel id="demo-simple-select-label">Carts</InputLabel>
+        <InputLabel id="demo-simple-select-label" className="textMode">
+          Carts
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={activeCart}
-          label="Age"
           fullWidth
           onChange={handleChange}
         >
           {carts.map((cart, index) => {
             return (
-              <MenuItem key={index} value={cart.name} sx={{ minWidth: 150 }}>
+              <MenuItem
+                key={index}
+                value={cart.name}
+                sx={{ minWidth: 150 }}
+                className="textMode"
+              >
                 {cart.name}{" "}
                 {cart.name !== activeCart && (
                   <i

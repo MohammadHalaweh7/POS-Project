@@ -6,18 +6,23 @@ import { useRouteLoaderData } from "react-router-dom";
 import { useRevalidator } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { setEditItem } from "../../../../redux/features/editItem/editItemSlice";
+import useDeleteImage from "../../../hooks/useDeleteImage";
 
 export default function Categories() {
+  const { deleteImage, isPending } = useDeleteImage();
+
   const data = useRouteLoaderData("allDataRoute");
-  const categoriesData = data[0].value.data;
+  const categoriesData = data[0].value.data || [];
   const revalidator = useRevalidator();
-  const tableKeys = Object.keys(categoriesData[0]);
+  // const tableKeys = Object.keys(categoriesData[0]);
+  const tableKeys = categoriesData.length > 0 ? Object.keys(categoriesData[0]) : [];
+
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -26,7 +31,7 @@ export default function Categories() {
     dispatch(setEditItem(null));
   };
 
-  const handleSave = async (editItem) => {
+  const handleSave = async (editItem , imageLinkUrl) => {
     setOpen(false);
     Swal.fire({
       title: "Do you want to save the changes?",
@@ -40,7 +45,7 @@ export default function Categories() {
       try {
         await axios.put(
           `http://localhost:5050/product-categories/${editItem.categoryId}`,
-          editItem,
+          { ...editItem, image: imageLinkUrl },
           {
             headers: {
               "Content-type": "application/json",
@@ -86,6 +91,7 @@ export default function Categories() {
           .then((response) => {
             if (response.status === 200) {
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              deleteImage(category.image);
               revalidator.revalidate();
               console.log("Item Deleted");
             } else {
@@ -97,6 +103,8 @@ export default function Categories() {
       }
     });
   };
+
+  useEffect(() => {}, [categoriesData]);
 
   return (
     <>
