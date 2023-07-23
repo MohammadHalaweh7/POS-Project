@@ -7,7 +7,6 @@ import Select from "@mui/material/Select";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setActiveCart,
-  deleteCart,
 } from "../../../redux/features/CartItems/cartItemsSlice";
 import { ThemeContext } from "App";
 
@@ -21,9 +20,6 @@ export default function BasicSelect() {
     dispatch(setActiveCart(e.target.value));
   };
 
-  const handleDeleteCart = (cartName) => {
-    dispatch(deleteCart(cartName));
-  };
   return (
     <Box sx={{ minWidth: 150 }}>
       <FormControl>
@@ -46,18 +42,6 @@ export default function BasicSelect() {
                 className="textMode"
               >
                 {cart.name}{" "}
-                {cart.name !== activeCart && (
-                  <i
-                    className="fas fa-times"
-                    style={{
-                      color: "gray",
-                      fontSize: "15px",
-                      cursor: "pointer",
-                      marginLeft: "auto",
-                    }}
-                    onClick={() => handleDeleteCart(cart.name)}
-                  ></i>
-                )}
               </MenuItem>
             );
           })}

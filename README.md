@@ -88,6 +88,10 @@ Key Features:
 
 ![POS Page](./Screenshoots/22.jpg)
 
+Dark mode : 
+
+![POS Page dark mode](./Screenshoots/30.jpg)
+
 After successfully adding a product to your cart, a pop-up message will appear stating "Product added to cart successfully."
 ![POS Page](./Screenshoots/23.jpg)
 
