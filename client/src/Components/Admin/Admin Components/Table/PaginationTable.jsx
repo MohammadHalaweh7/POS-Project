@@ -26,11 +26,35 @@ export default function Table({
   const recordsData = sortedTableData.slice(firstIndex, lastIndex);
   const numberOfPages = Math.ceil(tableData.length / recordsPerPage);
   const numOfAllPage = numberOfPages * recordsPerPage;
-
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [recordsPerPage, currentPage]);
+  //  Task - handle infinit scroll -------------------------------------------------------------
+  const [visibleRecords, setVisibleRecords] = useState(recordsPerPage);
 
+  const handleScroll = () => {
+    const scrolledToBottom =
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight;
+
+    if (scrolledToBottom && visibleRecords < numOfAllPage) {
+      setVisibleRecords(
+        (prevVisibleRecords) => prevVisibleRecords + recordsPerPage
+      );
+    }
+  };
+
+  const visibleTableData = sortedTableData.slice(0, visibleRecords);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [visibleRecords]);
+
+  // ------------------------------------------------------------------------------------------
+
+  useEffect(() => {}, [recordsPerPage, currentPage]);
   const searchToken = useSelector((state) => state.search.value);
   const filteredTableData = searchToken
     ? recordsData.filter((item) =>
@@ -66,7 +90,7 @@ export default function Table({
   };
 
   const tdData = () => {
-    return filteredTableData.map((item, index) => {
+    return visibleTableData.map((item, index) => {
       return (
         <tr key={index}>
           <td>{firstIndex + index + 1}</td>
