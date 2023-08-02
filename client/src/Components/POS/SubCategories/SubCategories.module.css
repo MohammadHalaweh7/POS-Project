@@ -1,0 +1,64 @@
+.addToCart {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    border: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+
+
+    transition: 1s ease;
+    opacity: 0;
+}
+
+.addToCart i {
+    color: orange;
+    transition: 1s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.addToCart:hover {
+    background-color: rgb(246, 186, 75);
+    cursor: pointer;
+
+}
+
+.addToCart:hover i {
+    color: white;
+}
+
+.overlay {
+    background-color: rgb(66, 66, 66);
+    opacity: 0;
+    transition: 1s ease;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+
+
+}
+
+
+.cardProduct:hover .addToCart {
+    transform: translate(-50%, -50%);
+    transition: 1s ease;
+    opacity: 1;
+
+}
+
+.cardProduct:hover .overlay {
+    opacity: 0.5;
+    transition: 1s ease;
+}

@@ -1,0 +1,183 @@
+{
+  "products": [
+    {
+      "name": "csdd",
+      "category": "s",
+      "code": "fdsfsdfd",
+      "price": "sfdsfsd",
+      "quantity": "fdsfddsadsas",
+      "description": "fdasdasdsfdsf",
+      "image": "/images/",
+      "id": 1
+    },
+    {
+      "name": "vvvv",
+      "category": "v",
+      "code": "v",
+      "price": 1,
+      "quantity": 1,
+      "description": "v",
+      "image": "v",
+      "productImage": "/public/products/undefined",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "userName": "Mohammad",
+      "email": "mohammad.halaweh11@gmail.com",
+      "password": "Mohammad",
+      "isAdmin": false,
+      "id": 1
+    },
+    {
+      "userName": "Ahmad",
+      "email": "Ahmad.halaweh@gmail.com",
+      "password": "Ahmad",
+      "isAdmin": false,
+      "id": 2
+    },
+    {
+      "userName": "serrin",
+      "email": "serrin@gmail.com",
+      "password": "Serrin",
+      "isAdmin": false,
+      "id": 3
+    },
+    {
+      "userName": "ahmedlotfy",
+      "email": "alotfy2019@gmail.com",
+      "password": "0000",
+      "isAdmin": false,
+      "id": 4
+    }
+  ],
+  "categories": [
+    {
+      "name": "555",
+      "image": "/public/products/pasted-image-0-14.png",
+      "id": 3
+    }
+  ],
+  "units": [
+    {
+      "name": "cup",
+      "id": 1
+    },
+    {
+      "name": "555",
+      "id": 3
+    },
+    {
+      "name": "centemeter",
+      "id": 4
+    }
+  ],
+  "subCategories": [
+    {
+      "name": "Product 1",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 2",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 3",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 4",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 5",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 6",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 7",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 8",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 9",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 10",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 11",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 12",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 13",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 14",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    },
+    {
+      "name": "Product 15",
+      "description": "Lizards are a widespread group of squamate",
+      "price": 39.9
+    }
+  ]
+}

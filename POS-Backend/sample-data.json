@@ -1,0 +1,26 @@
+{
+  "categories": [
+    {
+      "categoryName": "Electronics",
+      "image": "https://static.vecteezy.com/system/resources/previews/003/769/924/non_2x/electronics-and-accessories-pink-flat-design-long-shadow-glyph-icon-smartphone-and-laptop-computers-and-devices-e-commerce-department-online-shopping-categories-silhouette-illustration-vector.jpg"
+    }
+  ],
+  "unitsOfMeasure": [
+    {
+      "unitName": "Piece",
+      "baseUnit": "Piece",
+      "conversionFactor": 1
+    }
+  ],
+  "products": [
+    {
+      "name": "Macbook pro",
+      "code": "LT001",
+      "quantity": 100,
+      "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp-spacegray-select-202206?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664497359481",
+      "price": 999,
+      "categoryId": 1,
+      "unitId": 1
+    }
+  ]
+}

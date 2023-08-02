@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container {
+  width: 75%;
+  margin: auto;
+  /* background-color: rgb(199, 199, 199); */
+}
+
+.wideContainer {
+  width: 99%;
+  display: flex;
+  margin: auto;
+  padding: 0 17px;
+}
+
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.highIndex {
+  z-index: 99;
+}
+
+/*------------------------------------------- For mode------------------------------------------- */
+#light {
+  background-color: white;
+}
+
+#dark {
+  background-color: #454545;
+}
+
+#light .mode {
+  background-color: #F6F6F6;
+}
+
+#dark .mode {
+  background-color: #454545;
+}
+
+#light .cartMode {
+  background-color: white;
+}
+
+#dark .cartMode {
+  background-color: #454545;
+}
+
+#dark .textMode {
+  color: white;
+}
+
+#dark .buttonMode {
+  background-color: #a8a8a8;
+  color: white;
+  border-color: #a8a8a8;
+}
+#dark .cardMode {
+  background-color: #6d6d6d;
+}
+/* ----------------------------------------------------------------------- */

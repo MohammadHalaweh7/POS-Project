@@ -1,0 +1,63 @@
+/*POS ---------------------------- */
+.pos {
+    background-color: #F6F6F6;
+    margin-top: 72px;
+    justify-content: space-between;
+
+}
+
+.posContent {
+    width: 64%;
+    padding: 25px;
+}
+
+.cartSide {
+    position: fixed;
+    right: 0;
+    top: 72px;
+    width: 36%;
+    height: 100%;
+    background-color: white;
+    padding: 15px;
+}
+
+/*CategoriesSlider ------------------------------------------ */
+
+.sliderCategory {
+    margin-bottom: 10px;
+}
+
+.sliderCategory div {
+    padding-top: 2px;
+}
+
+.sliderCategory img {
+    width: 140px;
+    height: 120px;
+    background-color: white;
+    border-radius: 7%;
+    box-shadow: 0 0 10px rgb(171, 161, 161);
+
+}
+
+.sliderCategory p {
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+/* SubCategories----------------------------------- */
+.subCategoryProduct {
+    background-color: rgb(164, 48, 37);
+    color: white;
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+
+}
+
+.slideContainer {
+    text-align: center;
+    cursor: pointer;
+}
+
+/* ----------------------------------- */

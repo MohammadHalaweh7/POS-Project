@@ -1,0 +1,32 @@
+{
+  "name": "pos-backend",
+  "version": "1.0.0",
+  "description": "Express.js-based web application for managing products, product categories, and unit of measures. Provides CRUD operations for products, categories, and units.",
+  "main": "dist/src/app.js",
+  "scripts": {
+    "start": "node dist/src/app.js",
+    "build": "tsc --watch",
+    "dev": "concurrently \"npm run build\" \"npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "sequelize": "^6.32.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/jsonwebtoken": "^9.0.2",
+    "concurrently": "^8.2.0",
+    "typescript": "^4.4.4"
+  }
+}
